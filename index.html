@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
 <meta name="theme-color" content="#0a1323">
-<meta name="description" content="교실에서 대통령 되기 — 한국 정치 제도를 바탕으로 한 모바일 정치 인생 시뮬레이션">
+<meta name="description" content="교실에서 대통령 되기 — 사건 전환과 결과 장면이 있는 모바일 정치 인생 시뮬레이션">
 <title>교실에서 대통령 되기 | 희귀 대통령 엔딩</title>
 <style>
 :root{color-scheme:dark;--bg:#080f1c;--bg2:#0d1b2d;--panel:#111f33;--panel2:#16273b;--line:#2a3c50;--ink:#f7f3e9;--muted:#9ba9ba;--gold:#d7bb78;--gold2:#f0d8a2;--mint:#73c8b4;--red:#e28c89;--blue:#8cb6ed;--r:17px;font-family:system-ui,-apple-system,"Apple SD Gothic Neo","Noto Sans KR",sans-serif}
@@ -20,6 +20,39 @@
 @media(min-width:600px){body{background:radial-gradient(circle at 50% 10%,#253f58,#07111d 70%);padding:0}#app{border-left:1px solid #354c61;border-right:1px solid #354c61}}
 @media(orientation:landscape) and (max-height:590px){#app>*{display:none!important}#app:after{content:'↻  스마트폰을 세로로 돌려서 플레이해 주세요';position:fixed;inset:0;background:#0a1423;color:#f3ddaa;z-index:999;display:flex;align-items:center;justify-content:center;text-align:center;font-size:18px;font-weight:850;padding:24px}}
 .family-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:14px 0}.family-grid>div{border:1px solid #334859;background:#101e30;border-radius:10px;padding:11px;min-width:0}.family-grid small{display:block;color:#95a9bf;font-size:10px;margin-bottom:4px}.family-grid b{display:block;color:#f1dcaa;font-size:12px;overflow-wrap:anywhere}.invite{margin-top:12px;border-radius:13px;background:#1c2e40;border:1px solid #947d52;padding:13px}.invite b{font-size:14px}.invite p{margin:7px 0;color:#cfdae5}.invite .row{margin-top:10px}.invite .tag{margin-left:8px}
+
+/* V3 — mobile-first, cinematic consequences between chapters */
+.resultshade{background:rgba(3,8,17,.94);backdrop-filter:blur(9px);padding:18px;animation:shadeArrive .27s ease both}
+.resultbox{position:relative;isolation:isolate;max-width:430px;width:100%;max-height:min(88dvh,780px);padding:22px 20px 20px;overflow-y:auto;overflow-x:hidden;border:1px solid #8e7958;background:linear-gradient(160deg,#172942 0%,#101e31 56%,#0b1525 100%);box-shadow:0 22px 90px #000c,0 0 0 1px #d3b67a19 inset;animation:resultRise .42s cubic-bezier(.2,.8,.2,1) both}
+.resultbox .eyebrow{line-height:1.6}
+.story-segments{display:flex;gap:5px;margin:4px 0 24px}.story-segments i{display:block;height:3px;flex:1;border-radius:99px;background:#394b5c;transition:background .35s}.story-segments i.on{background:linear-gradient(90deg,#b89454,#e7d4a9);box-shadow:0 0 10px #c7ac7559}
+.scene-illustration{height:140px;margin:0 -20px 22px;position:relative;display:grid;place-items:center;overflow:hidden;background:radial-gradient(ellipse at 50% 65%,#6f644037 0%,transparent 62%),linear-gradient(180deg,#0c1729 0%,#182a3a 100%);border-block:1px solid #aa925025}
+.scene-illustration:before{content:'';position:absolute;left:50%;top:50%;width:158px;height:158px;border:1px solid #ad955148;border-radius:50%;transform:translate(-50%,-50%);animation:sceneOrbit 7s linear infinite}
+.scene-illustration:after{content:'';position:absolute;left:50%;top:50%;width:100px;height:100px;border:1px dashed #c6ae6b56;border-radius:50%;transform:translate(-50%,-50%)}
+.scene-glyph{position:relative;z-index:1;font-size:46px;color:var(--gold2);text-shadow:0 0 32px #d7bb7877;animation:sceneFloat 1.65s ease-in-out infinite alternate}
+.scene-sub{position:absolute;bottom:15px;letter-spacing:2.4px;font-size:9px;color:#c4ad7f;font-weight:850}
+.scene-narration{background:#152538;border:1px solid #3a4b5d;border-left:3px solid var(--gold);padding:13px 14px;border-radius:8px 13px 13px 8px;margin:16px 0 18px;line-height:1.9;font-size:13px;color:#e1e4e7;animation:paragraphReveal .62s .18s both;overflow-wrap:anywhere}
+.scene-narration strong{color:var(--gold2)}
+.scene-quote{font-size:19px;line-height:1.5;letter-spacing:-.6px;font-weight:850;color:#f4e9d3;margin:6px 0 12px;overflow-wrap:anywhere}
+.scene-stamp{display:inline-flex;border:1px solid #726747;border-radius:99px;padding:5px 10px;font-size:10px;color:#e0c897;background:#2e2c2a;letter-spacing:.6px;margin:8px 0}
+.scene-footnote{font-size:11px;color:#a5b6c3;line-height:1.65;margin-top:10px}
+.resultbox h2{line-height:1.35;font-size:23px;overflow-wrap:anywhere}
+.resultnumbers{grid-template-columns:repeat(3,minmax(0,1fr));margin:14px 0}.resultnumbers div{min-width:0;padding:11px 5px;border:1px solid #273c51;animation:statPop .42s both}.resultnumbers div:nth-child(2){animation-delay:.11s}.resultnumbers div:nth-child(3){animation-delay:.22s}.resultnumbers b{font-variant-numeric:tabular-nums;font-size:21px}.resultnumbers span{line-height:1.55}
+.scene-finance{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;border:1px solid #35495d;border-radius:11px;background:#101e30;font-size:12px;margin:9px 0}
+.scene-finance b{font-size:15px}
+.scene-result-text{white-space:pre-line;margin:7px 0;color:#dfebec !important;overflow-wrap:anywhere}
+.scene-milestone{border:1px solid #8b774e;background:#302f2c;border-radius:10px;padding:10px 12px;color:#f0d6a2;font-size:12px;line-height:1.6;margin:9px 0}
+.scene-impact{font-size:12px;line-height:1.75;color:#c2cfdb;background:#13243a;border-radius:12px;padding:11px 12px;margin:12px 0}
+.scene-next{font-size:11px;letter-spacing:1.5px;color:#d4ba7c;font-weight:900;margin-bottom:8px}
+.scene-years{display:flex;align-items:center;justify-content:center;gap:18px;margin:18px 0;color:#f7e5bc;font-size:38px;font-weight:900;letter-spacing:-2px;font-variant-numeric:tabular-nums}
+.scene-years .last-year{color:#8297a9;font-size:24px}.scene-years .year-arrow{font-size:19px;letter-spacing:0;color:#d7bb78;animation:arrowShift .85s infinite alternate}.scene-years .new-year{animation:yearGlow 1s ease-in-out both}
+.scene-next-title{border:1px solid #4a5970;border-radius:14px;padding:17px 14px;background:#12233a;text-align:center;margin:16px 0;font-weight:850;color:#eee4d4;line-height:1.6;font-size:17px;animation:paragraphReveal .65s .15s both}
+.scene-next-title small{display:block;color:#9eb6c8;font-weight:500;font-size:11px;margin:5px 0}
+.scene-quick{width:100%;border:0;background:none;color:#a3bac9;padding:10px 8px;margin-top:5px;font-size:12px;text-decoration:underline;text-underline-offset:3px}
+@keyframes shadeArrive{from{opacity:0}to{opacity:1}}@keyframes resultRise{from{transform:translateY(27px) scale(.97);opacity:0}to{transform:translateY(0) scale(1);opacity:1}}@keyframes paragraphReveal{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}@keyframes statPop{from{opacity:0;transform:translateY(10px) scale(.93)}to{opacity:1;transform:translateY(0) scale(1)}}@keyframes sceneFloat{from{transform:translateY(-5px) scale(.98)}to{transform:translateY(6px) scale(1.05)}}@keyframes sceneOrbit{from{transform:translate(-50%,-50%) rotate(0)}to{transform:translate(-50%,-50%) rotate(360deg)}}@keyframes arrowShift{to{transform:translateX(6px)}}@keyframes yearGlow{from{opacity:.3;transform:translateX(-12px)}to{opacity:1;transform:translateX(0)}}
+@media(max-width:360px){.resultshade{padding:10px}.resultbox{padding:18px 15px}.scene-illustration{margin-inline:-15px;height:122px}.scene-quote{font-size:17px}.scene-years{gap:12px;font-size:31px}}
+@media (prefers-reduced-motion:reduce){.resultshade,.resultbox,.scene-illustration:before,.scene-glyph,.scene-narration,.resultnumbers div,.scene-years .year-arrow,.scene-years .new-year,.scene-next-title{animation:none!important;transition:none!important}}
+
 </style>
 </head>
 <body><div id="app"></div>
@@ -472,10 +505,26 @@ function electionsDue(s){const y=s.year;let arr=[];const minAge=y>=2022?18:25;if
  return arr;}
 function eligibleYearMsg(s){if(s.age<40)return `대통령 피선거권: 만 40세부터 · 현재 ${s.age}세`;return `대통령 선거 일정에 맞춰 정치 탭에서 도전할 수 있어.`;}
 function chance(s,option){return clamp((option.roll.base||40)+((s.stats[option.roll.skill]||50)-40)*.38+s.stats.trust*.10,8,94);}
+function quietEventAftermath(s,e,opt){
+ const decision=opt.n;
+ const issues=Object.entries(opt.issues||{}).sort((a,b)=>b[1]-a[1]);
+ const lead=issues[0]?.[0];
+ const setting={rights:'계약과 권리 문제를 바라보는 시야가 달라졌다.',welfare:'도움이 필요한 사람들의 생활을 더 가까이 살피게 됐다.',market:'돈과 기회의 현실적인 제약을 직접 체감했다.',labor:'함께 일하는 사람들의 입장을 새롭게 알게 됐다.',reform:'제도를 바꾸는 일이 생각보다 복잡하다는 걸 느꼈다.',security:'현장의 안전과 행정 절차를 다시 확인했다.',local:'이웃과 지역의 이야기를 듣는 계기가 됐다.'};
+ const st=opt.eff?.stats||{};
+ let cost='';
+ if((st.org||0)<0)cost='다른 일정에 쓸 시간이 줄어들었다.';
+ else if((st.network||0)<0)cost='주변 일부 사람과의 관계에는 부담이 남았다.';
+ else if((st.policy||0)<0)cost='공부와 전문 업무에 충분한 시간을 쓰지 못했다.';
+ else if((st.trust||0)<0)cost='이 선택을 두고 주변 사람들의 평가가 엇갈렸다.';
+ else if((opt.eff?.money||0)<0)cost='당장 지출은 감수해야 했다.';
+ const abstain=/불참|거절|포기|집중|개입하지|관망|미루|하지 않|맡지 않|이번에는/.test(decision);
+ const action=abstain?`당신은 ‘${decision}’ 쪽을 선택하고, 그 입장을 지켰다.`:`당신은 ‘${decision}’ 결정을 말로만 끝내지 않고 실제 행동으로 옮겼다.`;
+ return [action,setting[lead]||'그 뒤에도 일상은 이어졌고 이번 일은 하나의 경험으로 남았다.',cost].filter(Boolean).join(' ');
+}
 function actionEvent(i){
  if(!current||current.gameover||overlay)return;
  const s=current,e=events(s),opt=e.choices[i];if(!opt)return;
- const old={...s.stats};let msg=opt.n,extra='',good=true;
+ const old={...s.stats};const moneyBefore=s.money;let msg=opt.n,extra='',good=true;
  apply(s,opt.eff);noteIssues(s,opt.issues);
  if(opt.specialty)s.specialty=opt.specialty;
  if(opt.track)s.track=opt.track;
@@ -486,9 +535,10 @@ function actionEvent(i){
  if(opt.business){const v=r(s),before=s.money;let change=v<.21?-(.55+r(s)*1.6):v<.50?-(.1+r(s)*.4):v<.88?(.15+r(s)*.8):(.85+r(s)*2.3);
    apply(s,{money:change,stats:change<0?{trust:-3,network:-2}:{org:3}});good=change>=0;extra=good?'새로운 사업을 추진해 예상보다 좋은 결과가 나왔다.':'제품 반응이 기대에 못 미쳐 운영 자금이 크게 줄었다.';}
  if(opt.recovery){const repay=opt.recovery==='settle'?.75:opt.recovery==='work'?.5:.28;s.debt=Math.max(0,(s.debt||0)-repay);if(s.debt<.12){s.debt=0;s.financialState='normal';extra='부채를 해결하고 재기를 시작했다.';}else extra=`부채 정리를 계속하고 있다. 남은 부채 ${fmt(s.debt)}억원.`;}
+ if(!extra&&!opt.roll&&!opt.business&&!opt.recovery)extra=quietEventAftermath(s,e,opt);
  s.history.push({year:s.year,age:s.age,title:e.title+' · '+msg,text:extra||opt.d});
  s.recentEventIds??=[];s.recentEventIds.push(e.id);s.recentEventIds=s.recentEventIds.slice(-6);s.pendingEvent=null;
- finishTurn(s,old,{title:good?'선택의 결과':'선택의 대가',text:extra||`${opt.n} — ${opt.d}`,label:msg,issues:Object.entries(opt.issues||{}).filter(([k,v])=>v>0).map(([k,v])=>({label:ISSUE_KEYS.find(x=>x[0]===k)?.[1]||k,num:v}))});
+ finishTurn(s,old,{title:good?'선택의 결과':'선택의 대가',text:extra||`${opt.n} — ${opt.d}`,label:msg,context:e.text,eventTitle:e.title,moneyBefore,achievement:good&&opt.roll?.achievement?opt.roll.achievement:null,choiceMade:true,issues:Object.entries(opt.issues||{}).filter(([k,v])=>v>0).map(([k,v])=>({label:ISSUE_KEYS.find(x=>x[0]===k)?.[1]||k,num:v}))});
 }
 function events(s){return getLifeEvent(s);}
 function surprise(s){if(s.age<20||r(s)>.24)return '';const v=pick(s,SURPRISES);apply(s,{stats:v.stats});s.history.push({year:s.year,age:s.age,title:'돌발 사건 · '+v.title,text:v.text});return `\n\n[돌발 사건] ${v.title}: ${v.text}`;}
@@ -496,13 +546,13 @@ function finishTurn(s,old,result){
  const year=s.year,inc=yearIncome(s);s.money=clamp(s.money+inc,0,500);
  if(s.debt>0){const repay=Math.max(.03,Math.min(s.money*.09,.22));s.debt=Math.max(0,s.debt-repay);s.money=Math.max(0,s.money-repay);
   if(s.debt<.09){s.debt=0;s.financialState='normal';s.history.push({year:s.year,age:s.age,title:'빚 청산',text:'재정 위기를 극복했다.'});}}
- result.text+=surprise(s);
+ const unexpected=surprise(s);result.text+=unexpected;result.unexpected=unexpected;
  if(s.age>=30){s.stats.fame=clamp(s.stats.fame-1);s.stats.trust=clamp(s.stats.trust-(r(s)<.38?1:0));}
  s.turn++;s.age++;s.year++;
  if(s.partyLabel&&!getParties(s.year).includes(s.partyLabel)){const former=s.partyLabel;s.partyLabel=null;s.partyIndex=null;s.history.push({year:s.year,age:s.age,title:'정당 재편',text:former+'이 당시의 게임 내 주요 정당 목록에서 사라졌다. 새로운 정당으로의 자동 소속 변경은 없다.'});}
- if(!s.gameover){const before=(s.invitations||[]).filter(x=>x.status==='pending').length;checkInvites(s);const newOnes=(s.invitations||[]).filter(x=>x.status==='pending');if(newOnes.length>before)result.text+=`
+ if(!s.gameover){const before=(s.invitations||[]).filter(x=>x.status==='pending').length;checkInvites(s);const newOnes=(s.invitations||[]).filter(x=>x.status==='pending');if(newOnes.length>before){result.invitationNotice=`${newOnes.at(-1).party} · ${newOnes.at(-1).stage}`;result.text+=`
 
-[새 연락] ${newOnes.at(-1).party}에서 '${newOnes.at(-1).stage}' 연락이 도착했다. 정치 탭에서 확인할 수 있어.`;}
+[새 연락] ${newOnes.at(-1).party}에서 '${newOnes.at(-1).stage}' 연락이 도착했다. 정치 탭에서 확인할 수 있어.`;}}
  if(s.officeUntil&&s.year>=s.officeUntil&&s.office!=='대통령'){const former=s.office;s.office='전직 '+former;s.officeUntil=null;
  s.history.push({year:s.year,age:s.age,title:former+' 임기 종료',text:'선출직 임기를 마치고 새로운 도전을 준비한다.'});}
  if(s.gameover){s.ending||='사업 위기';archive(s);}
@@ -511,7 +561,7 @@ function finishTurn(s,old,result){
    s.history.push({year:s.year,age:s.age,title:'인생 마무리',text:`${s.ending}으로 남은 인생을 정리했다.`});archive(s);
    result.title='정치 인생 종료';result.text+=` ${s.ending}의 기록을 남기고 은퇴했다.`;}
  const diff=STATS.map(([id,label])=>({label,num:s.stats[id]-old[id]})).filter(o=>o.num!==0).sort((a,b)=>Math.abs(b.num)-Math.abs(a.num));
- overlay={...result,year,changes:diff.slice(0,3),done:s.gameover};save();render();
+ overlay={...result,year,nextYear:s.year,age:s.age,changes:diff.slice(0,3),moneyDelta:result.moneyBefore==null?null:Math.round((s.money-result.moneyBefore)*100)/100,stage:'decision',done:s.gameover,sceneKey:`${s.seed}-${year}-${s.turn}`};save();render();
 }
 
 function runElection(type){
@@ -564,7 +614,7 @@ function runElection(type){
  s.elections.push({year:s.year,title:titles[type],party,nomination:nominated,share,won});
  s.history.push({year:s.year,age:s.age,title:titles[type]+' '+(won?'당선':nominated?'낙선':'공천 실패'),text:note});
  if(s.president){archive(s);overlay={title:'대한민국 대통령 당선 · 전설 엔딩',year:s.year,
- text:`${s.name}의 오랜 도전이 가상 대통령 선거의 승리로 이어졌다. 당선 연령 ${s.age}세. 모든 인생에서 나오는 결과가 아닌 최고의 엔딩이다.`,changes:[],done:true,president:true};save();render();return;}
+ text:`${s.name}의 오랜 도전이 가상 대통령 선거의 승리로 이어졌다. 당선 연령 ${s.age}세. 모든 인생에서 나오는 결과가 아닌 최고의 엔딩이다.`,changes:[],stage:'outcome',done:true,president:true};save();render();return;}
  finishTurn(s,old,{title:won?'선거 승리':nominated?'선거 낙선':'공천 탈락',text:note,label:opt.title});
 }
 
@@ -592,9 +642,58 @@ function politics(s){const names=getParties(s.year);const due=electionsDue(s),mi
 function record(s){const rec=getArchive();return `<main class="screen"><div class="profiletop"><div class="eyebrow">MY POLITICAL LEGACY</div><h1 class="h1">정치 연대기</h1><p class="sub">지금까지 걸어온 인생과 선거 결과, 다음 인생의 기록을 확인해.</p></div><div class="card highlight"><div class="row between"><div><span class="label">${s.president?'최종 목표 달성':'현재까지의 이야기'}</span><h2>${esc(s.name)}의 정치 인생</h2></div><span class="tag gold">${s.year}년</span></div><div class="progress-strip"><div class="metric"><span class="text">현재 나이</span><b class="num">${s.age}</b></div><div class="metric"><span class="text">선거 출마</span><b class="num">${s.elections.length}</b></div><div class="metric"><span class="text">당선 횟수</span><b class="num">${s.elections.filter(x=>x.won).length}</b></div></div></div><div class="block-title">인생 연대기</div><div class="card"><div class="timeline">${s.history.slice().reverse().slice(0,60).map(h=>`<div class="timeitem"><small>${h.year}년 · ${h.age}세</small><strong>${esc(h.title)}</strong><p>${esc(h.text)}</p></div>`).join('')}</div></div>${s.gameover?`<div class="card highlight"><span class="label">이번 인생의 엔딩</span><h2>${esc(s.ending||'정치 인생 마무리')}</h2><p class="caption">대통령 당선은 희귀 최고 엔딩. 다른 직업·지역 정치·낙선·사업 실패 역시 각기 다른 기록으로 남아.</p></div>`:''}${s.elections.length?`<div class="card"><span class="label">선거 기록</span>${s.elections.slice().reverse().map(x=>`<div class="listitem"><strong>${x.year} ${esc(x.title)} ${x.won?'<span class="good">당선</span>':'<span class="bad">미당선</span>'}</strong><p>${esc(x.party)} · ${x.share==null?'공천 심사 탈락':`득표율 ${fmt(x.share)}%`}</p></div>`).join('')}</div>`:''}<div class="card"><span class="label">내 게임 관리</span><p class="caption">이 기기의 브라우저에 자동 저장돼. 기록을 파일로 내보낼 수도 있어.</p><div class="row wrap mt8"><button class="btn slim ghost" onclick="exportGame()">↓ 저장 파일 내보내기</button><button class="btn slim ghost" onclick="document.getElementById('importGame').click()">↑ 불러오기</button></div><input type="file" id="importGame" accept=".json,application/json" style="display:none" onchange="importGame(event)"><div class="divider"></div><button class="btn primary full" onclick="newGame()">↻ 다른 시대에서 새 인생 시작</button></div>${rec.length?`<div class="card"><span class="label">이전 인생 기록</span>${rec.map(x=>`<div class="listitem"><strong>${esc(x.name)} · ${x.success?'대통령 당선':'정치 인생 종료'}</strong><p>${esc(x.era)} / ${x.year}년 · ${x.age}세 · ${esc(x.office)}</p></div>`).join('')}</div>`:''}<div class="source-footer">출처·제도 참고: <a href="https://www.nec.go.kr" target="_blank" rel="noopener">중앙선거관리위원회</a> · <a href="https://easylaw.go.kr" target="_blank" rel="noopener">찾기쉬운 생활법령정보</a> · <a href="https://www.archives.go.kr" target="_blank" rel="noopener">국가기록원</a><br>본 게임은 비공식 창작 시뮬레이션으로, 게임 속 사건은 실제 정당·정치인과 무관해. 게임의 사건과 개표 결과는 현실 선거에 대한 예측이 아니야.</div></main>`;}
 function exportGame(){if(!current)return;const obj={kind:'class-to-president',version:3,date:new Date().toISOString(),data:current};const a=document.createElement('a'),url=URL.createObjectURL(new Blob([JSON.stringify(obj,null,2)],{type:'application/json'}));a.href=url;a.download='political-life-'+current.year+'.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);}
 async function importGame(event){const file=event.target.files&&event.target.files[0];if(!file)return;try{const d=JSON.parse(await file.text());if(d.kind!=='class-to-president'||![1,2,3].includes(d.version)||!d.data||!d.data.stats||!Number.isInteger(d.data.year))throw new Error('file');current=d.data;current.version=3;current.issues??=INIT_ISSUES();current.family??=familyInfo(current.seed||1234,current.region||'서울');current.invitations??=[];current.invitationHistory??=[];current.recentEventIds??=[];current.partyLabel??=(current.partyIndex!=null?getParties(current.year)[current.partyIndex]:null);tab='story';overlay=null;save();render();}catch(e){alert('올바른 정치 인생 저장 파일이 아니야.')}event.target.value='';}
-function resultModal(){if(!overlay)return '';const t=overlay;return `<div class="resultshade"><div class="resultbox" role="dialog" aria-modal="true"><div class="eyebrow">${t.president?'PRESIDENT ELECT':'YOUR LIFE · '+t.year}</div><h2>${esc(t.title)}</h2><p>${esc(t.text)}</p>${t.issues?.length?`<div class="caption" style="margin:10px 0;color:var(--mint)">관련 활동 분야: ${t.issues.map(x=>`${esc(x.label)} +${x.num}`).join(' · ')}</div>`:''}${t.changes?.length?`<div class="resultnumbers">${t.changes.map(d=>`<div><b class="${d.num>=0?'good':'bad'}">${d.num>0?'+':''}${d.num}</b><span>${esc(d.label)}</span></div>`).join('')}</div>`:''}${t.president?'<p class="gold">🏛 꿈을 이뤘다. 너의 정치 인생이 역사 속 한 페이지가 되었다.</p>':''}<button class="btn primary full" onclick="closeResult()">${t.done?'기록 보기':'다음 해로 →'}</button></div></div>`;}
-function closeResult(){const done=overlay?.done;overlay=null;if(done)tab='record';render();}
-function render(){const app=document.getElementById('app');if(!current){app.innerHTML=showOnboard();return;}const content=tab==='story'?story(current):tab==='activity'?activity(current):tab==='politics'?politics(current):record(current);app.innerHTML=head(current)+content+bottom()+resultModal();}
+// A short interactive story sequence makes each decision readable as a lived event.
+let sceneTimer=null;
+function prefersQuietMotion(){return !!window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;}
+function cancelSceneTimer(){if(sceneTimer!==null){clearTimeout(sceneTimer);sceneTimer=null;}}
+function scheduleScene(){
+ cancelSceneTimer();if(!overlay)return;
+ const key=overlay.sceneKey,step=overlay.stage||'outcome';
+ if(step==='decision'||step==='chapter'){
+  const duration=prefersQuietMotion()?(step==='decision'?120:160):(step==='decision'?1250:1550);
+  sceneTimer=setTimeout(()=>{
+   if(!overlay||overlay.sceneKey!==key||(overlay.stage||'outcome')!==step)return;
+   if(step==='decision')showOutcome();else closeResult();
+  },duration);
+ }
+}
+function showOutcome(){if(!overlay)return;cancelSceneTimer();overlay.stage='outcome';render();}
+function toNextChapter(){if(!overlay)return;cancelSceneTimer();if(overlay.done){closeResult();return;}overlay.stage='chapter';render();}
+function sceneGlyph(t){const x=((t.eventTitle||'')+' '+(t.label||'')).toLowerCase();if(/선거|출마|공천|학생회장/.test(x))return '▤';if(/기업|투자|사업|계약|창업|금융|돈|임금/.test(x))return '◇';if(/의회|정당|정치|법안|행정/.test(x))return '⚖';if(/학교|교사|급식|시험|대학|연구|장학/.test(x))return '✎';if(/진료|보건|의료/.test(x))return '✚';return '✦';}
+function consequenceNarrative(t){
+ const changes=t.changes||[],up=changes.filter(c=>c.num>0),down=changes.filter(c=>c.num<0);
+ const lossMoney=t.moneyDelta!==null&&t.moneyDelta<-0.04,earnMoney=t.moneyDelta!==null&&t.moneyDelta>0.04;
+ let text='이번 선택도 한 해의 경험으로 남았다.';
+ if(up.length&&down.length)text=`${up[0].label}에서 성과를 얻었지만, ${down[0].label}에서는 대가를 치렀다. 모든 선택이 이득으로만 이어지지는 않는다.`;
+ else if(down.length)text=`${down[0].label}이(가) 떨어졌다. 눈앞의 문제는 지나갔어도 이 경험은 다음 선택에 부담으로 남을 수 있다.`;
+ else if(up.length)text=`${up[0].label}이(가) 높아졌다. 쌓인 경험은 다음 사건을 마주할 때 새로운 선택지가 될 수 있다.`;
+ if(lossMoney)text+=' 예상보다 재정적인 부담도 컸다.';
+ else if(earnMoney)text+=' 재정적으로도 여유가 생겼다.';
+ return text;
+}
+function resultModal(){
+ if(!overlay)return '';
+ const t=overlay,stage=t.stage||'outcome',isDone=!!t.done;
+ const segments=`<div class="story-segments" aria-hidden="true"><i class="on"></i><i class="${stage!=='decision'?'on':''}"></i><i class="${stage==='chapter'?'on':''}"></i></div>`;
+ let content='';
+ if(stage==='decision'){
+  content=`${segments}<div class="eyebrow">${esc(t.year)}년 · 그날의 선택</div><div class="scene-illustration"><span class="scene-glyph">${sceneGlyph(t)}</span><span class="scene-sub">THE MOMENT OF CHOICE</span></div><span class="scene-stamp">하나의 결정이 내려졌다</span><h2>${esc(t.eventTitle||t.title)}</h2><p class="scene-quote">“${esc(t.label||'한 걸음 내디뎠다')}”</p><div class="scene-narration">${esc(t.context||'지금 내린 결정을 실행하기 시작했다. 어떤 결과가 나올지는 아직 모른다.')}</div><p class="scene-footnote">결과를 확인하고 그 선택이 남긴 변화를 살펴보자.</p><button class="btn primary full" onclick="showOutcome()">결과 확인 →</button>`;
+ }else if(stage==='chapter'){
+  const next=current&&!current.gameover?events(current):null;
+  content=`${segments}<div class="eyebrow">TIME PASSES · 인생의 다음 장</div><div class="scene-illustration"><span class="scene-glyph">⌛</span><span class="scene-sub">A NEW CHAPTER</span></div><div class="scene-years"><span class="last-year">${esc(t.year)}</span><span class="year-arrow">→</span><span class="new-year">${esc(t.nextYear??t.year+1)}</span></div><div class="scene-next-title"><span class="scene-next">${esc(t.age??current?.age??'')}세 · ${esc(current?phase(current):'새로운 일상')}</span><div>${next?esc(next.title):'새로운 한 해가 시작됐다'}</div><small>당신의 인생에 또 다른 사건이 찾아온다.</small></div><button class="btn primary full" onclick="closeResult()">바로 다음 장으로 →</button>`;
+ }else{
+  const numberCards=t.changes?.length?`<div class="resultnumbers">${t.changes.map(d=>`<div><b class="${d.num>=0?'good':'bad'}">${d.num>0?'+':''}${d.num}</b><span>${esc(d.label)}</span></div>`).join('')}</div>`:'';
+  let finances=t.moneyDelta!==null&&Number.isFinite(t.moneyDelta)&&Math.abs(t.moneyDelta)>.005?`<div class="scene-finance"><span>올해 재산 변화</span><b class="${t.moneyDelta>=0?'good':'bad'}">${t.moneyDelta>0?'+':''}${t.moneyDelta.toFixed(2)}억원</b></div>`:'';
+  const story=t.text||'한 해의 시간이 흘렀다.';
+  const textParts=story.split(/\n\n(?=\[돌발 사건\]|\[새 연락\])/);
+  const primaryStory=textParts.shift()||story;
+  const addenda=textParts.map(v=>`<div class="scene-milestone">${esc(v.trim())}</div>`).join('');
+  content=`${segments}<div class="eyebrow">${t.president?'THE HIGHEST ENDING':`DECISION RESULT · ${esc(t.year)}년`}</div><span class="scene-stamp">${esc(t.president?'대통령 당선':t.title)}</span><h2>${esc(t.eventTitle||t.title)}</h2>${t.label?`<div class="caption" style="margin:10px 0">선택한 행동 · ${esc(t.label)}</div>`:''}<div class="scene-narration"><strong>그 뒤에 일어난 일</strong><p class="scene-result-text">${esc(primaryStory)}</p></div>${t.achievement?`<div class="scene-milestone">✦ 새 경력 획득 · ${esc(t.achievement)}</div>`:''}${t.invitationNotice?`<div class="scene-milestone">✉ 정당의 연락 · ${esc(t.invitationNotice)}<div class="caption">정치 탭에서 영입 제안을 확인할 수 있어.</div></div>`:''}${addenda}${t.issues?.length?`<div class="caption" style="margin:12px 0;color:var(--mint)">활동 기록 · ${t.issues.map(x=>`${esc(x.label)} +${x.num}`).join(' · ')}</div>`:''}${numberCards}${finances}<div class="scene-impact">${esc(consequenceNarrative(t))}</div>${t.president?'<div class="scene-milestone">✦ 대통령 당선 · 이번 인생의 최고 엔딩</div>':''}<button class="btn primary full" onclick="toNextChapter()">${isDone?'나의 인생 기록 보기':'다음 장으로 →'}</button>`;
+ }
+ return `<div class="resultshade" role="presentation"><section class="resultbox" role="dialog" aria-modal="true" aria-label="선택의 결과"><div class="story-modal-content">${content}</div></section></div>`;
+}
+function closeResult(){cancelSceneTimer();const done=overlay?.done;overlay=null;if(done)tab='record';window.scrollTo({top:0,behavior:'instant'});render();}
+function render(){const app=document.getElementById('app');if(!current){cancelSceneTimer();app.innerHTML=showOnboard();return;}const content=tab==='story'?story(current):tab==='activity'?activity(current):tab==='politics'?politics(current):record(current);app.innerHTML=head(current)+content+bottom()+resultModal();scheduleScene();}
 current=load();if(!current)rollOrigin();else render();
 </script>
 </body></html>
