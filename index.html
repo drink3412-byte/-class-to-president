@@ -1,904 +1,213 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
-<meta name="theme-color" content="#f8f7f2">
-<meta name="description" content="교실에서 대통령 되기 — 다양한 학창 시절 사건과 인생 선택이 담긴 모바일 정치 인생 시뮬레이션">
-<title>교실에서 대통령 되기 | 희귀 대통령 엔딩</title>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#f5f2e9"><title>신인에서 대통령 되기 · 정계 입문판</title>
 <style>
-:root{color-scheme:dark;--bg:#080f1c;--bg2:#0d1b2d;--panel:#111f33;--panel2:#16273b;--line:#2a3c50;--ink:#f7f3e9;--muted:#9ba9ba;--gold:#d7bb78;--gold2:#f0d8a2;--mint:#73c8b4;--red:#e28c89;--blue:#8cb6ed;--r:17px;font-family:system-ui,-apple-system,"Apple SD Gothic Neo","Noto Sans KR",sans-serif}
-*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:#07111d;color:var(--ink)}button,input,select{font:inherit}button{cursor:pointer}button:disabled{cursor:not-allowed;opacity:.44}body{overscroll-behavior-y:contain}button:focus-visible,input:focus-visible{outline:2px solid var(--gold)}
-#app{width:100%;max-width:492px;margin:auto;min-height:100dvh;background:linear-gradient(160deg,#0b1627 0%,#08111e 65%);position:relative;box-shadow:0 0 0 1px #28394c,0 0 70px #0009;overflow:hidden}a{color:var(--gold2)}.screen{padding:0 18px calc(106px + env(safe-area-inset-bottom));min-height:100dvh}.mast{height:74px;padding:17px 18px 13px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #25364b;background:#0c192aef;position:sticky;top:0;z-index:30;backdrop-filter:blur(12px)}.brand{display:flex;align-items:center;gap:9px}.seal{height:34px;width:34px;border:1px solid #9c8757;background:linear-gradient(135deg,#304155,#101a2a);border-radius:11px;display:grid;place-items:center;color:var(--gold2);font-size:18px}.brand small{display:block;font-size:9px;color:var(--gold);font-weight:800;letter-spacing:1.2px}.brand strong{display:block;font-size:15px;letter-spacing:-.7px}.headright{display:flex;align-items:center;gap:6px}.pill{border:1px solid #425065;border-radius:999px;color:var(--gold2);font-size:11px;padding:6px 9px;background:#1a2a3b}.round-btn{width:32px;height:32px;background:#17273a;border:1px solid #34465a;border-radius:10px;color:var(--ink)}
-.eyebrow{font-size:10px;letter-spacing:2px;color:var(--gold);font-weight:850}.h1{font-weight:850;font-size:28px;line-height:1.28;letter-spacing:-1.3px;margin:10px 0}.sub{font-size:13px;color:var(--muted);line-height:1.7}.card{background:linear-gradient(145deg,#142438,#0e1c2c);border:1px solid var(--line);border-radius:var(--r);padding:16px;margin:14px 0;box-shadow:0 8px 22px #0002}.card.highlight{border-color:#8f7850;background:linear-gradient(145deg,#263242,#132135)}.label{font-size:11px;color:var(--gold);font-weight:850;letter-spacing:.5px}.card h2,.card h3{margin:7px 0 6px;letter-spacing:-.5px}.card h2{font-size:21px}.card h3{font-size:17px}.caption{font-size:11px;color:var(--muted);line-height:1.55}.divider{height:1px;background:var(--line);margin:13px 0}.btn{border:1px solid #43566c;color:var(--ink);background:#1b2c3e;padding:13px 15px;border-radius:12px;font-weight:800;min-height:46px;line-height:1.4}.btn.primary{border-color:#c7a86a;color:#111923;background:linear-gradient(110deg,#c8ac72,#f1d99f);box-shadow:0 4px 22px #b89e4a28}.btn.ghost{background:#132236;color:var(--gold2)}.btn.slim{font-size:12px;padding:9px 11px;min-height:38px}.btn.danger{color:#f3aaa1;border-color:#76484a}.full{width:100%}.row{display:flex;align-items:center;gap:9px}.between{justify-content:space-between}.grow{flex:1;min-width:0}.small{font-size:12px}.m0{margin:0}.mt8{margin-top:8px}.mt16{margin-top:16px}.mb8{margin-bottom:8px}.good{color:var(--mint)}.bad{color:var(--red)}.gold{color:var(--gold2)}.wrap{flex-wrap:wrap}.tag{display:inline-flex;align-items:center;border:1px solid #3c5065;border-radius:8px;padding:5px 8px;background:#1b2d42;font-size:10px;color:#bed0dc;font-weight:750}.tag.gold{color:var(--gold2);border-color:#756340;background:#3c3629}.tag.green{color:var(--mint);border-color:#376358;background:#183530}.tag.red{color:var(--red);border-color:#6d4142;background:#322126}
-.option{width:100%;text-align:left;padding:14px;border:1px solid #364a60;border-radius:13px;background:#142538;color:var(--ink);display:block;margin:9px 0;transition:background .16s,border-color .16s}.option:active{background:#21364a;transform:scale(.99)}.option.selected{border-color:var(--gold);background:#2b3140}.option strong{display:block;font-size:14px}.option span{display:block;color:#a5b7c9;font-size:12px;line-height:1.6;margin-top:6px}.option .kicker{font-size:10px;color:var(--gold);letter-spacing:.5px;margin-bottom:4px}.option .arrow{float:right;color:var(--gold2)}.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
-.start{padding:25px 20px 45px;min-height:100dvh;background:radial-gradient(ellipse at 50% 5%,#233855 0%,transparent 62%),#08111e}.hero{position:relative;height:175px;margin:12px -20px 16px;overflow:hidden;background:linear-gradient(180deg,#121f33 0%,#0b1928 100%);border-bottom:1px solid #9a804859}.hero .sun{width:190px;height:190px;border-radius:50%;position:absolute;left:50%;top:37px;transform:translateX(-50%);border:1px solid #b69c6c5c;background:radial-gradient(circle,#b59a5728 0%,transparent 66%)}.parliament{position:absolute;bottom:-1px;left:50%;transform:translateX(-50%);width:300px;height:123px;opacity:.93}.roof{height:65px;width:125px;border-radius:100px 100px 0 0;background:linear-gradient(#668a89,#28485a);border:2px solid #b59e71;margin:auto;position:relative}.roof:before{content:'';position:absolute;top:-7px;left:56px;width:9px;height:8px;background:var(--gold)}.body-building{height:62px;background:#26394b;border-top:11px solid #b9a275;position:relative}.body-building:after{content:'';position:absolute;bottom:0;left:15px;right:15px;height:46px;background:repeating-linear-gradient(90deg,transparent 0,transparent 25px,#b8a67c 26px,#b8a67c 32px,transparent 33px,transparent 42px)}.base-building{width:330px;height:8px;background:#b8a47a;transform:translateX(-15px)}.onboard-title{font-weight:950;font-size:35px;line-height:1.22;margin:10px 0 12px;letter-spacing:-1.5px}.onboard-title span{color:var(--gold2)}.start .card{margin:13px 0}.step{font-size:11px;color:var(--gold2);border-bottom:1px solid #36495c;padding:12px 0}.era-grid{display:grid;grid-template-columns:1fr;gap:8px}.era-choice{display:flex;gap:12px;align-items:center}.era-date{width:80px;font-weight:900;color:var(--gold2);font-size:17px}.era-desc{font-size:12px;color:var(--muted);margin-top:5px}.nameinput{border:1px solid #435870;border-radius:12px;width:100%;background:#081726;color:var(--ink);padding:13px 14px;margin-top:10px;font-size:17px}.minor-note{margin-top:12px;font-size:11px;color:#9fadae;line-height:1.55}
-.profiletop{padding:19px 0 9px}.profile-name{font-weight:950;font-size:27px;letter-spacing:-1.5px}.profile-rank{font-size:12px;color:#c3cbd3;margin-top:5px}.progress-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}.metric{background:#122337;border:1px solid #2d4257;padding:10px 8px;border-radius:12px;text-align:center}.metric .num{font-size:18px;color:#f2e2b9;font-weight:850;display:block;margin:4px 0}.metric .text{font-size:10px;color:var(--muted)}.statline{display:grid;grid-template-columns:76px 1fr 30px;gap:8px;align-items:center;margin:11px 0}.statline .statname{font-size:12px;color:#c4d1dd}.bar{height:7px;border-radius:10px;background:#273c50;overflow:hidden}.bar>div{background:linear-gradient(90deg,#b29c65,#e9d6a0);height:100%;border-radius:10px;transition:width .2s}.statval{font-size:12px;text-align:right;color:var(--gold2);font-variant-numeric:tabular-nums}.block-title{font-size:15px;font-weight:850;margin:20px 0 10px}.news{background:#111c2a;border-left:3px solid var(--gold);padding:12px 13px;border-radius:5px 12px 12px 5px;font-size:12px;color:#d5dfeb;line-height:1.8}.news b{color:var(--gold2)}
-.bottomnav{position:fixed;z-index:40;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:492px;display:grid;grid-template-columns:repeat(4,1fr);background:#0c1829f5;border-top:1px solid #324559;padding:9px 6px calc(10px + env(safe-area-inset-bottom));backdrop-filter:blur(14px)}.navbtn{color:#94a6b8;border:0;background:none;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:10px;min-height:46px;font-weight:750}.navbtn .navico{font-size:20px;line-height:24px}.navbtn.active{color:var(--gold2)}
-.fold{border:1px solid var(--line);border-radius:13px;margin:10px 0;background:#122136;overflow:hidden}summary{cursor:pointer;padding:15px;font-weight:800;font-size:13px}details .foldbody{padding:0 14px 14px}.no-events{background:#132237;border-radius:12px;padding:19px;text-align:center;color:var(--muted);font-size:13px}.listitem{padding:12px 0;border-bottom:1px solid var(--line)}.listitem:last-child{border:0}.listitem strong{font-size:13px;display:block}.listitem p{font-size:12px;color:var(--muted);margin:6px 0 0;line-height:1.6}.score{font-size:40px;line-height:1;font-weight:900;color:var(--gold2)}.ghostmark{position:absolute;right:18px;top:105px;font-size:125px;opacity:.03;pointer-events:none}.resultshade{position:fixed;z-index:90;inset:0;background:#02060bc7;display:flex;align-items:center;justify-content:center;padding:14px}.resultbox{width:min(100%,440px);max-height:87dvh;overflow:auto;border:1px solid #9d8452;background:linear-gradient(155deg,#243449,#111f30 42%,#0d1828);border-radius:22px;padding:22px;box-shadow:0 30px 100px #000b}.resultbox h2{font-size:24px;margin:8px 0 9px;letter-spacing:-.7px}.resultbox p{font-size:13px;line-height:1.85;color:#d4dce4}.resultnumbers{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin:17px 0}.resultnumbers div{background:#0f2030;border-radius:10px;padding:11px 4px;text-align:center}.resultnumbers b{font-size:18px;color:var(--gold2);display:block}.resultnumbers span{font-size:10px;color:var(--muted)}
-.timeline{position:relative;padding-left:17px}.timeline:before{content:'';position:absolute;left:5px;top:0;bottom:0;width:2px;background:#34495c}.timeitem{position:relative;margin:14px 0 19px}.timeitem:before{content:'';position:absolute;left:-16px;top:4px;width:10px;height:10px;border-radius:50%;background:var(--gold);border:2px solid #112034}.timeitem small{color:var(--gold);font-size:10px}.timeitem strong{display:block;font-size:13px;margin:4px 0}.timeitem p{font-size:12px;color:var(--muted);line-height:1.6;margin:0}.source-footer{border-top:1px solid var(--line);margin-top:18px;padding-top:13px;font-size:10px;color:var(--muted);line-height:1.8}.navhint{font-size:11px;line-height:1.6;color:var(--muted);margin-top:8px}.modal{padding-bottom:env(safe-area-inset-bottom)}
-@media(min-width:600px){body{background:radial-gradient(circle at 50% 10%,#253f58,#07111d 70%);padding:0}#app{border-left:1px solid #354c61;border-right:1px solid #354c61}}
-@media(orientation:landscape) and (max-height:590px){#app>*{display:none!important}#app:after{content:'↻  스마트폰을 세로로 돌려서 플레이해 주세요';position:fixed;inset:0;background:#0a1423;color:#f3ddaa;z-index:999;display:flex;align-items:center;justify-content:center;text-align:center;font-size:18px;font-weight:850;padding:24px}}
-.family-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:14px 0}.family-grid>div{border:1px solid #334859;background:#101e30;border-radius:10px;padding:11px;min-width:0}.family-grid small{display:block;color:#95a9bf;font-size:10px;margin-bottom:4px}.family-grid b{display:block;color:#f1dcaa;font-size:12px;overflow-wrap:anywhere}.invite{margin-top:12px;border-radius:13px;background:#1c2e40;border:1px solid #947d52;padding:13px}.invite b{font-size:14px}.invite p{margin:7px 0;color:#cfdae5}.invite .row{margin-top:10px}.invite .tag{margin-left:8px}
-
-/* V3 — mobile-first, cinematic consequences between chapters */
-.resultshade{background:rgba(3,8,17,.94);backdrop-filter:blur(9px);padding:18px;animation:shadeArrive .27s ease both}
-.resultbox{position:relative;isolation:isolate;max-width:430px;width:100%;max-height:min(88dvh,780px);padding:22px 20px 20px;overflow-y:auto;overflow-x:hidden;border:1px solid #8e7958;background:linear-gradient(160deg,#172942 0%,#101e31 56%,#0b1525 100%);box-shadow:0 22px 90px #000c,0 0 0 1px #d3b67a19 inset;animation:resultRise .42s cubic-bezier(.2,.8,.2,1) both}
-.resultbox .eyebrow{line-height:1.6}
-.story-segments{display:flex;gap:5px;margin:4px 0 24px}.story-segments i{display:block;height:3px;flex:1;border-radius:99px;background:#394b5c;transition:background .35s}.story-segments i.on{background:linear-gradient(90deg,#b89454,#e7d4a9);box-shadow:0 0 10px #c7ac7559}
-.scene-illustration{height:140px;margin:0 -20px 22px;position:relative;display:grid;place-items:center;overflow:hidden;background:radial-gradient(ellipse at 50% 65%,#6f644037 0%,transparent 62%),linear-gradient(180deg,#0c1729 0%,#182a3a 100%);border-block:1px solid #aa925025}
-.scene-illustration:before{content:'';position:absolute;left:50%;top:50%;width:158px;height:158px;border:1px solid #ad955148;border-radius:50%;transform:translate(-50%,-50%);animation:sceneOrbit 7s linear infinite}
-.scene-illustration:after{content:'';position:absolute;left:50%;top:50%;width:100px;height:100px;border:1px dashed #c6ae6b56;border-radius:50%;transform:translate(-50%,-50%)}
-.scene-glyph{position:relative;z-index:1;font-size:46px;color:var(--gold2);text-shadow:0 0 32px #d7bb7877;animation:sceneFloat 1.65s ease-in-out infinite alternate}
-.scene-sub{position:absolute;bottom:15px;letter-spacing:2.4px;font-size:9px;color:#c4ad7f;font-weight:850}
-.scene-narration{background:#152538;border:1px solid #3a4b5d;border-left:3px solid var(--gold);padding:13px 14px;border-radius:8px 13px 13px 8px;margin:16px 0 18px;line-height:1.9;font-size:13px;color:#e1e4e7;animation:paragraphReveal .62s .18s both;overflow-wrap:anywhere}
-.scene-narration strong{color:var(--gold2)}
-.scene-quote{font-size:19px;line-height:1.5;letter-spacing:-.6px;font-weight:850;color:#f4e9d3;margin:6px 0 12px;overflow-wrap:anywhere}
-.scene-stamp{display:inline-flex;border:1px solid #726747;border-radius:99px;padding:5px 10px;font-size:10px;color:#e0c897;background:#2e2c2a;letter-spacing:.6px;margin:8px 0}
-.scene-footnote{font-size:11px;color:#a5b6c3;line-height:1.65;margin-top:10px}
-.resultbox h2{line-height:1.35;font-size:23px;overflow-wrap:anywhere}
-.resultnumbers{grid-template-columns:repeat(3,minmax(0,1fr));margin:14px 0}.resultnumbers div{min-width:0;padding:11px 5px;border:1px solid #273c51;animation:statPop .42s both}.resultnumbers div:nth-child(2){animation-delay:.11s}.resultnumbers div:nth-child(3){animation-delay:.22s}.resultnumbers b{font-variant-numeric:tabular-nums;font-size:21px}.resultnumbers span{line-height:1.55}
-.scene-finance{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;border:1px solid #35495d;border-radius:11px;background:#101e30;font-size:12px;margin:9px 0}
-.scene-finance b{font-size:15px}
-.scene-result-text{white-space:pre-line;margin:7px 0;color:#dfebec !important;overflow-wrap:anywhere}
-.scene-milestone{border:1px solid #8b774e;background:#302f2c;border-radius:10px;padding:10px 12px;color:#f0d6a2;font-size:12px;line-height:1.6;margin:9px 0}
-.scene-impact{font-size:12px;line-height:1.75;color:#c2cfdb;background:#13243a;border-radius:12px;padding:11px 12px;margin:12px 0}
-.scene-next{font-size:11px;letter-spacing:1.5px;color:#d4ba7c;font-weight:900;margin-bottom:8px}
-.scene-years{display:flex;align-items:center;justify-content:center;gap:18px;margin:18px 0;color:#f7e5bc;font-size:38px;font-weight:900;letter-spacing:-2px;font-variant-numeric:tabular-nums}
-.scene-years .last-year{color:#8297a9;font-size:24px}.scene-years .year-arrow{font-size:19px;letter-spacing:0;color:#d7bb78;animation:arrowShift .85s infinite alternate}.scene-years .new-year{animation:yearGlow 1s ease-in-out both}
-.scene-next-title{border:1px solid #4a5970;border-radius:14px;padding:17px 14px;background:#12233a;text-align:center;margin:16px 0;font-weight:850;color:#eee4d4;line-height:1.6;font-size:17px;animation:paragraphReveal .65s .15s both}
-.scene-next-title small{display:block;color:#9eb6c8;font-weight:500;font-size:11px;margin:5px 0}
-.scene-quick{width:100%;border:0;background:none;color:#a3bac9;padding:10px 8px;margin-top:5px;font-size:12px;text-decoration:underline;text-underline-offset:3px}
-@keyframes shadeArrive{from{opacity:0}to{opacity:1}}@keyframes resultRise{from{transform:translateY(27px) scale(.97);opacity:0}to{transform:translateY(0) scale(1);opacity:1}}@keyframes paragraphReveal{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}@keyframes statPop{from{opacity:0;transform:translateY(10px) scale(.93)}to{opacity:1;transform:translateY(0) scale(1)}}@keyframes sceneFloat{from{transform:translateY(-5px) scale(.98)}to{transform:translateY(6px) scale(1.05)}}@keyframes sceneOrbit{from{transform:translate(-50%,-50%) rotate(0)}to{transform:translate(-50%,-50%) rotate(360deg)}}@keyframes arrowShift{to{transform:translateX(6px)}}@keyframes yearGlow{from{opacity:.3;transform:translateX(-12px)}to{opacity:1;transform:translateX(0)}}
-@media(max-width:360px){.resultshade{padding:10px}.resultbox{padding:18px 15px}.scene-illustration{margin-inline:-15px;height:122px}.scene-quote{font-size:17px}.scene-years{gap:12px;font-size:31px}}
-@media (prefers-reduced-motion:reduce){.resultshade,.resultbox,.scene-illustration:before,.scene-glyph,.scene-narration,.resultnumbers div,.scene-years .year-arrow,.scene-years .new-year,.scene-next-title{animation:none!important;transition:none!important}}
-
-
-/* V4 — an original civic-journal interface: paper, editorial typography, and a vivid vermilion mark. */
-:root{color-scheme:light;--bg:#f5f3ed;--bg2:#f1eee6;--panel:#fffefb;--panel2:#f7f6f1;--line:#ddd9cf;--ink:#1d3037;--muted:#6b7a7e;--gold:#ad4c3c;--gold2:#bd5947;--mint:#247968;--red:#b4494d;--blue:#315c86;--r:13px;font-family:'Pretendard Variable','Pretendard','Apple SD Gothic Neo','Noto Sans KR','Malgun Gothic',system-ui,sans-serif}
-html,body{background:#e9e8e1;color:var(--ink);color-scheme:light}
-body{font-size:14px;-webkit-tap-highlight-color:transparent}
-button,input,select{color:var(--ink)} button:focus-visible,input:focus-visible{outline:2px solid #bd5947;outline-offset:3px}
-#app{background:#f6f4ee;box-shadow:0 12px 66px #2d3b2e1a;max-width:500px;border-inline:1px solid #d3d2c8}
-.start{background:#f8f6f0;padding:25px 22px 52px}
-.start:before{content:'PERSONAL ARCHIVE  /  대한민국 정치 인생';display:block;border-top:3px solid #bb5944;border-bottom:1px solid var(--line);padding:11px 0;color:#8a655b;font-size:10px;letter-spacing:1.25px;font-weight:800;margin-top:6px}
-.mast{height:72px;background:#f8f7f2f2;border-bottom:1px solid #dedbd1;box-shadow:0 3px 16px #22312c08;padding:14px 19px;backdrop-filter:blur(18px)}
-.brand{gap:11px}.seal{background:#a74b3c;border:0;border-radius:9px;color:white;width:34px;height:34px;font-size:20px}.brand small{color:#ac5945;letter-spacing:1.4px;font-size:9px}.brand strong{color:#243940;font-size:14px;letter-spacing:-.4px}
-.headright .pill{font-weight:850;color:#324b52;background:#f0efe7;border:1px solid #d8d4c8;padding:6px 8px;font-variant-numeric:tabular-nums}
-.round-btn{background:#ecebe4;color:#36525c;border:1px solid #d8d6cb;border-radius:10px}
-.eyebrow{color:#a94c3c;letter-spacing:1.35px;font-size:10px;font-weight:900}
-.h1,.profile-name,.card h2,.resultbox h2,.onboard-title,.scene-quote{font-family:'Iropke Batang','Noto Serif KR','Nanum Myeongjo','Batang',serif;font-weight:800;word-break:keep-all}
-.h1{font-size:29px;letter-spacing:-.9px;margin:8px 0}.sub{color:#617279;line-height:1.8;font-size:13px}
-.card{background:#fffefa;border:1px solid #e0ded5;border-radius:14px;box-shadow:0 3px 13px #2c3f3010;padding:17px;margin:13px 0}
-.card.highlight{background:#fffdfa;border:1px solid #dcd7ca;box-shadow:inset 4px 0 0 #b95742,0 5px 19px #3343390b}
-.card h2{font-size:23px;letter-spacing:-.6px;line-height:1.42;color:#20363d}
-.card h3{color:#20363d}
-.caption,.profile-rank,.minor-note{color:#79858a}.label{color:#a95543;font-weight:850}
-.divider{background:#e5e2d9}
-.btn{background:#fffefa;border:1px solid #d4d9d5;border-radius:10px;color:#2e4650;min-height:48px;box-shadow:none}
-.btn.primary{background:#254a55;color:white;border:1px solid #254a55;box-shadow:0 4px 12px #213e4619;border-radius:10px}
-.btn.ghost{background:#f5f3ec;color:#365560;border:1px solid #d5d8d0}.btn.danger{color:#a83943;border-color:#ddb6b6}
-.option{background:#fffefd;border:1px solid #dcded7;border-radius:11px;color:#24353c;padding:15px 14px;box-shadow:none;margin:9px 0;transition:border-color .2s,background .2s,transform .2s}
-.option:hover{border-color:#aa9088;background:#fff9f4}
-.option:active{background:#f6eee8;transform:scale(.99)}
-.option.selected{border:1.5px solid #b95643;background:#fdf3ec;box-shadow:inset 3px 0 0 #b95643}
-.option strong{font-size:14px;line-height:1.45}.option span{color:#7b8587}.option .kicker{color:#b24e3c}.option .arrow{color:#bd5947;font-size:21px}
-.pill,.tag{color:#566a70;background:#f1f0e9;border:1px solid #dddcd3}.tag.gold{background:#fff0e8;border-color:#edd1c4;color:#a9513d}.tag.green{color:#28745c;background:#eaf6ef;border-color:#b5d9c8}.tag.red{color:#b4494d;background:#fff1ef;border-color:#e8c6c4}
-.hero{height:180px;margin:16px -22px 20px;background:linear-gradient(180deg,#f2e8dc,#d9e0d9);border-block:1px solid #dcd8cd}.hero .sun{border-color:#b9564338;background:radial-gradient(circle,#be644626,transparent 70%)}.roof{background:linear-gradient(160deg,#47737b,#29525a);border-color:#c6b394}.body-building{background:#284c59;border-top-color:#d7c4a0}.body-building:after{background:repeating-linear-gradient(90deg,transparent 0,transparent 25px,#b8c9c8 26px,#b8c9c8 32px,transparent 33px,transparent 42px)}.base-building{background:#b1a080}
-.onboard-title{font-size:38px;line-height:1.18;letter-spacing:-1.7px;color:#243a40}.onboard-title span{color:#b8503e}
-.step{color:#9e5042;border-bottom-color:#d8d5cd;font-weight:850;margin:12px 0 2px}.era-date{color:#b24f3e}.era-desc{color:#697b83}
-.nameinput{background:white;color:#233c42;border:1px solid #d6d7d0;border-radius:10px}
-.family-grid>div{background:#f7f6ef;border-color:#e3e1d8;border-radius:9px}.family-grid small{color:#7a898b}.family-grid b{color:#2f4a51}
-.profiletop{padding-top:22px;padding-bottom:15px;border-bottom:1px solid #dedbd1;margin-bottom:15px}.profile-name{color:#25424a;font-size:30px;letter-spacing:-1px}.profile-rank{line-height:1.55}
-.progress-strip{gap:6px}.metric{background:#f0f1ea;border:1px solid #e2e2d9;border-radius:9px;padding:10px 6px}.metric .num{color:#214652;font-size:19px}.metric .text{color:#728286}
-.block-title{color:#263f46;border-left:3px solid #bc5946;padding-left:9px;letter-spacing:-.3px;font-size:15px;margin-top:22px}
-.statline .statname{color:#536f74}.statval{color:#a24b39}.bar{background:#e7e6dc;height:7px}.bar>div{background:linear-gradient(90deg,#bd604d,#da957e)}
-.news{background:#f0f2ed;color:#46616a;border-left:3px solid #376773}.news b{color:#315f68}
-.bottomnav{background:#fbfaf7f7;border-top:1px solid #dddcd3;box-shadow:0 -8px 26px #1d352015;padding:8px 6px calc(9px + env(safe-area-inset-bottom))}.navbtn{color:#7c8a88;font-size:11px;gap:3px}.navbtn.active{color:#b4523f}.navbtn .navico{font-size:21px}.navbtn.active .navico{background:#f8eae2;border-radius:9px;min-width:43px}
-.fold,.no-events{background:#fffefa;border-color:#e2e0d7;color:#79878a}.fold{border-radius:10px}.listitem{border-color:#e7e4da}.listitem p,.timeline p{color:#78898a}
-.timeitem:before{background:#c36b56;border:2px solid #f7f5ed}.timeline:before{background:#d4d5cd}.timeitem small{color:#ab5c4a}
-.invite{border-color:#dfc6b6;background:#fff6ee;border-radius:11px}.invite p{color:#557076}
-.score{color:#ac4e40}.gold{color:#a94f3e}.good{color:#267f6d}.bad{color:#b74b4d}
-.episode-kicker{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:12px;margin-bottom:4px;font-size:10px;color:#84918d;letter-spacing:.1px}.topic-marker{border:1px solid #efd6c9;border-radius:5px;padding:4px 7px;color:#a55240;background:#fff1e9;font-weight:750}
-.story-feature>p.sub{padding-top:11px;margin-top:10px;border-top:1px solid #eee9e0}
-.story-feature .option{position:relative;padding-right:24px}.story-feature .option strong{padding-right:12px}
-.resultshade{background:#172b31b5;backdrop-filter:blur(10px)}
-.resultbox{background:#fcfaf5;border:1px solid #e5d4c5;border-radius:19px;box-shadow:0 30px 90px #10212865;color:#263b41}
-.resultbox h2{color:#203a42}.resultbox p{color:#586c73}.story-segments i{background:#e2e0d8}.story-segments i.on{background:#bc644f;box-shadow:none}
-.scene-illustration{background:radial-gradient(circle at 50% 72%,#d7c3ac73 0%,transparent 60%),linear-gradient(180deg,#f5f1e8,#e5e8e1);border-color:#d8d7ce}
-.scene-illustration:before{border-color:#bc594641}.scene-illustration:after{border-color:#947d6548}.scene-glyph{color:#ad5342;text-shadow:0 4px 26px #b15f4d33}.scene-sub{color:#a66455}
-.scene-narration{background:#f6f3eb;border:1px solid #e4ded2;border-left:4px solid #b95745;border-radius:8px;color:#3d565d}.scene-narration strong{color:#a55343}
-.scene-result-text{color:#394f56!important}.scene-quote{color:#28424b;font-size:20px}
-.scene-stamp{border:1px solid #edd3c4;background:#fdf0e7;color:#a55241}.scene-footnote{color:#85918d}
-.resultnumbers div{background:#f3f2ec;border:1px solid #e3e0d8;border-radius:9px}.resultnumbers b{color:#ac5744}.resultnumbers span{color:#77898a}
-.scene-finance{background:#f5f4ed;border-color:#e0e0d6}.scene-milestone{background:#fff0e7;border-color:#eacbbb;color:#98513f}
-.scene-impact{background:#edf2ef;color:#46646d}.scene-next{color:#b25a48}.scene-years{color:#ab503e}.scene-years .last-year{color:#879490}.scene-years .year-arrow{color:#b25744}.scene-next-title{background:#f7f5ef;border-color:#e2ddd0;color:#2d4650}.scene-next-title small{color:#7f8f8b}
-@media(min-width:600px){body{background:#e5e6df}#app{border-inline:1px solid #cbd0ca}}
-@media(orientation:landscape) and (max-height:590px){#app:after{background:#f7f5ee;color:#203a40}}
-@media(max-width:360px){.start{padding-inline:15px}.screen{padding-inline:14px}.resultbox{padding-inline:15px}.card{padding:14px}.mast{padding-inline:14px}.onboard-title{font-size:35px}.card h2{font-size:21px}}
-
-</style>
-</head>
-<body><div id="app"></div>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Noto+Sans+KR:wght@400;500;600;700;800;900&family=Noto+Serif+KR:wght@500;600;700;800&display=swap');
+:root{--bg:#f1eee5;--paper:#fffefa;--dark:#15272d;--ink:#18292d;--teal:#20695d;--teall:#e0ede6;--coral:#b95d42;--muted:#6a7979;--line:#d9ded9;--gold:#a68444}*{box-sizing:border-box}html{background:#e6e8e2}body{margin:0;color:var(--ink);background:var(--bg);font-family:'Noto Sans KR',sans-serif}button,input,select{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #6a9d87;outline-offset:2px}#app{max-width:460px;margin:auto;min-height:100dvh;background:#f6f5f0;box-shadow:0 0 0 1px #c1cdc4,0 0 60px #253b3240;position:relative}header{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:8px;justify-content:space-between;background:#fdfdf9f5;backdrop-filter:blur(13px);border-bottom:1px solid var(--line);padding:12px 17px;min-height:62px}.brand{font-family:'Noto Serif KR',serif;font-weight:800;font-size:18px;letter-spacing:-1.1px}.brand small{display:block;font:700 9px 'DM Sans',sans-serif;letter-spacing:1.6px;color:var(--teal)}.topright{font-size:11px;color:var(--muted);font-weight:800}.paper{margin:13px 15px;padding:18px;background:var(--paper);border:1px solid #e0e1db;border-radius:15px;box-shadow:0 3px 14px #50625b0a}.page{padding:6px 0 calc(93px + env(safe-area-inset-bottom));min-height:calc(100dvh - 61px)}.eyebrow{font:800 10px 'DM Sans',sans-serif;letter-spacing:2px;color:var(--teal);text-transform:uppercase}.serif{font-family:'Noto Serif KR',serif;letter-spacing:-.9px;word-break:keep-all}h1{font-size:28px;line-height:1.43;margin:9px 0}h2{font-size:22px;line-height:1.4;margin:10px 0}.lead{font-size:13px;color:#556967;line-height:1.86;word-break:keep-all}.muted{color:var(--muted)}.tiny{font-size:11px}.small{font-size:12px}.bold{font-weight:800}.row{display:flex;align-items:center;gap:9px}.between{justify-content:space-between}.wrap{flex-wrap:wrap}.btn{border:1px solid #cfd9d3;border-radius:11px;background:#fff;padding:12px 13px;color:var(--dark);font-weight:800;font-size:13px;min-height:44px}.btn.primary{background:var(--teal);color:white;border-color:var(--teal)}.btn.warn{border-color:#dcb8a9;color:#9d473b;background:#fff6f2}.btn.subtle{background:#ecf2ee}.btn:disabled{opacity:.4;cursor:default}.full{width:100%}.tabbar{position:fixed;z-index:25;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:460px;display:grid;grid-template-columns:repeat(5,1fr);background:#fffefbf4;backdrop-filter:blur(16px);border-top:1px solid var(--line);padding:8px 5px calc(8px + env(safe-area-inset-bottom))}.tabbar button{border:0;background:none;color:#81918e;min-height:48px;font-size:10px;font-weight:800;display:grid;justify-items:center;gap:2px}.tabbar button b{font-size:20px;font-weight:500}.tabbar button.on{color:#186358}.intro{padding-top:20px}.cover{height:150px;background:linear-gradient(120deg,#173c40,#3f7770);border-radius:14px;position:relative;overflow:hidden;margin-bottom:17px}.cover:before{content:'';position:absolute;width:180px;height:180px;border:1px solid #ffffff4d;border-radius:50%;left:50%;top:35px;transform:translateX(-50%)}.cover:after{content:'國';font-family:serif;font-size:140px;color:#ffffff11;position:absolute;right:5px;top:-38px}.covertext{position:absolute;left:20px;bottom:22px;font-family:'Noto Serif KR',serif;color:#fff;font-size:25px;font-weight:800;line-height:1.4}.subtleline{border-top:1px solid var(--line);margin:16px 0}.choosecard{border:1px solid #d7ded8;background:#fff;padding:13px;border-radius:12px;text-align:left;width:100%;margin:6px 0;transition:.15s}.choosecard.selected{border:2px solid var(--teal);background:#eff8f3;padding:12px}.choosecard strong{font-size:14px;display:block;margin-bottom:5px}.choosecard p{font-size:12px;line-height:1.65;color:var(--muted);margin:2px 0}.tag{display:inline-block;padding:4px 7px;border-radius:6px;background:#e6efea;color:#246a5c;font-size:10px;font-weight:800;margin:3px 3px 3px 0}.tag.red{background:#f8ece6;color:#ad593e}.tag.gray{background:#eee; color:#666}.field{width:100%;padding:12px;border:1px solid #cdd7d2;border-radius:10px;background:#fff;font-size:15px;color:var(--ink)}.label{font-size:12px;font-weight:800;color:var(--ink);display:block;margin:13px 0 7px}.metricgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}.metric{background:#f2f5f1;border:1px solid #e0e7e2;border-radius:10px;text-align:center;padding:10px 4px}.metric strong{display:block;font:800 19px 'DM Sans',sans-serif}.metric span{font-size:10px;color:var(--muted)}.statrow{display:grid;grid-template-columns:70px 1fr 25px;gap:8px;align-items:center;margin:11px 0;font-size:11px}.track{height:6px;background:#e2ebe6;border-radius:9px;overflow:hidden}.track>i{height:100%;display:block;background:var(--teal);border-radius:9px}.scene{animation:rise .32s both}@keyframes rise{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:none}}.eventkicker{font-size:11px;color:var(--coral);font-weight:900;letter-spacing:.8px}.eventtext{line-height:1.98;font-size:14px;word-break:keep-all;white-space:pre-line}.option{display:block;border:1px solid #d7dcd6;border-radius:12px;padding:14px;margin:9px 0;background:white;width:100%;text-align:left;color:#1c3030}.option b{display:block;font-size:13px;line-height:1.7}.option em{display:block;font-size:11px;line-height:1.7;color:#7b8c89;font-style:normal;margin-top:3px}.option:active{background:#ebf4ef}.stage{display:flex;align-items:center;gap:8px;margin:10px 0 15px}.stage .dot{height:6px;flex:1;background:#dce5df;border-radius:8px}.stage .dot.on{background:var(--teal)}.result{border-left:3px solid var(--teal);padding:5px 13px;background:#f2f7f3;border-radius:0 10px 10px 0;line-height:1.8;font-size:13px}.delta{display:flex;gap:5px;flex-wrap:wrap}.delta span{padding:5px 8px;background:#f4f5f1;border-radius:7px;font-size:11px;color:#335a51;font-weight:800}.delta span.neg{color:#a34d42;background:#fff0eb}.timelineitem{border-left:2px solid #d3dfd8;padding:1px 0 15px 14px;margin-left:7px;position:relative}.timelineitem:before{content:'';position:absolute;left:-5px;top:7px;background:var(--teal);height:8px;width:8px;border-radius:50%}.timelineitem b{font-size:13px}.timelineitem p{font-size:12px;color:var(--muted);line-height:1.65;margin:5px 0}.npc{display:flex;gap:10px;align-items:center;border-bottom:1px solid #e7eae6;padding:12px 0}.avatar{height:42px;width:42px;display:grid;place-items:center;background:#e5ebe6;border:1px solid #d1d9d2;border-radius:12px;font:900 15px 'Noto Serif KR';color:#28594f;flex:none}.npc>div:nth-child(2){flex:1}.npc small{display:block;color:var(--muted);font-size:11px;margin-top:4px}.npc meter{width:74px;height:10px}.notice{padding:13px;background:#e9f2ed;border-radius:10px;font-size:12px;line-height:1.8;color:#406153}.source{font-size:11px;color:#6e7e79;line-height:1.6}details{background:white;border:1px solid var(--line);border-radius:12px;margin:11px 0;padding:0 12px}summary{padding:12px 0;font-weight:800;font-size:13px;cursor:pointer}.listitem{padding:10px 0;border-bottom:1px solid var(--line);font-size:12px;line-height:1.65}.listitem:last-child{border:none}.hr{height:1px;background:var(--line);margin:14px 0}.loading{font-weight:900;color:#24685e;letter-spacing:1px}.badge{border:1px solid #c8dcd2;color:#24685e;border-radius:20px;padding:5px 9px;font-size:10px;font-weight:800}.stickyfoot{position:sticky;bottom:65px;background:linear-gradient(transparent,#f6f5f0 25%);padding:16px 0 8px}.fakenews{border-top:3px double #446963;padding-top:10px;font-family:'Noto Serif KR',serif;font-size:16px;line-height:1.75}.ending{background:#163d3e;color:#fff;border-radius:12px;padding:22px;text-align:center}.ending .serif{color:#fff}.inputhelp{font-size:10px;color:var(--muted);line-height:1.7;margin-top:6px}.two{display:grid;grid-template-columns:1fr 1fr;gap:9px}.miniProgress{background:#e8eee9;border-radius:6px;height:6px;overflow:hidden}.miniProgress i{display:block;background:var(--teal);height:100%}.scrollnote{overflow:auto;max-height:280px}.noshadow{box-shadow:none}@media(max-width:360px){.paper{margin:10px;padding:14px}.brand{font-size:16px}h1{font-size:25px}}@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
+</style></head><body><div id="app"></div>
 <script>
 'use strict';
-const K='class_to_president_save_v1',ARCHIVE='class_to_president_records_v1';
-const ERAS=[{id:'e80',year:1988,name:'1980~90년대',line:'민주화 이후 정치 격변기',desc:'학생 운동·정당 재편이 이어지는 시대에서 출발'},{id:'e00',year:2007,name:'2000~10년대',line:'인터넷과 세대교체의 시대',desc:'온라인 여론과 지역정치가 커지는 시기에 출발'},{id:'e20',year:2026,name:'2020년대 이후',line:'SNS·청년 정치의 시대',desc:'최근 정당 구도에서 출발하는 대체역사'}];
-const BG=[{id:'normal',name:'평범한 가정',desc:'특별한 인맥은 없지만 선택의 폭이 넓다',money:0.5,boost:{trust:5,org:3}},{id:'merchant',name:'자영업 가정',desc:'현장 감각과 작은 사업 경험을 얻었다',money:1.4,boost:{policy:4,network:4}},{id:'public',name:'공무원 가정',desc:'행정 업무와 공공제도에 익숙하다',money:0.8,boost:{policy:9,trust:2}},{id:'business',name:'사업가 가정',desc:'초기 자본과 인맥을 확보하기 쉬운 환경',money:4.4,boost:{network:10,speech:1}},{id:'worker',name:'맞벌이 가정',desc:'독립심과 꾸준함을 배웠다',money:0.65,boost:{org:8,trust:4}},{id:'teacher',name:'교사 가정',desc:'토론과 학습 분위기가 익숙하다',money:0.9,boost:{policy:8,speech:3}}];
-const REGIONS=['서울','경기','인천','부산','대구','광주','대전','울산','세종','강원','충북','충남','전북','전남','경북','경남','제주'];
-const TRACKS=[{id:'youth',name:'청년 정치 루트',icon:'◈',text:'학생회장 · 총학생회 · 청년의회 · 공천'},{id:'pro',name:'전문직 루트',icon:'▣',text:'법률·의료·기술 분야에서 경력을 쌓고 정계 진출'},{id:'biz',name:'사업가 루트',icon:'◆',text:'사업과 재산 형성 후 정치에 도전'}];
-const REALPEOPLE={e80:[{n:'노태우',d:'제13대 대통령(1988~1993)'},{n:'김영삼',d:'1980~90년대의 주요 정치인, 제14대 대통령'},{n:'김대중',d:'1980~90년대의 주요 정치인, 제15대 대통령'},{n:'김종필',d:'1980~90년대 정당 정치의 주요 인물'}],e00:[{n:'노무현',d:'제16대 대통령(2003~2008)'},{n:'이명박',d:'2007년 대선 후보, 이후 제17대 대통령'},{n:'박근혜',d:'2000년대 주요 정치인, 이후 제18대 대통령'},{n:'정동영',d:'2007년 대선 후보'}],e20:[{n:'이재명',d:'2025년 취임한 제21대 대통령'},{n:'조정식',d:'제22대 국회 후반기 국회의장(2026년 6월~)'},{n:'조국',d:'조국혁신당 창당 관련 정치인'},{n:'이준석',d:'개혁신당 창당 관련 정치인'}]};
-const PARTY_PERIODS=[{from:1980,names:['민주정의당','평화민주당','신민주공화당','통일민주당']},{from:1992,names:['민주자유당','민주당','통일국민당']},{from:1996,names:['신한국당','새정치국민회의','자유민주연합']},{from:1998,names:['한나라당','새정치국민회의','자유민주연합']},{from:2001,names:['한나라당','새천년민주당','자유민주연합']},{from:2004,names:['한나라당','열린우리당','민주노동당']},{from:2007,names:['한나라당','대통합민주신당','민주노동당']},{from:2008,names:['한나라당','통합민주당','자유선진당']},{from:2012,names:['새누리당','민주통합당','통합진보당']},{from:2014,names:['새누리당','새정치민주연합','정의당']},{from:2016,names:['새누리당','더불어민주당','국민의당']},{from:2018,names:['자유한국당','더불어민주당','바른미래당']},{from:2020,names:['미래통합당','더불어민주당','정의당']},{from:2021,names:['국민의힘','더불어민주당','정의당']},{from:2024,names:['국민의힘','더불어민주당','조국혁신당','개혁신당','진보당']}];
-const HISTORY_FACTS={
- 1988:['노태우','제13대 대통령 취임'],1993:['김영삼','제14대 대통령 취임'],1998:['김대중','제15대 대통령 취임'],
- 2003:['노무현','제16대 대통령 취임'],2008:['이명박','제17대 대통령 취임'],2013:['박근혜','제18대 대통령 취임'],
- 2017:['문재인','제19대 대통령 취임'],2022:['윤석열','제20대 대통령 취임'],2025:['이재명','제21대 대통령 취임']
-};
-function historicalNews(y){const h=HISTORY_FACTS[y];if(!h)return '';return `<div class="news mt8"><b>▤ 실제 역사 기록 · ${y}년</b><br>${h[0]} — ${h[1]}<div class="caption">실제 역사 사실이며, 아래 플레이어의 선택·선거 결과는 별도의 가상 서사야.</div></div>`;}
-const STATS=[['speech','대중 연설'],['policy','정책 역량'],['network','인맥·협상'],['trust','신뢰'],['org','조직력'],['fame','인지도']];
-const clamp=(n,a=0,b=100)=>Math.max(a,Math.min(b,n));
-const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const fmt=n=>(Number(n)||0).toFixed(1);
-let current=null,tab='story',overlay=null;
-let ob={era:'e20',name:'',track:'youth',roll:0,origin:null};
-function getParties(y){const period=PARTY_PERIODS.filter(p=>p.from<=y).at(-1);return period.names;}
-function partyName(s){return s.partyLabel||'무소속';}
-function r(s){s.rng=(Math.imul(1664525,s.rng) + 1013904223)>>>0;return s.rng/4294967296;}
-function pick(s,ar){return ar[Math.floor(r(s)*ar.length)];}
-function staticRnd(num){let n=(num+0x6d2b79f5)>>>0;n=Math.imul(n^(n>>>15),n|1);n^=n+Math.imul(n^(n>>>7),n|61);return ((n^(n>>>14))>>>0)/4294967296;}
-
-const INCOME_LADDER=[{name:'생계 곤란',weight:9,asset:.01},{name:'저소득',weight:22,asset:.12},{name:'보통',weight:45,asset:.68},{name:'중상위',weight:18,asset:2.1},{name:'고소득',weight:6,asset:9.8}];
-const GUARDIANS=['부모와 함께 거주','한부모 가정','조부모 양육','친척 보호자'];
-const JOBS=['사무직','자영업','음식점 운영','공무원','교사','의료 분야','법률 분야','생산직','돌봄 노동','운수업','기술직','농어업','소규모 사업','일용직','프리랜서','구직 중','문화예술','연구직'];
-const NEIGHBORHOODS=['구도심','신도시','대학가','산업단지 인근','농촌 읍면','대중교통 중심지','소도시 주택가','도심 외곽'];
-function weightedPick(seed,list){let total=list.reduce((n,x)=>n+x.weight,0);let p=staticRnd(seed)*total;return list.find(x=>(p-=x.weight)<=0)||list.at(-1);}
-function familyInfo(seed,region){const income=weightedPick(seed+11,INCOME_LADDER),guardian=GUARDIANS[Math.floor(staticRnd(seed+8)*GUARDIANS.length)],guardianJob=JOBS[Math.floor(staticRnd(seed+41)*JOBS.length)],secondJob=guardian==='부모와 함께 거주'?JOBS[Math.floor(staticRnd(seed+49)*JOBS.length)]:'해당 없음',siblings=Math.floor(staticRnd(seed+24)*4),area=NEIGHBORHOODS[Math.floor(staticRnd(seed+29)*NEIGHBORHOODS.length)];
- const support=Math.round(25+staticRnd(seed+67)*65),assets=Math.max(.01,income.asset*(.58+staticRnd(seed+71)*.9));
- return {income:income.name,guardian,guardianJob,secondJob,siblings,area,support,assets:+assets.toFixed(2),label:`${region} · ${area}`,desc:`${guardian} · ${guardianJob}${secondJob==='해당 없음'?'':` / ${secondJob}`} · 형제자매 ${siblings}명`};}
-
-function rollOrigin(){ob.roll++;const q=((Date.now()+Math.random()*1e8+ob.roll*1831)>>>0);const b=BG[Math.floor(staticRnd(q)*BG.length)];const region=REGIONS[Math.floor(staticRnd(q+15)*REGIONS.length)];const family=familyInfo(q,region);ob.origin={bg:b,region,seed:q,family};render();}
-function statsHtml(stats){return STATS.map(([id,label])=>`<div class="statline"><span class="statname">${label}</span><div class="bar"><div style="width:${clamp(stats[id])}%"></div></div><span class="statval">${Math.round(stats[id])}</span></div>`).join('');}
-function asset(s){return `${fmt(s.money)}억원`;}
-function phase(s){if(s.age<=19)return '고등학교';if(s.age<=23)return '대학교';if(s.office==='대통령')return '대통령';if(s.office==='국회의원')return '국회';if(s.office==='광역·기초단체장')return '지방정부';if(s.office==='지방의회의원')return '지방의회';if(s.track==='youth')return '청년 정치·지역 활동';if(s.track==='pro')return '전문직·현장 업무';return '창업·사업 운영';}
-function startGame(){if(!ob.origin)rollOrigin();const seed=ob.origin.seed>>>0;const family=ob.origin.family||familyInfo(seed,ob.origin.region);const stats={speech:32,policy:34,network:23,trust:42,org:32,fame:3};Object.keys(stats).forEach(k=>stats[k]+=Math.floor(staticRnd(seed+stats[k]*719)*17)-6);
- if(family.support>65)stats.trust+=2; if(family.income==='생계 곤란')stats.org+=2;
- Object.keys(stats).forEach(k=>stats[k]=clamp(stats[k]));const era=ERAS.find(x=>x.id===ob.era);
- current={version:3,bankruptcies:0,debt:0,financialState:'normal',politicalSetbacks:0,leadership:false,peakOffice:'일반 시민',presidentAttempts:0,ending:'',seed,rng:(seed^0x6a09e667)>>>0,era:era.id,year:era.year,age:17,name:(ob.name||'김정훈').trim().slice(0,12),track:ob.track,region:ob.origin.region,background:ob.origin.bg.id,family,money:family.assets,stats,partyIndex:null,partyLabel:null,issues:INIT_ISSUES(),invitations:[],invitationHistory:[],recentEventIds:[],pendingEvent:null,specialty:null,office:'일반 시민',achievements:[],elections:[],history:[{year:era.year,age:17,title:'새로운 인생의 시작',text:`${family.label}에서 ${family.desc} 환경으로 고등학교 생활을 시작했다. 정치적 성향은 출생 환경이 아니라 이후 자신의 활동으로 형성된다.`}],president:false,gameover:false,consecutiveLocal:0,lastElectionYear:-1,turn:0};tab='story';overlay=null;save();render();}
-function save(){if(!current)return;try{localStorage.setItem(K,JSON.stringify(current));}catch(e){}}
-function load(){try{const d=JSON.parse(localStorage.getItem(K)||'null');if(d&&[1,2,3].includes(d.version)&&d.stats&&typeof d.age==='number'){d.version=3;d.bankruptcies??=0;d.debt??=0;d.financialState??='normal';d.politicalSetbacks??=0;d.leadership??=false;d.peakOffice??=d.office||'일반 시민';d.presidentAttempts??=0;d.ending??='';d.issues??=INIT_ISSUES();d.invitations??=[];d.invitationHistory??=[];d.recentEventIds??=[];d.specialty??=null;d.family??=familyInfo(d.seed||1736,d.region||'서울');d.partyLabel??=(d.partyIndex!=null?getParties(d.year)[d.partyIndex]||null:null);return d;}}catch(e){}return null;}
-function getArchive(){try{return JSON.parse(localStorage.getItem(ARCHIVE)||'[]')}catch(e){return []}}
-function archive(s){const a=getArchive();if(a.some(x=>x.id===s.seed+'-'+s.year))return;a.unshift({id:s.seed+'-'+s.year,name:s.name,era:ERAS.find(e=>e.id===s.era)?.name,year:s.year,age:s.age,office:s.office,success:s.president,ach:s.achievements.length});try{localStorage.setItem(ARCHIVE,JSON.stringify(a.slice(0,15)));}catch(e){}}
-function apply(s,eff){if(!eff)return;for(const [key,val] of Object.entries(eff.stats||{})){if(key in s.stats){const old=s.stats[key];const growth=val>0?(old>=95?.18:old>=85?.33:old>=72?.55:1):1;s.stats[key]=clamp(old+Math.sign(val)*Math.max(1,Math.round(Math.abs(val)*growth)));}}
- const raw=s.money+(eff.money||0);s.money=clamp(raw,0,500);if(raw<0){s.debt=+(s.debt+Math.abs(raw)).toFixed(2);s.financialState='distressed';}
- if(eff.track)s.track=eff.track;if(eff.achievement&&!s.achievements.includes(eff.achievement))s.achievements.push(eff.achievement);}
-function joinMinAge(s){return s.year>=2022?16:20;}
-function yearIncome(s){if(s.age<20)return 0;if(s.age<=23)return -.04;if(s.office==='대통령')return .13;if(s.office==='국회의원')return .30;if(s.office==='광역·기초단체장')return .23;if(s.office==='지방의회의원')return .11;if(s.track==='youth')return .035;if(s.track==='pro')return .16+(s.stats.policy/680);return s.financialState==='distressed'?-.12:.045+(s.stats.network/900);}
-// FIRST CONTENT PATCH — original fictional events, not records of real people
-const ISSUE_KEYS=[['rights','권리·법제'],['welfare','복지·교육'],['market','경제·창업'],['labor','노동·일터'],['reform','제도개혁'],['security','안전·행정'],['local','지역·민생']];
-const ISSUE_FIELDS=ISSUE_KEYS.map(x=>x[0]);
-const INIT_ISSUES=()=>Object.fromEntries(ISSUE_FIELDS.map(k=>[k,0]));
-const S=(n,d,stats={},money=0,issues={},extras={})=>({n,d,eff:{stats,money},issues,...extras});
-const E=(id,title,text,choices)=>({id,title,text,choices});
-const EVENTS={
- school:[
- E('sc_council','급식실 앞의 긴 줄','학생들이 쉬는 시간마다 급식 대기 때문에 수업에 늦는다. 학생회는 예산 부족을 이유로 문제를 미뤘다.',[
- S('학급별 대기 시간을 조사해 개선안을 제출','설문·통계 작업에 시간을 쓰는 대신 민원을 구체화한다',{policy:5,org:-2,trust:2},0,{local:3,reform:2},{roll:{base:58,skill:'policy',success:'급식 시간표를 시범 조정하기로 했다.',failure:'학교 측이 인력 부족을 이유로 제안을 반려했다.',goodEff:{stats:{trust:5,fame:2}},badEff:{stats:{trust:-2}}}}),
- S('학생들의 불만을 모아 공개 발언','학우들의 관심을 끌지만 학교와 부딪힐 수 있다',{speech:5,org:3,trust:-1},0,{rights:2,local:3},{roll:{base:50,skill:'speech',success:'학교 운영위원회가 공개 질의에 응답했다.',failure:'방법이 지나치게 공격적이라는 의견도 나왔다.',badEff:{stats:{trust:-5}}}}),
- S('조리실 직원과 먼저 면담','현장 상황을 파악해 적은 비용으로 가능한 변경을 논의한다',{network:3,policy:2,org:-2},0,{labor:2,local:2},{roll:{base:65,skill:'network',success:'현장 의견을 반영한 동선 개선안이 채택됐다.',failure:'교실마다 배식 시간이 달라 합의에 실패했다.'}})
- ]),
- E('sc_exam','시험 전날 문제집 단체 구매','반장이 특정 업체 문제집을 공동 구매하자고 한다. 공동 구매에 참여하기 어려운 친구도 보인다.',[
- S('무료 자료를 직접 정리해 공유','시간이 많이 들지만 정보 접근 격차를 줄이려 한다',{policy:4,org:-4,trust:3},-.01,{welfare:3,rights:2}),
- S('공동 구매 가격을 재협상','판매처와 묶음 가격을 낮추는 협상을 시도한다',{network:4,speech:2,trust:-1},0,{market:3,local:1},{roll:{base:51,skill:'network',success:'공동 구매 가격이 내려갔다.',failure:'업체가 할인 조건을 거절했다.',badEff:{stats:{trust:-3}}}}),
- S('구매 여부는 각자 결정하도록 둔다','공동 구매에 개입하지 않고 본인 시험에 집중한다',{policy:3,trust:-1},0,{rights:1})
- ]),
- E('sc_vote','학교 축제 예산 논쟁','공연 무대에 예산 대부분을 쓰자는 의견과 학생 동아리에 균등 배분하자는 의견이 부딪힌다.',[
- S('전교 설문을 바탕으로 배분안을 짠다','여러 동아리와 협의해야 한다',{org:5,policy:4,network:-2},-.01,{reform:2,local:2},{roll:{base:56,skill:'org',success:'다수 동아리가 새 예산안에 합의했다.',failure:'대형 공연을 기대한 학생들이 반발했다.',badEff:{stats:{trust:-4}}}}),
- S('대표 공연에 집중 투자한다','행사 흥행으로 인지도가 상승할 수도 있다',{fame:3,trust:-4},-.02,{market:2},{roll:{base:48,skill:'org',success:'축제가 크게 흥행했다.',failure:'다른 동아리들이 소외됐다는 비판이 나왔다.',goodEff:{stats:{fame:7}},badEff:{stats:{trust:-5,fame:-2}}}}),
- S('학생들의 자발적 소규모 공연을 돕는다','비용 절감과 참여 확대를 시도한다',{org:4,policy:-1,network:2},-.01,{local:3})
- ]),
- E('sc_media','학교 커뮤니티에 올라온 익명 글','동아리 예산이 부당하게 집행됐다는 글이 퍼졌다. 사실인지 확인되지 않은 상태다.',[
- S('회계자료를 먼저 요청한다','의혹을 확인하기 전까지 누구도 단정하지 않는다',{policy:4,fame:-1,trust:4},0,{rights:3,reform:3}),
- S('학생회에 즉각 공개 해명을 요구한다','정보 공개를 압박하지만 오해가 커질 수 있다',{speech:4,fame:4,network:-3},0,{reform:4},{roll:{base:48,skill:'policy',success:'부실했던 회계 공개가 개선됐다.',failure:'의혹 대부분이 오해였던 것으로 밝혀졌다.',badEff:{stats:{trust:-6}}}}),
- S('온라인 논쟁에 끼지 않고 시험 준비','당장은 갈등을 피하지만 학생들의 실망도 있을 수 있다',{policy:4,org:-2,trust:-1},0,{})
- ]),
- E('sc_volunteer','청소년 의회 모집 공고','지역 청소년 의회가 교통·독서실·공공시설 문제를 토론할 위원을 모집한다. 참석하려면 주말 일정을 비워야 한다.',[
- S('교통 접근성 개선 안건을 제출한다','현장 답사와 토론을 맡는다',{policy:4,network:3,org:-3},-.01,{local:4,welfare:1},{roll:{base:52,skill:'policy',success:'제안이 청소년 의회의 공식 의견으로 채택됐다.',failure:'근거 자료가 부족하다는 평가를 받았다.',goodEff:{stats:{fame:4}},badEff:{stats:{trust:-2}}}}),
- S('운영위원으로 출마한다','경험 부족에도 불구하고 회의 운영에 도전한다',{speech:3,org:2,policy:-2},0,{reform:2},{roll:{base:38,skill:'org',success:'운영위원으로 선출됐다.',failure:'선거에서 탈락해 일반 위원으로 활동하게 됐다.',achievement:'청소년 의회 운영위원',goodEff:{stats:{fame:5,network:5}},badEff:{stats:{trust:-2}}}}),
- S('집안 사정 때문에 이번에는 불참한다','다른 지역 활동 기회를 기다린다',{policy:2,network:-2},.01,{})
- ]),
- E('sc_president','학생회장 선거 후보 등록','친구들이 출마를 권한다. 그러나 선거 준비에 시간을 쓰면 동아리와 학업 활동을 줄여야 한다.',[
- S('현실적인 세 가지 공약으로 출마','연설과 학생 자치 활동을 경험한다',{speech:4,org:2,policy:-3},-.02,{reform:2,local:2},{roll:{base:36,skill:'speech',success:'학생회장에 당선됐다.',failure:'선거에서 낙선했다. 준비 과정에서 갈등도 있었다.',achievement:'고등학교 학생회장',goodEff:{stats:{fame:7,trust:6}},badEff:{stats:{fame:-2,trust:-3}}}}),
- S('능력 있는 친구의 선거 실무를 돕는다','팀에서 선거 실무를 경험한다',{network:5,org:5,speech:-1},0,{local:1}),
- S('출마하지 않고 학업을 선택한다','성적 관리에 집중하는 대신 학생 정치 경험은 줄어든다',{policy:5,network:-2,fame:-1},0,{})
- ]),
- E('sc_teacher','교사의 부당한 지적이라는 주장','동급생이 공개적인 생활지도 과정이 지나쳤다고 주장한다. 당시 상황을 아는 학생마다 말이 다르다.',[
- S('양측 진술을 정리해 공식 절차 요청','증언 확인에 시간을 쓴다',{policy:5,trust:3,org:-3},0,{rights:4,reform:2}),
- S('즉시 항의문을 발표한다','큰 관심을 받을 수 있지만 사실관계 오류 위험이 있다',{speech:4,fame:4,trust:-2},0,{rights:3},{roll:{base:44,skill:'policy',success:'학교가 지도 방식을 개선하겠다고 발표했다.',failure:'확인되지 않은 내용까지 퍼져 학생들 사이에 갈등이 생겼다.',badEff:{stats:{trust:-7}}}}),
- S('중재를 맡아 대화 자리를 만든다','서로의 입장을 직접 듣도록 제안한다',{network:5,trust:2,org:-2},0,{local:2,rights:2},{roll:{base:57,skill:'network',success:'오해를 풀고 개선안에 합의했다.',failure:'학생과 교사의 견해 차이가 좁혀지지 않았다.'}})
- ]),
- E('sc_work','아르바이트 첫 급여','주말에 아르바이트를 시작했는데 계약 때 듣지 못한 추가 업무가 생겼다.',[
- S('근로 조건을 확인하고 정중히 조정 요구','갈등 위험은 있지만 권리와 계약을 살핀다',{speech:3,policy:3,network:-2},.03,{labor:3,rights:2},{roll:{base:60,skill:'speech',success:'업무가 계약 내용대로 조정됐다.',failure:'근무 시간을 줄이자는 통보를 받았다.',badEff:{money:-.02,stats:{trust:-2}}}}),
- S('당분간 추가 업무를 맡는다','수입을 확보하지만 체력·학업 부담이 커진다',{org:-3,policy:-3},.07,{market:1}),
- S('더 적합한 아르바이트를 찾는다','당장의 수입을 포기하고 환경을 바꾼다',{network:2,org:-2},-.01,{labor:1},{roll:{base:44,skill:'network',success:'학업과 병행하기 쉬운 새 일자리를 찾았다.',failure:'지원한 곳에서 연락이 오지 않았다.',goodEff:{money:.04},badEff:{money:-.02}}})
- ])
- ],
- college:[
- E('co_student','총학생회 예산 공개 요구','총학생회에서 행사비 지출 내역 공개를 두고 구성원 사이 의견이 갈린다.',[
- S('세부 영수증까지 공개하는 안을 낸다','투명성은 높이지만 반발이 생길 수 있다',{policy:5,org:-2,trust:3},0,{reform:4,rights:2},{roll:{base:56,skill:'network',success:'공개 기준이 정비됐다.',failure:'의견이 갈려 의결이 보류됐다.'}}),
- S('정산 기준을 단순화한 절충안 제안','조직과 학생 모두가 받아들일 방법을 찾는다',{network:4,policy:2,trust:-1},0,{reform:2}),
- S('총학생회 보궐선거에 출마','선거 운동에 학업 시간을 쓴다',{speech:4,org:3,policy:-4},-.03,{local:1},{roll:{base:36,skill:'org',success:'총학생회 임원으로 선출됐다.',failure:'경선에서 떨어졌다.',achievement:'대학 총학생회 임원',goodEff:{stats:{fame:6,network:4}},badEff:{stats:{trust:-3}}}})
- ]),
- E('co_scholar','장학금 수혜 기준 변경','대학이 장학금 기준을 바꾸려 한다. 성적 중심과 소득 연계의 장단점에 대해 토론회가 열린다.',[
- S('학생별 영향을 분석한 대안을 제시','정책 검토에 시간을 쓴다',{policy:6,org:-3,trust:2},0,{welfare:3,reform:2}),
- S('온라인 반대 서명운동에 참여','학생 목소리를 모으지만 여론 분열도 감수한다',{fame:4,speech:3,network:-3},0,{welfare:2},{roll:{base:47,skill:'speech',success:'공식 간담회가 열렸다.',failure:'서명운동이 다른 학생들과 대립으로 번졌다.',badEff:{stats:{trust:-4}}}}),
- S('학비 마련을 위해 추가 근로','수입을 늘리지만 공부할 시간이 줄어든다',{policy:-4,org:-2},.13,{market:1})
- ]),
- E('co_research','연구실의 이상한 데이터','공동 연구 보고서에 원본 자료와 맞지 않는 수치가 보인다. 발표는 내일이다.',[
- S('문제를 지도교수와 팀에 보고','평판 위험을 감수하고 정정을 요청한다',{trust:6,network:-4,policy:2},0,{reform:3,rights:2},{roll:{base:57,skill:'policy',success:'발표 전 데이터가 수정됐다.',failure:'팀 내부 갈등으로 연구 일정이 늦춰졌다.',badEff:{stats:{network:-3}}}}),
- S('별도 재검증을 요청하고 발표 연기','성적과 일정에 손해가 생길 수 있다',{policy:4,org:-4,trust:4},-.02,{reform:2}),
- S('내가 맡은 부분만 발표','갈등은 피하지만 팀 전체의 신뢰 문제가 남는다',{network:2,trust:-5,policy:-1},0,{})
- ]),
- E('co_intern','인턴십과 청년 의정 활동이 겹치다','기업 인턴십과 지역 청년 정책 포럼이 같은 기간에 열린다. 가족도 네 진로 선택을 궁금해한다.',[
- S('인턴십에서 실무 경험을 쌓는다','취업 경로를 넓힌다',{policy:4,network:3,fame:-1},.06,{market:2}),
- S('정책 포럼의 주민 조사팀에 참여','대학 밖에서 지역 현안을 조사한다',{network:5,policy:2,org:-3},-.03,{local:3,reform:2}),
- S('두 일정을 조정해 짧게 모두 참여','무리하면 실적이 떨어질 수 있다',{org:-2,network:4},.01,{local:1,market:1},{roll:{base:45,skill:'org',success:'양쪽 경험을 무난하게 마쳤다.',failure:'일정 충돌로 두 곳 모두 평가가 좋지 않았다.',badEff:{stats:{trust:-5,policy:-2}}}})
- ]),
- E('co_housing','자취방 보증금 문제','계약 만료를 앞두고 집주인이 보증금 반환을 늦추겠다고 한다. 새 학기 등록금 납부도 가깝다.',[
- S('계약서와 관련 제도를 확인해 조정','법률 정보를 수집하고 협상을 시도한다',{policy:5,network:-2},-.04,{rights:3,welfare:2},{roll:{base:59,skill:'policy',success:'보증금을 예정대로 받기로 합의했다.',failure:'반환이 지연돼 생활비를 아껴야 한다.',badEff:{money:-.12,stats:{trust:-2}}}}),
- S('가족에게 도움을 요청한다','가족과 관계가 좋다면 급한 비용을 해결한다',{trust:-2,org:2},0,{welfare:1},{roll:{base:64,skill:'network',success:'긴급 지출을 해결했다.',failure:'가족도 여유가 없어 다른 방법을 찾아야 했다.',badEff:{money:-.1}}}),
- S('학기 중 추가 아르바이트','당장 자금을 벌지만 학업 부담이 커진다',{policy:-5,org:-3},.15,{market:1})
- ]),
- E('co_debate','대학 공개토론 영상이 화제','사회 현안을 토론한 영상이 예상보다 크게 퍼졌다. 편집된 짧은 영상에서는 발언 취지가 잘 드러나지 않는다.',[
- S('토론 전체 영상과 출처를 공개','오해를 줄이지만 영상은 더 확산될 수 있다',{trust:4,policy:2,fame:2},0,{reform:2}),
- S('논쟁을 키워 인지도를 확보','더 많은 관심을 얻는 대신 신뢰가 흔들릴 수 있다',{fame:7,speech:3,trust:-6},0,{reform:1}),
- S('추가 인터뷰를 거절하고 학업 집중','당장의 여론에서 벗어난다',{policy:4,fame:-3,network:-1},0,{})
- ]),
- E('co_startup','교내 창업팀의 지분 계약','친구 셋과 만든 서비스가 투자 제안을 받았다. 창업자가 아닌 팀원들에게 제시된 지분이 적다는 지적이 나온다.',[
- S('역할별 지분과 보상안을 재협상','갈등을 풀 수 있지만 투자 시기를 놓칠 수도 있다',{network:4,org:3},-.02,{market:3,labor:2},{roll:{base:55,skill:'network',success:'팀원들이 새 조건에 합의했다.',failure:'투자자가 계획을 보류했다.',goodEff:{money:.22},badEff:{money:-.06,stats:{trust:-3}}}}),
- S('지금 조건으로 계약을 체결','빠른 자금 확보가 가능하나 갈등이 남는다',{market:0,trust:-4,org:-3},.25,{market:4},{roll:{base:45,skill:'org',success:'신규 고객 확보에 성공했다.',failure:'핵심 개발자가 팀을 떠났다.',badEff:{money:-.18,stats:{network:-5}}}}),
- S('사업을 접고 학업에 집중','초기 비용을 잃지만 다른 길을 모색한다',{policy:4,network:-2},-.04,{})
- ]),
- E('co_mentor','선배 정치인 보좌진의 연락','지역구 사무실에서 청년 정책 간담회를 도와줄 대학생을 찾는다. 특정 정당 입당을 요구한 건 아니다.',[
- S('정책 자료 검토 자원봉사','지역 주민 사례를 살펴본다',{policy:5,network:3,org:-2},0,{local:3,reform:2}),
- S('지역구 민원 분류를 맡는다','반복되는 민원을 데이터로 정리한다',{org:4,trust:2,network:2},0,{local:4}),
- S('정치색이 없는 학교 활동을 계속한다','학업과 동아리 기반을 유지한다',{policy:3,network:-1},0,{})
- ])
- ],
- lawyer:[
- E('la_shop','소상공인의 가맹계약 분쟁', '동네 편의점 운영자가 본사와의 계약 조건 때문에 가게를 접을 위기라며 찾아왔다. 의뢰인은 수임료를 충분히 마련하지 못했다.',[
- S('비용을 낮추고 계약 내용을 검토해 대리한다','소상공인 보호와 계약 공정성 문제가 걸려 있다',{policy:5,trust:4,org:-3},-.16,{rights:3,market:3,local:3},{roll:{base:54,skill:'policy',success:'불공정 조항을 조정하는 합의를 이끌어냈다.',failure:'조정이 결렬돼 장기 소송에 들어갔다.',goodEff:{stats:{fame:5,trust:5}},badEff:{stats:{trust:-3},money:-.13}}}),
- S('양측의 조정을 우선 제안한다','빠른 해결을 노리지만 양측의 양보가 필요하다',{network:5,policy:2},.03,{market:3,rights:2},{roll:{base:57,skill:'network',success:'소송 없이 분쟁이 해결됐다.',failure:'본사가 제안을 거절했다.',badEff:{stats:{trust:-3}}}}),
- S('사건을 다른 법률구조 기관에 연계','내 사건 수임은 포기하지만 전문 기관에 의뢰인을 연결한다',{trust:2,network:3},-.02,{rights:2,local:2})
- ]),
- E('la_evidence','의뢰인이 숨긴 계약서', '대형 기업 의뢰인의 소송을 맡았는데 불리한 계약서가 뒤늦게 나왔다. 의뢰인은 그 문서에 대해 설명하지 말자고 압박한다.',[
- S('자료 확인 후 법적 의무에 맞춰 대응','수임 관계 악화를 감수한다',{trust:5,policy:4,network:-4},-.12,{rights:3,reform:3},{roll:{base:62,skill:'policy',success:'분쟁의 쟁점을 정리해 절차를 지켰다.',failure:'고객사가 계약을 해지했다.',badEff:{money:-.28}}}),
- S('사건에서 사임하고 기록을 정리','업계 평판에 엇갈린 영향을 줄 수 있다',{trust:3,network:-5},-.09,{rights:2}),
- S('의뢰인과 문서 공개 범위를 협의','시간을 벌지만 갈등이 남는다',{network:3,policy:-2,trust:-3},.14,{market:1},{roll:{base:45,skill:'network',success:'합법적인 공개 범위에 합의했다.',failure:'협상에 실패하고 신뢰를 잃었다.',badEff:{stats:{trust:-6}}}})
- ]),
- E('la_public','지역 법률상담센터의 제안','임금체불과 임대차 분쟁 상담 요청이 늘고 있다. 상담센터는 월 2회 무료 상담을 제안한다.',[
- S('정기 상담을 맡는다','수입 일부를 포기하지만 주민 사례를 직접 접한다',{trust:4,policy:3,org:-3},-.10,{labor:3,rights:3,local:3}),
- S('서식과 안내 자료를 제작한다','반복되는 사건에 대한 도움말을 정리한다',{policy:6,trust:2},-.04,{rights:2,reform:2}),
- S('사무실 사건 수임에 집중한다','경력을 전문화하고 안정적인 수입을 택한다',{policy:3,network:2},.24,{market:2})
- ])
- ],
- doctor:[
- E('me_clinic','진료 예약이 밀린 지역 의료기관','지역 의료기관에 예약이 몰렸다. 일부 환자는 먼 지역으로 이동해야 한다. 인력과 진료 시간을 어떻게 조정할지 논의한다.',[
- S('예약 기준을 바꾸고 취약 환자 안내를 강화','대기시간과 직원 부담을 동시에 살펴야 한다',{policy:5,trust:4,org:-3},-.09,{welfare:3,local:3},{roll:{base:55,skill:'org',success:'대기 관리가 개선됐다.',failure:'예약 혼란으로 항의가 늘었다.',badEff:{stats:{trust:-4}}}}),
- S('야간 진료를 시범 운영한다','접근성은 개선되나 운영비가 증가한다',{org:-4,trust:3},-.24,{welfare:3,labor:1},{roll:{base:57,skill:'network',success:'인력 배치가 안정됐다.',failure:'인력 충원이 어려워 시범 운영이 종료됐다.',badEff:{stats:{trust:-3}}}}),
- S('진료 효율화 전산 시스템에 투자','장기 효과를 기대하지만 초기 비용이 든다',{policy:5,network:-1},-.22,{market:3,reform:2},{roll:{base:50,skill:'policy',success:'반복 행정 업무가 줄었다.',failure:'도입 과정에 차질이 생겼다.',goodEff:{money:.12},badEff:{stats:{trust:-2}}}})
- ]),
- E('me_policy','지역 보건 예산 공청회','주민들은 감염병 예방과 만성질환 관리 중 어디에 예산을 더 배분할지 묻고 있다.',[
- S('지역 환자 자료를 분석해 제안','정책 효과를 설명할 근거를 만든다',{policy:6,trust:2,org:-3},-.03,{welfare:3,local:2}),
- S('직원과 주민 의견을 공개적으로 수렴','현장 참여도를 높인다',{speech:4,network:4,org:-2},-.02,{labor:2,local:3}),
- S('정책 참여를 줄이고 진료에 집중','직접적인 현장 실적을 유지한다',{policy:3,fame:-2},.17,{})
- ])
- ],
- engineer:[
- E('en_privacy','서비스의 개인정보 수집 논란','개발 중인 지역생활 앱이 이용자 위치 데이터를 넓게 수집하려 한다. 투자자는 광고 효율을 강조한다.',[
- S('필수 데이터만 수집하도록 기능 수정','출시가 늦어지지만 정보 보호를 강화한다',{policy:5,trust:4,network:-3},-.16,{rights:3,reform:3},{roll:{base:57,skill:'policy',success:'투자자가 수정안을 수용했다.',failure:'투자 유치 일정이 늦춰졌다.',badEff:{money:-.12}}}),
- S('명확한 동의 절차로 광고 모델을 유지','사용자 선택권과 수익 모델을 함께 고려한다',{network:3,policy:3},.12,{market:3,rights:1},{roll:{base:56,skill:'network',success:'이용자 이탈 없이 출시했다.',failure:'설명 부족으로 불만이 접수됐다.',badEff:{stats:{trust:-5}}}}),
- S('프로젝트에서 하차하고 다른 기술 개발','즉각적인 수익을 포기한다',{policy:4,network:-4},-.12,{})
- ])
- ],
- educator:[
- E('ed_program','방과후 교육 프로그램 축소','지역 교육 기관이 예산 부족으로 방과후 프로그램 일부를 없애려 한다.',[
- S('학생 수요조사와 비용안을 제출','대안을 세우려면 퇴근 후 시간이 필요하다',{policy:5,org:-3,trust:4},-.04,{welfare:4,local:3},{roll:{base:55,skill:'policy',success:'작은 규모로 프로그램이 유지됐다.',failure:'재정 부족으로 일부 강좌가 폐지됐다.',badEff:{stats:{trust:-2}}}}),
- S('민간 교육단체 협력을 추진','교육 격차 문제를 외부와 논의한다',{network:5,policy:2,trust:-1},-.03,{market:1,welfare:3}),
- S('정규 업무에 집중한다','과도한 업무 증가를 피한다',{org:3,fame:-2},.10,{})
- ])
- ],
- business:[
- E('bi_pay','거래처의 대금 지급 지연','주요 거래처가 납품 대금을 한 달 늦게 지급하겠다고 한다. 직원 급여일이 먼저 다가온다.',[
- S('은행 단기 자금을 이용해 급여를 지급','직원 신뢰를 지키지만 이자 부담이 늘어난다',{trust:5,org:3},-.28,{labor:3,market:1},{roll:{base:60,skill:'network',success:'늦어진 대금이 지급됐다.',failure:'거래처가 다시 지급일을 미뤘다.',goodEff:{money:.18},badEff:{money:-.35,stats:{network:-2}}}}),
- S('거래처와 분할 지급 계약을 협상','현금 흐름은 불안정하지만 추가 차입을 줄인다',{network:5,policy:2,trust:-1},-.11,{market:3},{roll:{base:56,skill:'network',success:'상환 일정이 확정됐다.',failure:'협상에 실패해 다음 달 계획을 줄였다.',badEff:{money:-.25}}}),
- S('신규 사업을 중단하고 비용 절감','손실을 막으려 하지만 성장 기회도 놓친다',{org:3,network:-4,trust:-2},.12,{market:2})
- ]),
- E('bi_wage','직원들이 초과근무 수당을 요구','신제품 출시를 준비하느라 야근이 늘었다. 직원 대표가 근로시간 조정과 수당을 요구한다.',[
- S('인력을 추가 채용하고 일정 재조정','운영비 부담을 받아들인다',{trust:6,org:4},-.34,{labor:4,market:1},{roll:{base:63,skill:'org',success:'업무 부담이 줄어들고 출시가 안정됐다.',failure:'신규 채용이 지연됐다.',badEff:{money:-.14}}}),
- S('개발 일정을 늦추고 근무시간 단축','안정은 얻지만 매출 시작도 늦어진다',{trust:3,network:-1,org:3},-.16,{labor:3}),
- S('기존 일정을 유지하고 보너스를 약속','단기 매출을 노리지만 불만이 남는다',{network:2,org:-3,trust:-5},.17,{market:3},{roll:{base:46,skill:'org',success:'기한 내 제품 출시를 마쳤다.',failure:'핵심 직원이 퇴사했다.',badEff:{stats:{network:-5,trust:-5},money:-.23}}})
- ]),
- E('bi_product','제품 안전성 테스트 결과','출시를 앞둔 제품의 내구성 시험에서 예상보다 많은 결함이 보고됐다. 재검사 여부를 결정해야 한다.',[
- S('출시를 연기하고 전량 재검사','비용과 신뢰 사이에서 판단한다',{trust:6,org:-3},-.38,{security:4,reform:2},{roll:{base:65,skill:'policy',success:'결함을 수정하고 출시했다.',failure:'재설계 비용이 더 증가했다.',badEff:{money:-.27}}}),
- S('문제 있는 부분만 재설계','차선책이 될 수 있지만 추가 검증이 필요하다',{policy:4,network:2,trust:-1},-.17,{market:2,security:2},{roll:{base:53,skill:'policy',success:'설계 변경으로 결함을 줄였다.',failure:'추가 시험에서 다른 문제를 발견했다.',badEff:{stats:{trust:-5},money:-.2}}}),
- S('외부 전문기관 평가를 받는다','결과 공개와 일정 지연을 감수한다',{policy:3,trust:3},-.22,{security:3,rights:1})
- ]),
- E('bi_offer','대기업의 인수 제안','사업이 알려지자 대기업에서 인수를 제안했다. 매각하면 자금을 얻지만 공동창업자의 방향성과 충돌한다.',[
- S('지분 일부만 매각','경영권과 자금 확보를 균형 있게 추구한다',{network:5,org:1},.24,{market:4},{roll:{base:52,skill:'network',success:'부분 투자를 유치했다.',failure:'협상이 결렬됐다.',goodEff:{money:.42},badEff:{stats:{network:-4}}}}),
- S('사업 전체를 매각한다','높은 보상을 얻되 독립 경영을 포기한다',{org:-4,trust:-2},1.0,{market:3},{track:'pro'}),
- S('매각을 거절하고 독자 성장','성장과 실패 가능성이 함께 커진다',{org:4,network:-2},-.22,{market:3},{business:true})
- ]),
- E('bi_fraud','투자 설명서의 과장된 수치','영업 팀이 투자자 발표에 예상 고객 수를 확정 고객처럼 쓴 사실을 발견했다.',[
- S('투자 설명서를 정정한다','계약 규모가 줄어들 수 있다',{trust:6,network:-4,policy:3},-.14,{reform:3,market:1}),
- S('추정치라는 표현을 추가하고 재검증','자료 오류를 바로잡되 계약을 유지하려 한다',{policy:5,org:-2},-.05,{reform:2,market:2},{roll:{base:56,skill:'policy',success:'투자자가 수정치를 받아들였다.',failure:'투자자가 추가 설명을 요구하며 협상이 지연됐다.',badEff:{money:-.1}}}),
- S('협상을 중단하고 내부 교육부터 시행','당장 자금 조달은 어려워진다',{trust:4,network:-5},-.19,{reform:2,labor:1})
- ]),
- E('bi_market','예상 밖의 원자재 가격 상승','해외 물류비와 원자재 가격이 동시에 올랐다. 납품가 인상은 고객 이탈을 부를 수 있다.',[
- S('원가 인상분을 투명하게 설명하고 일부 반영','매출이 감소할 위험도 있다',{trust:3,network:2},-.11,{market:3},{roll:{base:51,skill:'network',success:'주요 고객들이 조정안을 수용했다.',failure:'매출의 일부를 잃었다.',goodEff:{money:.28},badEff:{money:-.23,stats:{trust:-2}}}}),
- S('마진을 줄여 기존 가격 유지','고객을 지키지만 자금 압박이 커진다',{trust:3,org:-3},-.27,{market:2,local:2}),
- S('신규 원료와 공급처를 시험','실험 성공 시 수익 구조가 개선된다',{policy:4,network:-2},-.15,{market:4},{roll:{base:48,skill:'policy',success:'대체 공급처의 품질 검증을 통과했다.',failure:'품질 문제로 재시험이 필요해졌다.',goodEff:{money:.41},badEff:{money:-.21,stats:{trust:-3}}}})
- ])
- ],
- youth:[
- E('yo_alley','골목상권 주차 정책 민원','시장 상인들은 주차 공간을 늘려 달라고 하고, 인근 주민들은 보행 안전을 걱정한다.',[
- S('상인·주민과 함께 주차 시간제를 제안','양측이 원할 때만 조정안이 작동한다',{policy:5,network:3,org:-3},-.02,{local:4,market:2},{roll:{base:54,skill:'network',success:'상권과 주거지의 시범 시간제가 시작됐다.',failure:'합의가 늦어져 시행이 보류됐다.',goodEff:{stats:{fame:4,trust:4}},badEff:{stats:{trust:-4}}}}),
- S('보행 안전부터 확보하자는 입장','상인의 반발을 감수할 수 있다',{trust:1,speech:4,network:-3},0,{security:4,local:2}),
- S('상인 중심의 주차 공급 확대안','주변 주민 의견을 다시 들어야 한다',{network:4,trust:-3,fame:2},0,{market:4,local:2})
- ]),
- E('yo_budget','청년 정책위원회의 예산 3천만원','공공 예산 지원사업의 세부 배분을 논의한다. 주거 상담과 창업 지원을 모두 충분히 하기에는 돈이 부족하다.',[
- S('수요조사 후 소규모 시범사업 2개','성과를 검증하기 쉽지만 규모가 작다',{policy:6,org:-3,trust:3},0,{reform:2,welfare:2,market:2}),
- S('주거 법률상담에 집중 지원','긴급한 사정을 우선한다',{trust:4,network:-2},0,{welfare:4,rights:2}),
- S('창업 멘토링·상권 실험에 집중','장기적 성과를 기대한다',{network:4,policy:3,trust:-2},0,{market:4,local:2})
- ]),
- E('yo_viral','SNS에서 발언이 잘려 퍼지다','정책 토론에서 한 농담이 짧게 잘려 공유됐다. 내용과 다른 해석이 빠르게 확산되고 있다.',[
- S('전체 발언 영상과 근거를 공개','진실을 설명하되 조회수가 더 늘 수 있다',{trust:4,policy:2,org:-3},0,{reform:3,rights:1},{roll:{base:60,skill:'speech',success:'오해가 줄어들었다.',failure:'논쟁이 더 커졌다.',badEff:{stats:{fame:3,trust:-5}}}}),
- S('논쟁에 대해 짧게 사과하고 넘어간다','갈등은 수습되지만 진짜 의도가 남는다',{trust:2,fame:-3},0,{}) ,
- S('반박 생방송을 진행한다','인지도는 급상승하나 실수 위험도 있다',{fame:7,speech:2,trust:-4},0,{reform:1},{roll:{base:46,skill:'speech',success:'발언 취지가 전달됐다.',failure:'즉흥 답변이 다시 논란이 됐다.',badEff:{stats:{trust:-8}}}})
- ]),
- E('yo_donation','지역 후원자가 행사 지원 제안','주민 모임 활동을 지원하겠다는 후원자가 특정 정책을 강하게 요구한다. 조건을 분명히 할 필요가 있다.',[
- S('조건 없는 공개 후원만 받는다','투명성을 확보하지만 비용을 충분히 모으지 못할 수도 있다',{trust:5,network:-3},-.11,{reform:4,rights:1}),
- S('후원 조건을 공개 검토한다','이해충돌 우려를 줄이기 위해 제3자 의견을 듣는다',{policy:4,org:2,network:-2},-.07,{reform:3}),
- S('후원 없이 작은 행사로 축소','재정은 빠듯하지만 독립성을 유지한다',{org:3,fame:-3},-.08,{local:2})
- ]),
- E('yo_research','지역의회 공개자료에 오류 발견','조사한 조례 자료의 숫자가 공식 보고서와 다르다. 발표 일정은 이틀 뒤다.',[
- S('자료 정정 요구와 검증 방법을 제시','행정 절차 개선을 요구한다',{policy:5,trust:3,org:-2},0,{reform:4,local:2}),
- S('온라인에서 즉각 문제 제기','관심을 받을 수 있지만 오류 출처는 아직 불명확하다',{fame:5,speech:3,trust:-4},0,{reform:3},{roll:{base:49,skill:'policy',success:'기관이 정정 공지를 냈다.',failure:'본인 계산에도 오류가 발견됐다.',badEff:{stats:{trust:-7}}}}),
- S('발표를 미루고 동료 검토를 받는다','세밀한 검증 대신 시의성은 잃는다',{policy:3,fame:-2},0,{reform:1})
- ]),
- E('yo_internal','청년위원회 회의에서 파벌 갈등','운영진 두 그룹이 차기 대표 선출 방식으로 다툰다. 네가 중재할 수 있다는 의견이 나왔다.',[
- S('공개 규칙을 만들고 투표에 부친다','제도 정비에 힘쓴다',{org:4,policy:3,network:-2},0,{reform:4},{roll:{base:55,skill:'org',success:'정해진 절차에 따라 회의를 마쳤다.',failure:'일부 위원이 사퇴했다.',badEff:{stats:{org:-4,trust:-3}}}}),
- S('기존 대표 쪽을 지지한다','한쪽 인맥이 늘지만 다른 쪽과 멀어진다',{network:5,trust:-4,org:-2},0,{}) ,
- S('새로운 중립 후보를 돕는다','결과는 불확실하지만 관계를 넓히려 한다',{network:3,org:3,policy:-2},0,{reform:2},{roll:{base:42,skill:'network',success:'중립 후보가 선출됐다.',failure:'양 진영에서 모두 신뢰를 얻지 못했다.',badEff:{stats:{network:-5}}}})
- ])
- ],
- office:[
- E('of_bill','조례안에 누락된 비용 추계','네가 준비한 정책이 환영받았지만 담당자가 재정추계가 빠졌다고 알려왔다. 언론 발표는 내일이다.',[
- S('발표를 늦추고 비용을 재산정','정책 신뢰를 지키지만 화제성은 낮아진다',{policy:5,trust:4,fame:-2},0,{reform:2}),
- S('원안 발표 후 추후 보완','속도를 얻지만 정책 완성도에 의문이 생긴다',{fame:6,trust:-5,policy:-2},0,{}) ,
- S('동료 의원과 공동 수정안 작성','공을 나누는 대신 정교한 안을 만든다',{network:4,org:3,fame:-2},0,{reform:2})
- ]),
- E('of_spend','지역 사업 예산이 삭감됐다','올해 예산안에서 주민 편의 사업이 줄었다. 반대 의원들은 다른 사업을 우선해야 한다고 주장한다.',[
- S('삭감 근거를 공개하고 대안을 제안','주민에게 설명할 자료를 만든다',{policy:5,trust:3},0,{local:3,reform:2}),
- S('예산 심의에서 강하게 반대','언론 관심은 얻지만 협상은 어려워질 수 있다',{speech:5,fame:4,network:-4},0,{local:3}),
- S('다른 지역 사업과 절충 협상','양쪽의 일부 요구를 반영한다',{network:5,trust:-1},0,{local:2},{roll:{base:56,skill:'network',success:'수정 예산안에 합의했다.',failure:'협상이 결렬돼 원안대로 처리됐다.',badEff:{stats:{trust:-4}}}})
- ]),
- E('of_misquote','지역 언론의 비판 기사','지역 신문이 네 발언 일부만 인용하면서 논쟁이 생겼다. 기자는 추가 인터뷰를 제안했다.',[
- S('발언의 출처와 자료를 공개한다','소모적인 논쟁에 시간을 쓴다',{trust:4,policy:2,org:-2},0,{reform:2}),
- S('언론 인터뷰로 정면 대응한다','반박 성공 시 인지도가 커진다',{speech:5,fame:5,trust:-3},0,{},{roll:{base:50,skill:'speech',success:'긴 인터뷰로 입장이 전해졌다.',failure:'논쟁이 확대됐다.',badEff:{stats:{trust:-5}}}}),
- S('정책 일정은 그대로 이어간다','기사 반응은 남지만 현장 업무에 집중한다',{policy:4,fame:-3},0,{local:1})
- ])
- ],
- family:[
- E('fa_cost','가족의 갑작스러운 생활비 부담','${FAMILY} 집에서 예상치 못한 지출이 발생했다. 당분간 생활비를 조정해야 한다.',[
- S('일정 일부를 줄이고 가족 일을 돕는다','가계 부담을 나누지만 공부·일에도 영향이 생긴다',{org:-4,trust:3,policy:-2},-.05,{local:1}),
- S('장학·복지·금융 지원 제도를 알아본다','서류를 준비하고 소득 기준을 확인한다',{policy:4,network:-2},.01,{welfare:2},{roll:{base:57,skill:'policy',success:'적절한 지원 제도를 찾아 부담을 줄였다.',failure:'신청 조건이 맞지 않아 다른 방법을 찾아야 했다.',goodEff:{money:.13},badEff:{money:-.1}}}),
- S('추가 근로로 지출을 감당한다','수입을 늘리되 다른 활동이 줄어든다',{org:-3,policy:-3},.11,{market:1})
- ]),
- E('fa_move','가족의 이사 가능성','${FAMILY} 새 근무지와 통학·교통 여건 때문에 이사 여부를 고민한다.',[
- S('새 지역으로 옮겨 적응한다','새 인맥을 만들지만 기존 친구들과 멀어진다',{network:-5,org:-2,policy:2},-.12,{local:1},{roll:{base:56,skill:'network',success:'새 지역 활동 모임에서 관계를 만들었다.',failure:'학교·일터 적응이 쉽지 않았다.',goodEff:{stats:{network:6}},badEff:{stats:{trust:-3}}}}),
- S('현재 지역에 남을 방안을 찾는다','가족과 통근·주거 비용을 재논의한다',{policy:3,network:2},-.1,{local:2}),
- S('한동안 통학·이동 비용을 감수한다','익숙한 환경을 유지하나 비용이 들어간다',{org:-4,trust:1},-.14,{})
- ]),
- E('fa_store','가족이 운영하는 가게의 단골 감소','${FAMILY} 가게에서 단골 손님이 줄었다. 무작정 가격을 내리기보다 원인을 찾아야 할 상황이다.',[
- S('동네 고객들의 수요를 조사한다','시장 상황을 파악해 메뉴·상품을 조정한다',{policy:4,network:2,org:-2},-.05,{market:3,local:2},{roll:{base:54,skill:'policy',success:'매출이 서서히 회복됐다.',failure:'상품 변경이 반응을 얻지 못했다.',goodEff:{money:.15},badEff:{money:-.1}}}),
- S('홍보에 돈을 투자한다','인지도는 올라갈 수 있지만 효과는 불확실하다',{fame:3,network:2},-.15,{market:3},{roll:{base:45,skill:'org',success:'신규 고객이 늘었다.',failure:'광고비만 소진했다.',goodEff:{money:.28},badEff:{stats:{trust:-2}}}}),
- S('비용을 줄이고 가게 규모를 축소한다','안정성을 택하지만 성장 가능성은 낮아진다',{org:3,fame:-2},.05,{market:1})
- ])
- ],
- general:[
- E('ge_library','폐관 위기에 놓인 작은 도서관','${REGION}의 작은 도서관 운영 시간이 줄어든다. 이용자들은 학습 공간이 부족하다고 호소한다.',[
- S('이용자 조사와 운영비 대안을 준비','공공서비스 개선을 제안한다',{policy:5,org:-2,trust:3},-.03,{welfare:3,local:3},{roll:{base:58,skill:'policy',success:'시범 운영비가 확보됐다.',failure:'추가 예산 확보에 실패했다.',badEff:{stats:{trust:-2}}}}),
- S('시민 모금으로 일부 운영 시간을 지원','지역 네트워크를 활용한다',{network:4,org:3},-.11,{local:4,market:1}),
- S('대체 학습 공간 정보를 정리','문제 해결은 제한적이지만 빠르게 돕는다',{policy:2,trust:3},-.01,{welfare:2})
- ]),
- E('ge_flood','갑작스러운 집중호우로 상가 침수','${REGION}의 일부 상점들이 피해를 입었다. 지역 주민들 사이에 복구 지원 방법에 대한 의견이 나온다.',[
- S('현장 봉사와 물품 정리를 돕는다','직접적인 도움을 주지만 본인 업무가 밀린다',{org:-3,trust:5},-.05,{local:3,security:2}),
- S('피해 접수와 공적 지원 자료를 정리','행정적 지원을 도울 수 있다',{policy:4,network:2},-.03,{security:3,reform:2}),
- S('주변 업체 공동 모금에 참여','현금 지출로 복구 지원을 한다',{trust:3,network:3},-.19,{local:3,market:1})
- ]),
- E('ge_transit','버스 배차 간격 민원','${REGION}에서 출퇴근 버스 배차 간격 때문에 주민들이 불만을 제기한다. 교통 회사는 적자 노선을 이유로 난색을 보인다.',[
- S('이용량과 시간대 자료를 조사','노선 조정안을 만들기 위해 시간을 쓴다',{policy:5,org:-2},-.02,{local:3,reform:2}),
- S('회사·주민 간담회를 주선','협상에 실패하면 양측 모두 불만이 남는다',{network:5,trust:2},-.02,{local:4,market:1},{roll:{base:53,skill:'network',success:'출퇴근 시간대 증차를 검토하기로 했다.',failure:'예산과 인력 문제로 합의에 실패했다.',badEff:{stats:{trust:-3}}}}),
- S('교통 문제를 SNS에서 알린다','관심을 모으나 실질 해결은 이후의 과제다',{fame:4,speech:2,org:-2},0,{local:2})
- ])
- ]
-};
-
-
-// V4: school situations are drawn from everyday life, not one generic lunch dispute.
-const STUDENT_EPISODES = [
- E('hs_group','수행평가 조별 과제의 불참자','네 명이 한 조인 발표 과제에서 한 학생이 계속 연락을 받지 않는다. 제출일까지 이틀 남았다.',[
- S('대화로 역할을 다시 나눠준다','발표 완성도와 팀원의 사정을 함께 고려한다',{network:4,org:-3,policy:2},0,{welfare:1},{roll:{base:56,skill:'network',success:'모두가 맡은 부분을 제출해 발표를 마쳤다.',failure:'역할 조정이 늦어 제출이 지연됐다.',badEff:{stats:{trust:-4,policy:-2}}}}),
- S('담당 교사에게 진행 기록을 제출한다','증빙을 정리하지만 팀 분위기는 냉랭해진다',{policy:4,network:-4,trust:1},0,{reform:2}),
- S('빠진 부분을 직접 마무리한다','점수는 지킬 수 있어도 시간 부담이 늘어난다',{org:-5,policy:3,trust:-2},0,{})]),
- E('hs_friend','친구가 전학을 고민한다','친한 친구가 통학과 가정 사정 때문에 전학을 고민한다. 반 친구들은 이유도 모르고 소문만 퍼뜨린다.',[
- S('친구의 이야기를 비공개로 듣는다','비밀을 지키지만 조언이 부족할 수 있다',{network:4,trust:4,org:-2},0,{rights:1}),
- S('학교 상담·장학 정보를 같이 알아본다','학교 제도를 확인하는 데 시간을 쓴다',{policy:4,trust:3,org:-3},0,{welfare:3},{roll:{base:60,skill:'policy',success:'친구가 필요한 지원을 찾았다.',failure:'당장 적용 가능한 지원 제도가 없었다.',badEff:{stats:{trust:-2}}}}),
- S('개입하지 않고 거리를 둔다','개인 사정에 간섭하지 않는다',{org:2,network:-3},0,{})]),
- E('hs_sports','체육대회 반대표 선발','출전 명단을 두고 운동을 잘하는 학생들과 평소 참여가 적었던 학생들이 맞선다.',[
- S('선발 기준을 공개하고 추가 경기를 연다','공정성을 높이지만 연습 시간이 부족해진다',{policy:3,org:-4,trust:4},0,{reform:2}),
- S('기존 에이스 중심으로 명단을 확정한다','전력은 유지하나 소외된 학생들의 불만이 커진다',{org:3,trust:-4,network:-2},0,{local:1},{roll:{base:60,skill:'org',success:'반대표가 결승전에 올랐다.',failure:'예선에서 탈락해 선발 논란만 남았다.',badEff:{stats:{fame:-2}}}}),
- S('경기와 응원·운영 역할을 함께 나눈다','모든 학생이 참여할 일을 만든다',{network:5,org:-2,trust:2},0,{local:2})]),
- E('hs_examleak','시험 전날 떠도는 답안 사진','시험 전날 SNS 단체방에 정답처럼 보이는 사진이 올라온다. 진짜 시험지인지 확인되지 않는다.',[
- S('사진을 열지 않고 선생님께 알린다','확인 과정에서 친구들과 갈등이 생길 수 있다',{trust:4,network:-3,policy:2},0,{rights:3},{roll:{base:56,skill:'trust',success:'사진이 과거 시험 자료였다는 사실이 확인됐다.',failure:'시험 운영을 둘러싸고 학생 간 신뢰가 흔들렸다.',badEff:{stats:{network:-3}}}}),
- S('사진 유포 중단을 친구들에게 요청한다','근거 없이 유포하지 않도록 설득한다',{speech:3,network:2,org:-2},0,{reform:2}),
- S('단체방에서 나오고 시험 준비에 집중한다','문제에 개입하지 않고 학업에 시간을 쓴다',{policy:3,network:-2},0,{})]),
- E('hs_library','시험 기간 도서관 자리 다툼','작은 도서관에 빈 좌석이 거의 없다. 몇몇 학생이 자리를 장시간 비워두면서 갈등이 생긴다.',[
- S('좌석 이용 시간을 조사해 규칙을 제안한다','자료를 모아 학교에 개선을 요구한다',{policy:4,trust:3,org:-2},0,{local:3,reform:1},{roll:{base:57,skill:'policy',success:'시험 기간 좌석 운영 기준이 생겼다.',failure:'이용자들의 반발로 시행이 보류됐다.',badEff:{stats:{trust:-2}}}}),
- S('학생끼리 자율적으로 정리하도록 설득한다','직접 충돌 없이 해결하려 한다',{network:4,speech:3,trust:-1},0,{local:2}),
- S('학교 밖 다른 학습 공간을 찾는다','문제는 그대로 두고 개인 학습 시간을 확보한다',{policy:3,network:-2},-.02,{})]),
- E('hs_club','동아리의 마지막 지원금','동아리 지원금이 예상보다 적게 나왔다. 기존 활동을 유지할지 새로운 프로젝트를 할지 결정해야 한다.',[
- S('회원 설문을 바탕으로 우선순위를 정한다','합의 과정에 시간을 투자한다',{network:4,policy:3,org:-3},0,{reform:2}),
- S('외부 공모전에 참가해 지원금을 확보한다','시간이 많이 들고 선정도 불확실하다',{org:-4,policy:4},-.04,{market:2},{roll:{base:41,skill:'policy',success:'공모전에서 활동비를 지원받았다.',failure:'공모전에 탈락해 준비 기간만 소모했다.',goodEff:{money:.07},badEff:{stats:{trust:-2}}}}),
- S('행사를 줄이고 정기 모임을 유지한다','성장 속도는 느리지만 비용을 절약한다',{org:3,fame:-2},.01,{})]),
- E('hs_tutor','중간고사 뒤 후배의 요청','시험을 망친 후배가 공부법을 알려 달라고 부탁한다. 너도 다음 시험을 준비해야 한다.',[
- S('일주일에 한 번 학습 모임을 연다','가르치는 경험을 얻지만 내 공부 시간이 줄어든다',{speech:3,trust:3,policy:-3},0,{welfare:2}),
- S('짧은 핵심 정리본만 만들어 공유한다','시간 부담을 줄이고 자료를 나눈다',{policy:4,org:-2},0,{welfare:1}),
- S('내 성적을 먼저 관리하겠다고 말한다','약속을 무리하게 늘리지 않는다',{org:4,network:-2},0,{})]),
- E('hs_commute','통학 버스 노선 변경','시내버스 노선이 바뀌어 같은 학교 학생들이 환승을 두 번 해야 한다. 지각이 늘기 시작했다.',[
- S('이용 학생들의 통학 시간을 조사한다','교통 데이터를 만들어 개선 요구를 뒷받침한다',{policy:4,org:-2,network:2},0,{local:4},{roll:{base:54,skill:'policy',success:'시청이 등교 시간 증차를 검토한다.',failure:'운수업체 사정으로 변경이 어렵다는 답을 받았다.'}}),
- S('학부모와 학생이 함께 의견서를 낸다','사람을 모으지만 갈등이 생길 수도 있다',{network:4,speech:3,org:-3},0,{local:3}),
- S('더 일찍 출발하도록 일상을 조정한다','지각은 줄지만 개인 시간이 감소한다',{org:2,policy:-2},0,{})]),
- E('hs_teacher','교내 휴대전화 보관 규칙 변경','학교가 수업 중 휴대전화 보관 기준을 새롭게 정하려 한다. 일부 학생은 과도하다고 느낀다.',[
- S('학생·교사 공동 의견조사를 추진한다','규칙의 목적과 우려를 함께 정리한다',{policy:4,network:3,org:-2},0,{rights:2,reform:2}),
- S('전교생 명의 반대 의견서를 낸다','선명한 메시지를 내지만 합의가 멀어질 수 있다',{speech:5,fame:2,trust:-4},0,{rights:3},{roll:{base:45,skill:'speech',success:'학교가 유예 기간을 두기로 했다.',failure:'서명 인원에 관한 논란이 생겼다.',badEff:{stats:{network:-4}}}}),
- S('규칙을 받아들이고 학업에 집중한다','갈등을 피하되 의견 반영 기회가 줄어든다',{org:3,network:-2},0,{})]),
- E('hs_cafe','매점 가격이 갑자기 오르다','학교 매점의 간식 가격이 한꺼번에 올랐다. 점주는 납품 단가 상승을 이유로 든다.',[
- S('납품 원가와 가격표를 비교해 본다','매점 운영 사정을 먼저 확인한다',{policy:4,network:2,org:-2},0,{market:3}),
- S('학생 의견을 모아 가격 협상에 나선다','할인 대상과 조건을 논의한다',{speech:3,network:3,trust:-2},0,{market:3},{roll:{base:54,skill:'network',success:'학교 측과 할인 품목을 정했다.',failure:'가격 조정 요청이 받아들여지지 않았다.',badEff:{stats:{fame:-2}}}}),
- S('지출을 줄이고 대체 상품을 찾는다','개인 소비 계획을 바꾼다',{org:3,network:-1},.01,{})]),
- E('hs_broadcast','방송반 마이크가 꺼진 날','학교 행사 당일 방송 장비가 고장 난다. 진행자와 동아리원들이 당황하고 있다.',[
- S('행사 순서를 다시 짜서 진행을 돕는다','위기 대응을 맡지만 실수 가능성도 있다',{org:5,speech:3,policy:-2},0,{local:1},{roll:{base:51,skill:'org',success:'행사를 무사히 마쳤다.',failure:'진행 지연으로 동아리 전체가 질책받았다.',badEff:{stats:{trust:-4}}}}),
- S('장비를 아는 선배에게 도움을 요청한다','신속히 협력하지만 외부 도움에 의존한다',{network:4,trust:2},0,{}),
- S('내 맡은 순서만 기다린다','책임 범위를 넘지 않는다',{org:2,fame:-2},0,{})]),
- E('hs_paper','교지에 실을 기사 한 편','학교 신문이 학부모회와 학생회의 의견이 갈리는 교칙을 다루려 한다. 편집장이 너에게 원고를 부탁했다.',[
- S('다른 입장들을 인터뷰해 기사로 쓴다','기사 작성에 시간이 들지만 사실 관계를 정리한다',{policy:5,trust:3,org:-3},0,{rights:2,reform:2}),
- S('학생 입장의 칼럼을 쓴다','분명한 주장으로 관심을 얻지만 반박도 받을 수 있다',{speech:4,fame:3,trust:-2},0,{rights:2},{roll:{base:50,skill:'speech',success:'학교에서 공개 토론이 열렸다.',failure:'근거가 부족하다는 비판이 제기됐다.',badEff:{stats:{trust:-3}}}}),
- S('원고 의뢰를 거절하고 시험에 집중한다','기사 경험은 포기하지만 공부 시간을 확보한다',{policy:3,network:-2},0,{})]),
- E('hs_hackathon','학교 앱 만들기 대회','교내 해커톤에서 분실물 공유 앱을 만들어 보자는 제안이 왔다. 팀에는 개발자가 부족하다.',[
- S('기획·설문을 맡아 수요를 조사한다','기술보다는 실제 사용자를 이해하는 일을 맡는다',{policy:4,network:3,org:-2},0,{market:2,local:1}),
- S('코딩을 배워 시제품을 직접 만든다','개발 경험을 얻지만 다른 공부가 밀린다',{policy:5,org:-5},-.02,{market:2},{roll:{base:45,skill:'policy',success:'시제품이 교내 시상에서 좋은 평가를 받았다.',failure:'발표 전 핵심 기능이 작동하지 않았다.',goodEff:{stats:{fame:4}},badEff:{stats:{trust:-3}}}}),
- S('대회 대신 다른 동아리 활동을 유지한다','익숙한 일정에 집중한다',{org:3,network:-2},0,{})]),
- E('hs_local','청소년 공간 폐쇄 예고','구청이 이용자가 적다는 이유로 청소년 공부방 운영을 축소하려 한다. 학원가와 멀리 사는 친구들이 특히 걱정한다.',[
- S('이용 현황을 조사해 대안을 제출한다','실제 이용 자료를 바탕으로 대응한다',{policy:5,org:-3,trust:3},0,{local:3,welfare:2}),
- S('주민 간담회에 학생 대표로 참석한다','실무자와 직접 대화해 본다',{speech:4,network:4,policy:-2},0,{local:3}),
- S('학교 자율학습실 활용 방안을 찾는다','기존 공간을 다른 방식으로 활용한다',{org:3,trust:2,network:-2},0,{welfare:2})]),
- E('hs_art','학교 벽화 공모전 갈등','학급이 제출한 벽화 디자인이 예선을 통과했지만, 몇몇 친구들은 자신들의 아이디어가 빠졌다며 불만이다.',[
- S('디자인에 모두의 의견을 다시 반영한다','마감 시간은 줄어들고 합의는 필요하다',{network:4,org:-4,trust:4},0,{}),
- S('처음 선정된 디자인으로 완성한다','일정은 지키지만 소수 의견을 놓칠 수 있다',{org:4,network:-3,trust:-2},0,{},{roll:{base:55,skill:'org',success:'벽화가 대상을 받았다.',failure:'완성도에 대한 평가가 엇갈렸다.'}}),
- S('팀에서 빠지고 개인 작품에 집중한다','갈등을 피하지만 공동 작업 경험은 놓친다',{policy:2,network:-3},0,{})]),
- E('hs_safety','야간 귀가길의 어두운 횡단보도','야간 자율학습을 마치고 나오는 학생들이 횡단보도 조명이 부족하다고 불평한다.',[
- S('위험 위치를 표시해 안전 민원을 낸다','학교와 구청에 개선을 요청한다',{policy:4,trust:3,org:-2},0,{security:4,local:2}),
- S('하교 시간대 동행 모임을 조직한다','당장 가능한 방법을 만든다',{org:3,network:4,policy:-2},0,{security:3}),
- S('개인 이동 경로를 바꾼다','내가 할 수 있는 안전 조치부터 한다',{org:2,network:-1},0,{})]),
- E('hs_exchange','전학 온 학생의 조별 발표','다른 지역에서 전학 온 학생이 조별 발표에 적응하지 못한다. 반 친구들은 조 편성을 다시 하자고 한다.',[
- S('설명과 발표 순서를 함께 연습한다','시간을 들여 팀워크를 맞춘다',{trust:4,network:3,org:-3},0,{welfare:1}),
- S('역할별 난이도를 새로 배분한다','업무량을 조정하지만 다른 팀원이 반발한다',{org:4,network:-3,policy:2},0,{reform:1}),
- S('교사에게 조 편성을 변경해 달라고 요청한다','팀의 부담을 줄이지만 새 학생이 소외될 수도 있다',{policy:2,trust:-3},0,{})]),
- E('hs_entrance','진학 설명회에 나타난 낯선 선택지','학교가 일반 대학 진학뿐 아니라 취업 연계 과정과 지역 장학 사업도 소개한다. 친구들의 선택이 갈리기 시작한다.',[
- S('각 과정의 조건과 비용을 비교한다','객관적인 진로 정보를 모은다',{policy:5,org:-2},0,{welfare:2,market:1}),
- S('졸업생에게 실제 경험을 들어 본다','다양한 경로에 관한 정보와 인맥을 얻는다',{network:5,policy:2},0,{welfare:1}),
- S('현재 준비하던 진학 계획을 유지한다','다른 가능성은 줄지만 목표를 명확히 한다',{org:4,network:-2},0,{})]),
- E('hs_study','독서실 열람실의 폐쇄 위기','동네 작은 독서실이 운영난으로 문을 닫을 수 있다는 소식이 들린다. 저렴한 공부 장소가 필요한 학생들이 모인다.',[
- S('유지 비용과 이용 수요를 조사한다','숫자를 통해 대안을 찾는다',{policy:4,trust:3,org:-2},0,{market:2,local:3}),
- S('학생들과 학교에 공간 공유를 제안한다','여러 단체의 협의가 필요하다',{network:4,speech:3,org:-2},0,{local:4}),
- S('주변 도서관으로 옮긴다','불편을 감수하지만 개인 학습은 이어간다',{policy:2,network:-2},0,{})]),
- E('hs_coding','교내 토론회에 올라온 AI 과제 규칙','AI를 활용한 과제의 허용 범위를 두고 학생들과 교사들의 생각이 엇갈린다.',[
- S('참고·검증 범위를 구분한 기준을 만든다','규칙 초안을 제안하고 피드백을 받는다',{policy:5,trust:3,org:-3},0,{reform:3,rights:2}),
- S('시험적 허용 범위를 넓히자고 제안한다','혁신을 우선하지만 공정성 우려가 남는다',{speech:4,fame:2,trust:-2},0,{reform:2,market:2}),
- S('AI를 사용하지 않는 과제를 택한다','개인 선택을 통해 혼란을 피한다',{org:2,policy:2,network:-2},0,{})]),
- E('hs_counsel','친구의 장학금 서류 제출','친구가 학교 장학금 신청 서류 마감일을 놓칠 위기다. 증빙 서류 중 일부가 준비되지 않았다.',[
- S('담당자에게 추가 제출 절차를 문의한다','규정을 어기지 않는 범위에서 방법을 찾는다',{policy:4,network:3,org:-2},0,{welfare:3}),
- S('친구와 서류를 항목별로 다시 정리한다','가까이서 돕지만 내 일정이 밀린다',{org:-3,trust:4},0,{welfare:2}),
- S('개입하지 않고 관련 안내문만 전달한다','정보를 전달하고 당사자의 선택을 존중한다',{policy:2,network:-1},0,{})]),
- E('hs_festival','축제 부스 운영비가 사라졌다','축제 직전에 운영비 일부의 사용 내역이 맞지 않는다는 사실이 드러났다. 담당 학생들은 서로 책임을 미룬다.',[
- S('영수증을 대조해 지출을 재정리한다','시간이 걸려도 사실 관계를 확인한다',{policy:4,trust:3,org:-3},0,{reform:3}),
- S('행사 비용을 줄이고 부스를 그대로 진행한다','행사는 살리지만 급히 바뀐 계획이 혼란을 부를 수 있다',{org:4,trust:-2},-.03,{market:2},{roll:{base:51,skill:'org',success:'규모를 줄여도 부스는 잘 운영됐다.',failure:'예산 부족으로 부스 일부가 취소됐다.',badEff:{stats:{fame:-2}}}}),
- S('담당 교사와 공동 정산 회의를 요청한다','원인을 따지며 일정이 늦어질 수도 있다',{network:4,policy:3,org:-2},0,{reform:2})]),
- E('hs_parttime','주말 아르바이트 면접','학용품과 교통비를 스스로 마련하려 아르바이트 면접을 보게 됐다. 근로시간이 예상보다 길다.',[
- S('학업 일정에 맞춰 근로 시간을 협의한다','유연한 일정이 중요하지만 채용에 불리할 수 있다',{speech:4,org:2,trust:-1},.02,{labor:2},{roll:{base:52,skill:'speech',success:'일정 조정에 합의했다.',failure:'다른 지원자를 채용했다.',badEff:{stats:{network:-2}}}}),
- S('급여가 높은 긴 근로시간을 택한다','수입은 늘지만 휴식과 공부에 영향을 준다',{org:-4,policy:-3},.08,{market:2}),
- S('이번 면접을 취소한다','돈을 벌 기회 대신 학업 시간을 확보한다',{policy:3,network:-2},0,{})]),
- E('hs_familyday','돌봄 일정과 학교 발표가 겹치다','가족이 급한 돌봄 지원을 요청했다. 그런데 그날은 학교 프로젝트 최종 발표가 예정돼 있다.',[
- S('팀과 교사에게 사정을 설명하고 발표 시간을 조정한다','협력이 필요하고 허용되지 않을 수도 있다',{network:4,trust:3,org:-2},0,{welfare:2},{roll:{base:56,skill:'network',success:'발표 순서를 바꾸는 데 합의했다.',failure:'일정 변경이 어려워 팀의 부담이 커졌다.',badEff:{stats:{trust:-3}}}}),
- S('발표 자료를 미리 전달하고 가족을 돕는다','가정 문제를 우선하지만 평가에 손해가 생길 수 있다',{trust:3,policy:-4,org:1},0,{welfare:2}),
- S('다른 가족에게 상황을 공유하고 발표에 참석한다','학교 일정을 지키되 가족의 도움을 구한다',{org:4,network:-2},0,{})]),
- E('hs_budget','학급에서 걷은 회비의 사용처','학급 회비로 단체복을 만들자는 의견과 체험학습 교통비로 쓰자는 의견이 팽팽하다.',[
- S('지출 항목과 예상 비용을 공개한다','돈의 쓰임을 투명하게 공유한다',{policy:4,trust:3,org:-2},0,{reform:2,market:1}),
- S('익명 투표로 다수 의견을 결정한다','빠른 결정을 돕지만 소수 의견은 남는다',{org:3,network:-2,trust:1},0,{reform:2}),
- S('회비 지출을 미루고 다른 방법을 찾는다','모두 동의할 때까지 기다린다',{policy:2,network:-2},0,{})]),
- E('hs_rumor','교내 SNS에 퍼진 확인 안 된 소문','학교 동아리원에 관한 익명 게시물이 빠르게 공유된다. 아직 사실 관계가 확인되지 않았다.',[
- S('당사자에게 확인하고 공유 중단을 요청한다','사생활을 보호하되 오해를 받을 수도 있다',{trust:4,network:2,org:-2},0,{rights:3}),
- S('온라인에서 근거를 따져 반박한다','소문의 확산을 막으려 하지만 논쟁이 커질 수 있다',{policy:3,speech:3,trust:-2},0,{rights:2},{roll:{base:48,skill:'policy',success:'원글 작성자가 게시물을 내렸다.',failure:'오히려 소문이 더 널리 알려졌다.',badEff:{stats:{trust:-3}}}}),
- S('사실 여부를 판단하지 않고 멀리한다','추가 확산을 피하지만 주변은 여전히 혼란스럽다',{org:2,network:-2},0,{})]),
- E('hs_classmate','전교 1등의 갑작스러운 부진','성적이 좋던 학생이 연이어 결석하고 있다. 주변에서는 경쟁이 부담이 됐을 거라는 추측이 나온다.',[
- S('친구가 원하면 교내 지원 정보를 함께 찾는다','상대 의사를 존중하며 도움을 제안한다',{trust:4,network:3,org:-2},0,{welfare:2}),
- S('조별 활동 부담을 잠시 나누자고 제안한다','팀원들을 설득해야 한다',{org:-3,network:4},0,{welfare:1}),
- S('상황을 단정하지 않고 평소처럼 대한다','소문에 편승하지 않는다',{trust:2,policy:2},0,{})]),
- E('hs_roads','학교 앞 상가 철거 계획','학교 앞 오래된 문구점과 분식집이 재개발 계획으로 이전할 수 있다는 소식이 들렸다.',[
- S('상인과 학생에게 필요한 대안을 조사한다','생활권의 변화를 직접 기록한다',{policy:4,network:3,org:-3},0,{market:3,local:2}),
- S('구청 도시계획 설명회에 참석한다','사업 계획과 보상 절차를 살펴본다',{policy:4,speech:2},0,{local:3,reform:1}),
- S('다른 상점을 찾고 학교생활에 집중한다','개인적인 불편에 대비한다',{org:2,network:-1},0,{})])
-];
-// A few school scenarios depend on starting life and chosen interests.
-const STUDENT_FILTERS={
- hs_parttime:s=>['생계 곤란','저소득','보통'].includes(s.family?.income),
- hs_familyday:s=>s.family?.guardian!=='부모와 함께 거주'||(s.family?.siblings||0)>0,
- hs_hackathon:s=>s.track!=='youth'||s.age>=18,
- hs_coding:s=>s.era!=='e80',
- hs_examleak:s=>s.era!=='e80',
- hs_commute:s=>s.family?.area!=='대중교통 중심지',
- hs_entrance:s=>s.age>=18,
- hs_local:s=>s.track==='youth'||s.family?.area==='도심 외곽',
- hs_tutor:s=>s.age>=18,
- hs_art:s=>s.track!=='pro'||s.age>=18,
- hs_roads:s=>s.family?.area!=='농촌 읍면',
- hs_study:s=>s.family?.income!=='고소득'
-};
-
-// Background-specific episodes appear in addition to, not instead of, career episodes.
-EVENTS.family.push(
- E('fa_exam','동생의 학원비와 가족 일정','가족이 교육비와 생활비 배분을 논의한다. 형제자매의 진로 상담도 필요하다.',[
-  S('가족 예산과 무료 교육 정보를 함께 정리한다','기초적인 가계 관리와 제도 자료를 조사한다',{policy:4,org:-2,trust:2},0,{welfare:3,market:1}),
-  S('추가 근로로 교육비를 보탠다','가족 지출을 나누는 대신 내 일정이 줄어든다',{org:-3,policy:-2},.09,{market:1}),
-  S('동생과 진로 문제를 직접 상의한다','비용뿐 아니라本人의 의사를 확인한다',{network:3,trust:3},-.03,{rights:1,welfare:2})
- ]),
- E('fa_farm','집안의 농수산물 판로가 막히다','지역의 생산자가 온라인 판매 방식으로 전환하고 있다. 가족과 이웃도 어떤 방식이 좋을지 의견이 갈린다.',[
-  S('품질 관리와 배송비를 계산해 공동 판매','협동조합 성격의 방안을 검토한다',{policy:5,network:3,org:-2},-.04,{market:4,local:4},{roll:{base:53,skill:'policy',success:'공동 판매 시범사업이 성과를 냈다.',failure:'물류비 부담으로 사업을 축소했다.',goodEff:{money:.18},badEff:{money:-.12}}}),
-  S('지역 장터와 직거래를 유지한다','이미 신뢰가 형성된 구매자 관계를 지킨다',{trust:3,org:2},-.02,{local:3}),
-  S('새로운 판로를 과감히 시험한다','단기간에 더 많은 고객을 확보하려 한다',{network:4,trust:-1},-.11,{market:4},{roll:{base:44,skill:'network',success:'소규모 해외 주문이 생겼다.',failure:'판매 페이지 관리비가 매출보다 많았다.',goodEff:{money:.25},badEff:{money:-.22}}})
- ]),
- E('fa_prof','보호자의 직업 관련 지역 행사','가족의 직업 분야와 관련된 공개 상담·박람회가 열린다. 행사 진행을 도와 달라는 요청을 받았다.',[
-  S('민원 상담 자료를 정리한다','직업 현장에서 반복되는 문제를 분석한다',{policy:4,trust:2,org:-2},0,{rights:2,local:2}),
-  S('지역 주민들에게 행사 정보를 알린다','실무보다 홍보·소통을 맡는다',{speech:4,network:3,fame:2},0,{local:3}),
-  S('행사 대신 내 경력 준비를 이어간다','가족 업무와 개인 일정을 구분한다',{policy:3,network:-1},.04,{})
- ]),
- E('fa_wealth','가족 재산을 활용한 진로 제안','가족이 장기 투자와 교육 계획에 대해 조언한다. 자산을 활용하더라도 사업과 공익 활동의 결과는 보장되지 않는다.',[
-  S('일부 자금을 사업 실습에 배정','예상 수익과 위험을 스스로 계산한다',{policy:3,org:3},-.19,{market:3},{roll:{base:55,skill:'policy',success:'소규모 실습 사업에서 소득이 발생했다.',failure:'투자한 자금을 상당 부분 잃었다.',goodEff:{money:.37},badEff:{money:-.37}}}),
-  S('장학·지역교육 프로그램에 참여','활동 실적과 현장 관계를 만들고자 한다',{trust:4,network:2},-.14,{welfare:3,local:2}),
-  S('가족 자금과 별개로 진로를 선택','재정적 여유를 덜 활용하지만 독립성을 유지한다',{org:4,network:-2},0,{reform:1})
- ]),
- E('fa_guard','보호자와 생활 방식 조정','함께 사는 가족의 일정과 네 활동 시간이 맞지 않는다. 앞으로의 주거·생활비 분담을 의논해야 한다.',[
-  S('집안일과 학교·직장 일을 다시 배분','추가 책임을 맡는 대신 갈등을 줄이려 한다',{trust:3,org:-2,policy:-1},0,{local:1}),
-  S('교통과 돌봄 지원 제도를 조사','지역 지원 서비스의 도움을 찾아본다',{policy:4,network:2},-.02,{welfare:3}),
-  S('통학·출근 시간을 조정한다','주변과의 약속을 일부 변경해야 한다',{network:-2,org:3},-.05,{})
- ])
-);
-EVENTS.lawyer.push(E('la_office','동업 법률사무소 개업 제안','동료 변호사가 공동 사무실을 열자고 제안했다. 기존 의뢰 사건 처리 방식부터 합의해야 한다.',[
- S('공동 개업 계약을 맺는다','독립 사업에 뛰어들지만 고정비가 발생한다',{network:3,org:3},-.34,{market:4},{track:'biz',roll:{base:54,skill:'network',success:'첫해 의뢰 사건이 순조롭게 늘었다.',failure:'고정비 부담으로 자금이 빠듯해졌다.',goodEff:{money:.49},badEff:{money:-.3}}}),
- S('현재 직장에서 전문 사건에 집중','안정적인 수입과 실무 경험을 유지한다',{policy:4,network:-1},.12,{rights:1}),
- S('지역 법률개선 연구 모임에 합류','수입은 줄지만 정책 참여를 넓힌다',{policy:4,trust:3},-.08,{rights:2,reform:3},{track:'youth'})
-]));
-EVENTS.business.push(E('bi_local','지역 상공인 협의회 대표 공석','소상공인 협의회가 새 대표를 찾고 있다. 이미 참여한 업체와 자영업자 사이에 요구가 다르다.',[
- S('대표에 도전하며 현장 의견을 모은다','사업과 공익 활동을 함께 맡으려 한다',{speech:3,network:4,org:-3},-.14,{local:3,market:3},{track:'youth',roll:{base:43,skill:'network',success:'협의회 대표로 선출됐다.',failure:'선거에서 패배했지만 운영위원으로 남았다.',achievement:'상공인 협의회 대표',goodEff:{stats:{fame:5,trust:4}},badEff:{stats:{trust:-3}}}}),
- S('영업 안정화 후 참여하기로 한다','당분간 회사 일을 우선한다',{org:3,network:-2},.13,{market:2}),
- S('협의회 재정자료 검토를 자원한다','선출직 대신 실무로 기여한다',{policy:4,trust:2},-.03,{reform:2,market:2})
-]));
-EVENTS.youth.push(E('yo_foundation','지역 주민이 사회적기업 설립을 제안','지역 돌봄과 일자리 문제를 해결하는 소규모 사회적기업을 세우자는 의견이 나왔다. 출자 비용과 운영 방식부터 정해야 한다.',[
- S('소규모 시범사업으로 창업한다','공적 목표와 운영비를 동시에 관리한다',{org:4,policy:2},-.25,{market:3,welfare:3,local:2},{track:'biz',roll:{base:52,skill:'org',success:'첫 시범사업을 운영했다.',failure:'지원금 확보에 실패했다.',goodEff:{money:.23},badEff:{money:-.18}}}),
- S('설립을 보류하고 법·재정 구조를 검토','준비 단계에 시간을 더 쓴다',{policy:5,network:2},-.03,{reform:2,market:1}),
- S('현장 민원 활동을 계속한다','당분간 사업보다는 주민 의견 수렴에 집중한다',{trust:3,org:2},0,{local:3})
-]));
-function backgroundPhrase(s){const x=s.family||{};return x.guardian==='조부모 양육'?'조부모님과 지내는':x.guardian==='한부모 가정'?'보호자 한 분과 함께 사는':x.guardian==='친척 보호자'?'친척의 보살핌을 받는':'가족이 함께 사는';}
-function eventText(s, text){return text.replaceAll('${REGION}',s.region).replaceAll('${FAMILY}',backgroundPhrase(s));}
-function getCareerEvents(s){
- if(s.age<=19){const pool=[...EVENTS.school,...STUDENT_EPISODES.filter(e=>!STUDENT_FILTERS[e.id]||STUDENT_FILTERS[e.id](s))];if(s.family?.siblings>0)pool.push(EVENTS.family[3]);if(s.family?.guardian==='한부모 가정'||s.family?.guardian==='조부모 양육'||s.family?.guardian==='친척 보호자')pool.push(EVENTS.family[7]);if(s.family?.income==='고소득'||s.family?.income==='중상위')pool.push(EVENTS.family[6]);if(s.family?.guardianJob==='농어업')pool.push(EVENTS.family[4]);if(['생계 곤란','저소득'].includes(s.family?.income))pool.push(EVENTS.family[0]);return pool;}
- if(s.age<=23){const pool=[...EVENTS.college];if(['생계 곤란','저소득'].includes(s.family?.income))pool.push(EVENTS.family[0]);if(s.family?.siblings>0)pool.push(EVENTS.family[3]);return pool;}
- const pools=[...EVENTS.general];
- if(s.office&&s.office!=='일반 시민'&&!s.office.startsWith('전직'))pools.push(...EVENTS.office,...EVENTS.youth);
- else if(s.track==='pro'){pools.push(...EVENTS[s.specialty||'lawyer'],...EVENTS.general);if(s.age>=31)pools.push(...EVENTS.youth.slice(0,2));}
- else if(s.track==='biz')pools.push(...EVENTS.business,...EVENTS.business);
- else pools.push(...EVENTS.youth,...EVENTS.youth);
- if(s.financialState==='distressed')pools.push(...EVENTS.family);
- if(s.money<.9||s.family?.income==='저소득'||s.family?.income==='생계 곤란')pools.push(...EVENTS.family.slice(0,2));
- if(['자영업','농어업','소규모 사업','음식점 운영'].includes(s.family?.guardianJob))pools.push(EVENTS.family[2]);
- return pools;
+const KEY='c2p_reboot_1',HISTORYKEY='c2p_reboot_archive';const $=id=>document.getElementById(id);const clamp=(x,a=0,b=100)=>Math.max(a,Math.min(b,x));const rand=(a,b)=>Math.floor(Math.random()*(b-a+1))+a;const draw=x=>x[rand(0,x.length-1)];const safe=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));const num=n=>Math.round(n);const percent=n=>`${num(n)}%`;
+const ERAS=[{year:1988,name:'1980~90년대',desc:'민주화 이후 새로운 정치 질서'},{year:2008,name:'2000~10년대',desc:'정당 재편과 온라인 정치의 확산'},{year:2026,name:'2020년대 이후',desc:'청년 정치와 디지털 여론'}];
+const PARTIES={1988:[{name:'평화민주당',bloc:'dem',people:['김대중'],leader:'김대중'},{name:'민주정의당',bloc:'con',people:['노태우'],leader:'노태우'},{name:'통일민주당',bloc:'con',people:['김영삼'],leader:'김영삼'},{name:'신민주공화당',bloc:'other',people:['김종필'],leader:'김종필'}],2008:[{name:'통합민주당',bloc:'dem',people:['정세균','손학규'],leader:'정세균'},{name:'한나라당',bloc:'con',people:['이명박','박희태','박근혜'],leader:'박희태'},{name:'자유선진당',bloc:'other',people:['이회창','심대평'],leader:'이회창'}],2026:[{name:'더불어민주당',bloc:'dem',people:['김민석','한병도'],leader:'김민석'},{name:'국민의힘',bloc:'con',people:['장동혁','정점식','임이자'],leader:'장동혁'},{name:'조국혁신당',bloc:'other',people:['신장식','김준형'],leader:'신장식'},{name:'개혁신당',bloc:'other',people:['이기인','천하람'],leader:'이기인'}]};
+const REGIONS={dem:['광주 동구','광주 광산구','전남 목포시','전남 순천시','전남 여수시','전남 나주시','전북 전주시','전북 익산시','전북 군산시'],con:['부산 동래구','부산 사하구','부산 연제구','대구 수성구','대구 달서구','울산 남구','경남 창원시','경남 진주시','경남 김해시','경북 포항시','경북 구미시','경북 경주시'],other:['서울 은평구','서울 마포구','경기 수원시','경기 성남시','인천 부평구','대전 유성구','충북 청주시','충남 천안시','강원 춘천시','제주 제주시']};
+const CAREERS=[{id:'youth',name:'청년 정치·시민사회',tags:['청년위원회','시민단체','의회 정책보좌'],desc:['대학 시절 공론장과 지역청년회의 운영 경험','청년주거 시민단체 실무와 주민 토론회 기획','지방의회 정책연구 보조와 정당 청년 조직 활동'],ages:[25,26,29],wealth:[.12,.31,.45],boost:{network:8,org:12,policy:2,rep:4}},{id:'law',name:'법조·전문직',tags:['변호사','공익소송','계약 분쟁'],desc:['중소기업 계약 소송을 주로 맡던 개업 변호사','무료 법률상담과 민사조정 경력이 있는 변호사','행정소송 경험이 많은 법률 전문가'],ages:[33,36,39],wealth:[1.3,2.2,3.4],boost:{policy:12,trust:5,network:3,org:-3}},{id:'health',name:'의료·공공보건',tags:['의료 현장','지역 보건','예산'],desc:['지역 병원에서 일하던 의사','보건 의료기관에서 지역 건강사업을 기획한 의료인','의료 사각지대 관련 단체 활동을 겸했던 의료인'],ages:[32,35,38],wealth:[.7,1.6,2.7],boost:{policy:9,trust:7,media:3,org:-3}},{id:'biz',name:'창업·기업 경영',tags:['창업','고용','자금 조달'],desc:['지역 소상공인 유통 플랫폼을 운영한 창업자','제조업 스타트업을 키운 기업인','중소기업 운영과 인사관리 경험이 있는 사업가'],ages:[32,36,43],wealth:[2.2,4.8,7.6],boost:{money:8,network:8,media:4,policy:-3}},{id:'edu',name:'교육·연구',tags:['교사','대학 연구','교육 정책'],desc:['공교육 현장의 교육과정 개선에 참여한 교사','지역 국립대 연구원과 교육 자문 경력이 있는 학자','청소년 교육사업과 장학 운영 경험이 있는 교육인'],ages:[30,34,38],wealth:[.6,1.1,1.8],boost:{policy:9,trust:8,media:-2,org:2}},{id:'labor',name:'노동·지역 활동',tags:['노동 현장','조직 운영','지역 민원'],desc:['노동 상담과 현장 조정 경력을 가진 활동가','지역 복지단체 사무국장 출신 인사','주민자치위원회와 민원 네트워크를 운영한 활동가'],ages:[27,31,36],wealth:[.15,.35,.75],boost:{org:10,trust:8,network:4,media:-3}}];
+const STATLABEL={policy:'정책 설계',org:'조직 운영',network:'인맥',trust:'신뢰',media:'언론 대응',rep:'지역 기반'};
+let game=null,setup={era:2026,options:[],pick:0,party:0,name:'',originSeed:0},screen='event',lastOutcome=null,mode='event';
+function randomOrigins(){const ids=CAREERS.map(x=>x.id).sort(()=>Math.random()-.5).slice(0,4);if(!ids.includes('youth'))ids[0]='youth';setup.options=ids.map(id=>{let c=CAREERS.find(x=>x.id===id);return {...c,details:draw(c.desc),age:draw(c.ages),wealth:draw(c.wealth)}});setup.pick=0;setup.originSeed=rand(1,100000000);}
+function selectedParty(){return PARTIES[setup.era][setup.party]||PARTIES[setup.era][0]}
+function previewRegion(){let p=selectedParty(),a=REGIONS[p.bloc];return a[(setup.originSeed+setup.pick*7+setup.party*11)%a.length]}
+function freshStart(){game=null;setup={era:2026,options:[],pick:0,party:0,name:'',originSeed:0};randomOrigins();render()}
+function startGame(){let name=($('playerName')?.value||'').trim();if(!name){alert('주인공 이름을 입력해 줘.');return;}if(name.length>12){alert('이름은 12자 이내로 설정해 줘.');return;}let c=setup.options[setup.pick],p=selectedParty(),year=setup.era,area=previewRegion();let st={policy:rand(26,40),org:rand(23,39),network:rand(18,34),trust:rand(36,51),media:rand(22,38),rep:rand(10,19)};for(const [k,v] of Object.entries(c.boost))if(k in st)st[k]=clamp(st[k]+v);game={v:1,name,era:setup.era,year,quarter:1,turn:0,age:c.age,region:area,party:p.name,bloc:p.bloc,track:c.id,career:c.name,backstory:c.details,wealth:c.wealth,office:'정당 신인',stats:st,issue:{housing:0,transport:0,localbiz:0,education:0,welfare:0},relation:Object.fromEntries([...new Set(PARTIES[setup.era].flatMap(x=>x.people))].map(x=>[x,rand(36,60)])),support:rand(23,36),partyTrust:rand(22,34),promises:[],history:[],seen:[],pending:null,won:0,lost:0,electionLast:0,appeals:0,goals:{},over:false,displayRegion:area};game.history.push({y:year,q:1,t:'정계 입문',d:`${safe(name)}은(는) ${area}에서 ${p.name} 소속 신인 정치인으로 활동을 시작했다. ${c.details}.`});mode='event';screen='event';save();render();}
+function save(){if(!game)return;try{localStorage.setItem(KEY,JSON.stringify(game));}catch(e){/* 저장이 제한된 환경에서도 플레이는 계속됨 */}}function load(){try{let g=JSON.parse(localStorage.getItem(KEY)||'null');if(g&&g.v===1&&g.stats&&g.party){g.promises??=[];g.seen??=[];g.issue??={};g.relation??={};g.history??=[];g.goals??={};g.pending??=null;return g}}catch(e){}return null}
+function main(){game=load();if(game){mode=game.pending?'outcome':'event';screen='event'}else randomOrigins();render()}const humanDate=g=>`${g.year}년 ${g.quarter}분기`;
+function partyData(){return PARTIES[game.era].find(p=>p.name===game.party)||PARTIES[game.era][0]}
+function protagonist(){let g=game;return `${g.name} · ${g.office}`}
+function person(n,extra=''){return n?`<span class="bold">${safe(n)}</span>${extra}`:''}
+function statHtml(){return Object.entries(STATLABEL).map(([k,t])=>`<div class="statrow"><b>${t}</b><div class="track"><i style="width:${clamp(game.stats[k])}%"></i></div><b>${num(game.stats[k])}</b></div>`).join('')}
+function nav(){return `<nav class="tabbar">${[['event','▤','사건'],['people','◎','인물'],['politics','▥','정치'],['record','◷','연대기'],['more','⚙','설정']].map(([k,i,t])=>`<button class="${screen===k?'on':''}" onclick="go('${k}')"><b>${i}</b>${t}</button>`).join('')}</nav>`}
+function go(t){if(!game)return;screen=t;render();window.scrollTo(0,0)}
+function head(){return `<header><div class="brand"><small>POLITICAL LIFE · ALTERNATE HISTORY</small>신인에서 대통령 되기</div><div class="topright">${humanDate(game)}<br>${game.age}세 · ${game.office}</div></header>`}
+function setupHtml(){let p=selectedParty(),region=previewRegion();return `<header><div class="brand"><small>POLITICAL LIFE · NEW CAMPAIGN</small>신인에서 대통령 되기</div><span class="badge">정계 입문판</span></header><section class="page intro"><div class="paper"><div class="cover"><div class="covertext">한 명의 신인.<br>끝을 알 수 없는 정치 인생.</div></div><div class="eyebrow">CREATE A POLITICAL LIFE</div><h1 class="serif">정치인이 되기 전,<br>당신은 누구였나?</h1><p class="lead">학생 시절을 건너뛰고 정계에 갓 입문한 시점에서 시작합니다. 직업 배경과 정당은 직접 선택하지만, 정치 현장에서는 예상치 못한 사건과 타협이 기다립니다.</p><div class="hr"></div><label class="label">시작 시대</label><div class="two">${ERAS.map(e=>`<button class="choosecard ${setup.era===e.year?'selected':''}" onclick="changeEra(${e.year})"><strong>${e.name}</strong><p>${e.year}년 출발</p></button>`).join('')}</div><label class="label">정계 입문 경력 · 매번 무작위 제안 4개</label>${setup.options.map((c,i)=>`<button class="choosecard ${setup.pick===i?'selected':''}" onclick="setup.pick=${i};render()"><strong>${safe(c.name)} <span class="muted small">${c.age}세 · 자산 ${c.wealth.toFixed(1)}억원</span></strong><p>${safe(c.details)}</p><div>${c.tags.map(t=>`<span class="tag">${safe(t)}</span>`).join('')}</div></button>`).join('')}<button class="btn subtle full" onclick="randomOrigins();render()">↻ 다른 배경 4개 다시 추첨</button><label class="label">처음 소속할 정당</label>${PARTIES[setup.era].map((x,i)=>`<button class="choosecard ${setup.party===i?'selected':''}" onclick="setup.party=${i};render()"><strong>${safe(x.name)}</strong><p>출발 시점 주요 인물 · ${safe(x.people.join(' · '))}</p></button>`).join('')}<div class="notice"><b>시작 지역: ${safe(region)}</b><br>${p.bloc==='dem'?'호남의 광주·전남·전북 지역 중 배정됩니다.':p.bloc==='con'?'영남의 부산·대구·울산·경북·경남 중 배정됩니다.':'수도권·충청·강원·제주 등 전국 지역에서 배정됩니다.'} 출발 지역은 게임 규칙일 뿐 실제 주민들의 정치적 입장을 단정하지 않습니다.</div><label class="label">주인공 이름</label><input class="field" id="playerName" maxlength="12" placeholder="예: 김정훈" value="${safe(setup.name)}" oninput="setup.name=this.value"><p class="inputhelp">주인공 이외의 이름이 표시되는 인물은 실제 역사·정치 인물입니다. 게임의 대화·접촉·선거는 가상의 대체 역사입니다.</p><button class="btn primary full" onclick="startGame()">${setup.era}년, 정계에 입문한다 →</button></div></section>`}
+function changeEra(y){setup.era=y;setup.party=0;render()}
+function eventCards(){let g=game;let list=[];
+ const add=(id,title,topic,desc,choices,cond=()=>true)=>{if(cond(g))list.push({id,title,topic,desc,choices})};
+ const P=partyData(),chief=P.leader,ally=P.people.length>1?P.people[1]:P.leader,other=PARTIES[g.era].find(x=>x.name!==g.party),opp=other?.leader||'김대중',place=g.region;
+ add('rent','보증금을 돌려받지 못한 임차인','주거 민원',`${place} 주민들이 계약 종료 뒤에도 보증금을 돌려받지 못해 지역사무실을 찾아왔다. 임대인의 재산 상태는 확인되지 않았고, 주민들은 당신에게 공개 입장 발표를 요구한다. 한편 언론사가 내일까지 답변을 요청해 왔다.`,[
+ ['서류를 확보하고 법률 상담기관과 공동 대응한다','신중한 대응 · 처리까지 시간이 걸림',{policy:4,trust:4,media:-1},{support:3,partyTrust:1},'등기 자료와 계약 내역을 점검한 뒤 법률지원 절차를 연결했다. 즉각적인 화제성은 적었지만 주민들이 진행 과정을 확인할 수 있었다.',85],
+ ['현장에서 즉시 기자회견을 연다','확산 속도↑ · 사실관계 오인 위험',{media:5,trust:-4},{support:3,partyTrust:-2},'회견은 주목받았지만 일부 사실관계가 뒤늦게 수정됐다. 이 사건을 다루는 신중함을 두고 평가가 엇갈렸다.',63],
+ ['상대방과 비공개 조정부터 시도한다','해결 시 실익↑ · 불투명하다는 지적',{network:4,media:-2},{support:0,partyTrust:2},'비공개 협의 자리를 만들었다. 일부 진전이 있었지만 진행 상황을 공개하지 않은 데 대한 의문도 제기됐다.',74]
+ ]);
+ add('market','전통시장 주차장 신설 요구','지역 경제',`${place} 상인회는 고객 감소 원인으로 주차 부족을 지적한다. 인근 주민들은 소음과 보행 안전을 걱정하고, 기존 공영주차장 활용 방안도 제시됐다. 예산은 한 사업에만 충분하다.`,[
+ ['상인회의 신설안을 우선 검토한다','상권 요구 반영 · 주민 반발 가능',{org:2,trust:-2,policy:1},{support:2,partyTrust:0},'주차장 검토안이 공식 의제로 올라왔다. 상인회는 환영했지만 주변 주민들은 교통영향 분석을 먼저 하라고 요구했다.',75],
+ ['유휴부지를 활용한 단계적 시범사업을 제안한다','협상 부담 · 타협안 가능',{policy:4,org:2,media:-1},{support:1,partyTrust:1},'시범 운영과 민원 조사 일정이 마련됐다. 어느 쪽도 완전히 만족하지는 않았지만 논의가 이어질 길을 열었다.',76],
+ ['주차장보다 보행·대중교통 개선을 주장한다','장기 효과 불확실 · 상인 반발 가능',{policy:3,media:1,trust:-2},{support:-1,partyTrust:1},'보행 접근성 개선안이 검토 대상에 포함됐다. 상인회 일부는 당장 필요한 지원이 빠졌다고 반박했다.',79]
+ ]);
+ add('broadcast','생방송 인터뷰의 잘못된 통계','언론 대응',`지역 라디오에 출연하기 직전 준비 자료에서 청년 실업 수치의 기준 연도를 잘못 적은 사실을 발견했다. 진행자는 해당 통계를 핵심 질문으로 예고한 상태다. 발언을 어떻게 정리할 것인가?`,[
+ ['방송에서 출처와 기준 연도를 바로잡는다','정확성 확보 · 메시지 전달 약화',{trust:5,media:2},{support:1,partyTrust:2},'숫자를 정정하고 확실한 자료만 제시했다. 인터뷰의 박력은 줄었지만 후속 기사에서 정정 과정이 함께 소개됐다.',93],
+ ['수치를 빼고 실제 사례 중심으로 발언한다','검증 위험 줄임 · 논점 회피 지적 가능',{media:2,policy:-1},{support:0,partyTrust:0},'수치 대신 현장 사례를 설명했다. 일부 청취자는 구체적 대책이 부족했다고 평가했다.',85],
+ ['준비한 원고를 그대로 읽는다','발언 완성도↑ · 오보 위험',{media:4,trust:-6,policy:-2},{support:-3,partyTrust:-4},'방송 뒤 통계 연도가 잘못됐다는 지적이 나왔다. 해명 자료를 추가로 내야 했다.',45]
+ ]);
+ add('alloc','지역위원회 활동비 1,200만 원','당내 조직',`${g.party} 지역위원회가 신인 정치인에게 분기 활동비 1,200만 원의 사용 우선순위를 제안하라고 요청했다. 청년정책 간담회, 지역주민 상담 창구, 온라인 홍보에 모두 투입하기에는 부족하다.`,[
+ ['주민 상담 창구를 우선 열고 지출 내역을 공개한다','단기 홍보 효과↓ · 신뢰↑',{trust:5,org:4,media:-2},{support:4,partyTrust:2},'상담 건수가 쌓이기 시작했다. 지출 내역을 공개하면서 회계 처리의 투명성도 확보했다.',83],
+ ['청년정책 간담회를 3차례 개최한다','접촉 확대 · 비용 부담',{org:4,network:3,policy:2},{support:2,partyTrust:1},'다양한 청년 제안이 모였지만 참석자 구성의 대표성을 둘러싼 논의도 생겼다.',78],
+ ['온라인 홍보에 집중한다','인지도↑ · 지역 접촉 감소',{media:6,rep:-2,trust:-2},{support:1,partyTrust:-2},'조회수는 올랐지만 대면 행사와 민원 처리가 부족하다는 비판을 받았다.',86]
+ ]);
+ add('traffic','버스 노선 변경과 통학시간','교통 정책',`${place}의 버스 노선 개편안이 공개되자 학생과 통근자는 환승이 늘어난다고 반발했다. 교통 담당 부서는 배차 간격을 줄이기 위한 조치라고 설명한다. 당신에게 주민 의견 수렴을 맡아 달라는 요청이 왔다.`,[
+ ['실제 등하교·출근시간의 이동 데이터를 조사한다','조사비용↑ · 실증 자료 확보',{policy:5,org:1,media:-2},{support:3,partyTrust:1},'혼잡 시간대 이동 데이터가 확보돼 수정안을 논의할 근거가 생겼다.',87],
+ ['개편 전면 보류를 주장한다','즉각적인 반응 · 대안 부족',{media:4,trust:-2},{support:2,partyTrust:-1},'주민 일부가 지지했지만 담당 부서는 보류 기간에 필요한 운영 비용을 지적했다.',68],
+ ['한 달 시범 운행과 보완 노선을 제안한다','현실적 절충 · 당사자 설득 필요',{network:3,policy:3,org:2},{support:2,partyTrust:2},'시범기간 설정에 대한 실무 논의를 이끌었다. 이후 탑승률 자료를 공개하기로 약속했다.',77]
+ ]);
+ add('partyconflict','당내 청년 추천 명단의 이견','당내 갈등',`${chief}이(가) 참석하는 당내 공개 간담회를 앞두고 청년대표 추천 명단을 둘러싼 이견이 발생했다. 지역 청년 조직은 활동 경력을, 중앙 조직은 전국적 인지도를 더 중시하는 상황이다. 어느 기준을 지지할지 입장을 요청받았다.`,[
+ ['선발 기준과 평가표를 사전에 공개하자고 제안한다','절차적 신뢰↑ · 결정 지연',{policy:3,trust:4,org:-1},{partyTrust:2,support:1},'절차 공개를 위한 논의가 이어졌다. 선발이 늦어졌으나 과정의 투명성은 높아졌다.',80,chief,2],
+ ['지역 활동 실적을 강조한다','지역 조직 지지↑ · 중앙 갈등',{rep:4,org:2,network:-2},{partyTrust:-1,support:3},'지역 조직의 호응을 얻었지만 중앙 조직과 의견 차이는 남았다.',78,chief,-2],
+ ['양측의 공동 추천안을 중재한다','협상 실패 위험 · 인맥 효과',{network:4,org:3,media:-2},{partyTrust:2,support:1},'추천 인원과 기준을 조정하는 실무 논의가 시작됐다. 일부 요구는 보류됐다.',73,chief,3]
+ ]);
+ add('public', '공개 토론회의 즉석 질문','정책 검증',`${place}에서 열린 공개 토론회에서 당신의 정책에 들어갈 재원 조달 방안을 묻는 질문이 나왔다. 예상보다 날카로운 후속 질문이 이어지고 있다.`,[
+ ['불확실한 수치를 인정하고 보완 자료 제출을 약속한다','신뢰↑ · 준비 부족 노출',{trust:3,policy:2,media:-1},{support:2,partyTrust:1},'추가 자료 공개 일정이 기록됐다. 일부 청중은 솔직함을 평가했고 일부는 준비 부족을 지적했다.',84],
+ ['현장 질문에 즉석 계산으로 답한다','성공 시 주목도↑ · 오류 위험',{media:5,policy:-1},{support:2,partyTrust:-1},'즉석 답변은 주목받았지만 이후 계산 검증이 필요해졌다.',56],
+ ['답변을 정책팀에 맡긴다','실수 감소 · 본인 리더십 의문',{network:2,media:-3},{support:-1,partyTrust:1},'정책팀이 내용을 정리했지만 후보 자신의 입장이 모호하다는 평가도 나왔다.',81]
+ ]);
+ add('housing','청년 월세지원 대상 논쟁','정책 설계',`지역 청년단체가 월세 지원 예산 증액을 요구한다. 그러나 예산을 넓게 배분할지, 소득이 낮은 대상에게 집중할지 이견이 있다. 지역의 기존 주거사업과 중복 여부도 확인해야 한다.`,[
+ ['소득별 실태조사를 먼저 진행한다','정확성↑ · 정책 발표 지연',{policy:5,trust:2,media:-2},{support:2,partyTrust:1},'소득과 월세 부담을 구분한 자료를 마련해 정책의 범위를 재검토했다.',86],
+ ['지원 대상 확대안을 발표한다','주목도↑ · 재원 설명 부담',{media:4,policy:-2},{support:2,partyTrust:-1},'확대 공약이 알려졌지만 재원과 기존 제도와의 관계를 설명해야 했다.',63],
+ ['소득 취약층 집중 지원안을 마련한다','집중 지원 · 제외되는 집단의 이견',{policy:4,trust:1},{support:0,partyTrust:1},'대상 선정 기준이 구체화됐다. 소득 경계에 놓인 가구가 제도 밖에 남는 문제도 제기됐다.',78]
+ ]);
+ add('school','지역 고교 이전 공청회','교육 현안',`${place}에서 공립고등학교 이전 계획을 두고 학부모와 통학 학생의 입장이 갈렸다. 이전 지역은 시설 개선을 기대하지만 기존 지역 주민들은 교육 접근성을 걱정한다. 당신은 공개 의견 수렴에 참여할 예정이다.`,[
+ ['통학 시간과 학교 수용 인원을 함께 조사한다','실증적 접근 · 결론 지연',{policy:4,trust:3},{support:1,partyTrust:1},'이전과 잔류의 영향을 비교할 자료가 마련됐다.',86],
+ ['이전 계획을 조건부로 지지한다','시설 개선 기대 · 기존 지역 반발',{media:2,rep:-2},{support:-1,partyTrust:0},'시설 개선을 전제로 한 지지 입장이 알려졌다. 기존 지역 주민들은 보완책을 요구했다.',73],
+ ['이전을 반대하고 리모델링을 제안한다','현 위치 유지 · 비용 검증 필요',{org:2,policy:2},{support:1,partyTrust:-1},'리모델링 대안이 공식 논의에 올랐지만 예산 비교가 필요해졌다.',74]
+ ]);
+ add('localbudget','시의회 예산 심의 자료 160쪽','의정 준비',`당 정책팀이 ${place} 관련 예산 심의 자료 160쪽의 검토를 부탁했다. 도로 정비, 주민센터 개보수, 돌봄사업 지출이 동시에 늘어날 예정이다. 당신의 의견이 당 내부 검토 보고서에 반영될 수 있다.`,[
+ ['증감액과 집행률을 대조한 의견서를 작성한다','정책 역량↑ · 홍보 활동 감소',{policy:6,media:-2},{partyTrust:3,support:0},'집행률과 사업 우선순위를 비교한 검토표를 완성했다. 자료의 객관성이 인정돼 후속 실무에 참여하게 됐다.',87,ally,2],
+ ['시민 의견을 받아 우선사업 순서를 다시 제안한다','지역 반응↑ · 예산 분석 부담',{org:4,rep:2,policy:-1},{partyTrust:1,support:3},'다수의 제안이 취합됐지만 우선순위를 결정하는 데 시간이 걸렸다.',75,ally,1],
+ ['당 지도부의 기존안을 그대로 지지한다','내부 마찰 감소 · 독자성 부족',{network:3,policy:-3},{partyTrust:3,support:-1},'내부 갈등은 줄었으나 검토 작업에 기여한 내용은 제한적이었다.',93,ally,2]
+ ]);
+ add('rivalparty','상대 정당의 공동 간담회 제안','초당적 협의',`${opp} 측에서 같은 지역 현안을 놓고 초당적 공개 간담회를 열자고 제안했다는 연락을 받았다. 행사 취지에는 공감하지만 소속 당 내에서는 메시지 혼선을 걱정한다.`,[
+ ['공동 의제를 미리 문서로 정리한 뒤 참여한다','협력↑ · 내부 조율 필요',{network:4,policy:3,org:-1},{partyTrust:-1,support:2},'공동 의제와 발언 순서를 합의해 간담회를 진행했다. 의견 차이는 기록에 남겼다.',79,opp,3],
+ ['개별 간담회를 진행한다','당내 관계 유지 · 공동 성과 제한',{partyTrust:0,trust:1},{partyTrust:2,support:0},'별도의 주민 간담회가 열렸고 양측의 접근법을 비교할 기회가 줄었다.',85,opp,0],
+ ['공개 질의서로 대응한다','공개 논쟁 · 후속 협의 어려움',{media:4,network:-2},{partyTrust:2,support:-1},'공개 질의서가 언론에 보도됐으나 공동 실무 논의는 중단됐다.',77,opp,-3]
+ ]);
+ add('data','국정감사 참고자료의 보안 문제','자료 취급',`의원실 보좌진을 통해 공개 전 검토용 보고서의 요약 내용을 전달받았다. 아직 공개 가능한 자료인지 확실하지 않다. 당의 정책 발표 일정이 다가오고 있다.`,[
+ ['배포 가능 여부를 확인한 뒤 공개 자료만 인용한다','실무 부담↑ · 법적 위험↓',{policy:3,trust:4,media:-1},{partyTrust:1,support:1},'자료의 공개 가능 범위를 검토한 뒤 발표했다. 발표 시점은 늦어졌지만 출처 문제를 피했다.',92],
+ ['자료의 핵심 쟁점을 익명으로 설명한다','주목↑ · 출처 논란 가능',{media:4,trust:-3},{partyTrust:-1,support:1},'쟁점은 보도됐지만 자료 접근 경로를 둘러싼 질문이 이어졌다.',60],
+ ['자료 대신 공개 예산 자료로 새 분석을 작성한다','독립적 검토 · 준비시간 증가',{policy:5,org:-1},{partyTrust:1,support:1},'공개 예산 문서를 활용한 자체 분석을 제출했다.',89]
+ ]);
+ add('doctor','지역 야간 진료 공백 논의','의료 출신 전용',`당 정책조정 회의에서 ${place}의 야간 진료 접근성 문제를 검토해 달라고 요청했다. 의료계는 인력 부족을, 주민들은 이동 시간을 지적하고 있다. 비용 추계가 서로 다르게 제시됐다.`,[
+ ['지역별 수요와 인력 수급을 공동 조사한다','의료 현장 활용 · 발표 지연',{policy:5,trust:3},{partyTrust:2,support:2},'여러 기관의 수요 자료를 대조했다. 초기 발표는 늦어졌지만 구체적인 대안을 만들 기반을 얻었다.',85],
+ ['야간 진료 시범사업 예산을 우선 요구한다','실행 의지↑ · 예산 부담',{media:3,policy:1,org:-2},{partyTrust:0,support:2},'시범사업 예산 요구가 의제로 올랐고 사업 평가 지표가 추가로 필요해졌다.',69],
+ ['교통 연계와 원격 안내를 함께 제안한다','대안 다양화 · 의료 서비스 범위 논쟁',{network:3,policy:3},{partyTrust:1,support:1},'교통 접근성과 안내 체계를 함께 검토하기로 했다.',79]
+ ],g=>g.track==='health');
+ add('lawyer','상가 임대차 분쟁과 지역 협회','법조 출신 전용',`${place} 소상공인 단체가 계약 갱신 문제에 대한 법률 간담회를 부탁했다. 계약서마다 조건이 달라 단일 해결책이 어려운 상황이다.`,[
+ ['유형별 상담 자료와 법률구조 안내를 준비한다','법률 정확성↑ · 준비 부담',{policy:5,trust:4},{partyTrust:1,support:3},'분쟁 유형별 서류 준비 목록을 배포했고 상담 창구가 정례화됐다.',87],
+ ['계약 갱신 제도 개선안을 발표한다','정책 의제화 · 추가 검증 필요',{media:3,policy:2},{partyTrust:0,support:2},'개선안이 토론 주제로 떠올랐다. 이후 업종별 영향 분석이 요구됐다.',75],
+ ['상인회 대표단과 조정 간담회를 연다','현장 관계↑ · 조정 난항 가능',{network:4,org:2},{partyTrust:0,support:2},'서로 다른 임대차 사정을 확인했고 후속 상담 일정이 정해졌다.',73]
+ ],g=>g.track==='law');
+ add('startup','지역 공공조달 입찰 규정 개선','사업 출신 전용',`기업 운영 경험을 인정받아 ${place} 기업인 간담회에 초청받았다. 신규업체 진입 장벽 완화와 기존 납품업체 품질 검증 사이에서 의견이 갈리고 있다. 당신에게 의견서 제출을 요청했다.`,[
+ ['공정경쟁과 품질 기준을 분리해 제안한다','정책 균형↑ · 복잡성 증가',{policy:5,trust:3},{partyTrust:2,support:1},'신규 진입 기준과 품질 검증 기준을 구분한 의견서가 완성됐다.',85],
+ ['신규업체 참여 비율 확대에 집중한다','창업 이해↑ · 기존업체 반발 가능',{network:2,media:3,trust:-1},{partyTrust:0,support:2},'진입 장벽 문제는 부각됐지만 기존 납품업체들은 검증 비용을 강조했다.',73],
+ ['과거 사업과 관련된 이해관계를 공개하고 자문 범위를 제한한다','이해충돌 위험↓ · 활동 폭 축소',{trust:5,network:-2},{partyTrust:2,support:1},'사업 경력과의 이해관계를 먼저 밝혔다. 일부 논의에는 참여하지 않았지만 투명성을 확보했다.',90]
+ ],g=>g.track==='biz');
+ add('school2','교육 정책 토론회의 생활기록부 논쟁','교육 출신 전용',`지역 교육 포럼에서 학생 평가 기록을 둘러싼 제도 개선안이 논의된다. 교사와 학생·학부모가 우려하는 지점이 다르며, 당신에게 토론 발제를 부탁했다.`,[
+ ['서로 다른 당사자의 의견을 분리해 비교한다','정책 신뢰↑ · 메시지 복잡',{policy:5,trust:4},{partyTrust:1,support:1},'각 이해관계자의 요구가 정리돼 후속 공청회 자료로 활용됐다.',85],
+ ['평가 업무 부담을 우선 다룬다','현장 업무 개선 · 다른 집단 불만',{policy:3,media:2},{partyTrust:1,support:-1},'현장의 부담은 전달됐지만 평가의 공정성을 둘러싼 후속 질문이 남았다.',78],
+ ['학생 상담 접근성 문제를 먼저 제안한다','학생 복지 초점 · 제도 연계 과제',{trust:3,org:2},{partyTrust:0,support:2},'상담 지원 접근성을 검토하는 소위원회 논의가 시작됐다.',76]
+ ],g=>g.track==='edu');
+ add('labor2','산업단지 교대근무 교통 문제','노동 출신 전용',`${place} 외곽 산업단지의 야간 교대근무자들이 대중교통 이용의 어려움을 제기했다. 시는 탑승 수요가 적어 적자를 걱정하고, 노동 현장은 출퇴근 안전을 강조한다.`,[
+ ['교대시간별 이동 수요조사를 추진한다','현장 근거↑ · 조사기간 필요',{policy:4,org:3},{partyTrust:1,support:2},'교대시간 수요가 수집돼 노선 조정안을 논의할 수 있게 됐다.',86],
+ ['교통비 지원 시범사업을 제안한다','빠른 지원 · 장기 예산 부담',{media:3,trust:2},{partyTrust:0,support:2},'지원 사업이 의제에 포함됐고 형평성 검토가 요청됐다.',73],
+ ['기업과 지방정부의 분담 협약을 제안한다','협상 난항 · 재원 다양화',{network:4,org:2},{partyTrust:1,support:1},'기업·지자체 분담을 위한 협의가 시작됐다.',74]
+ ],g=>g.track==='labor');
+ // Local industries and geography: playable scenes are region-specific but not based on voter ideology.
+ add('honamwater','농업용수 확보와 저수지 준설','호남 지역 현안',`${place} 인근 농촌에서 가뭄에 대비한 농업용수 시설 확충 요구가 나왔다. 준설 비용은 약 18억 원으로 추산되지만 생태환경 조사와 인근 마을의 의견 수렴도 필요하다. 지역 관계자들은 올해 안에 방향을 잡아 달라고 요구한다.`,[
+ ['저수율 자료와 생태환경 조사를 먼저 병행한다','조사·협의 시간↑',{policy:5,org:2,media:-1},{support:2,partyTrust:1},'농업용수 수요와 환경 영향을 나눠 검토할 자료를 확보했다. 당장 결론이 나지 않아 일부 주민이 아쉬움을 표시했다.',85],
+ ['준설 예산 확보를 최우선 과제로 발표한다','주목도↑ · 환경 검토 부담',{media:3,network:1,policy:-1},{support:3,partyTrust:-1},'예산 요구는 큰 관심을 모았지만 사업 범위와 환경 검토 절차에 대한 후속 질문이 이어졌다.',69],
+ ['누수 개선과 비상급수 시설부터 제안한다','단기 대응 · 장기시설은 후순위',{policy:3,trust:2},{support:2,partyTrust:1},'비상 대응안이 의제로 올랐다. 장기적인 물 관리 사업의 우선순위는 여전히 논의 중이다.',79]
+ ],g=>g.bloc==='dem');
+ add('honamferry','섬 여객선 운항 차질 보고','호남 지역 현안',`${place}의 해안권 연계 교통 사업 회의에서 여객선 운항 중단에 따른 주민 의료 접근 문제가 거론됐다. 운항 지원금과 선박 안전 점검을 함께 고려해야 한다.`,[
+ ['승객 수와 운항 안전 자료를 함께 조사한다','안전 검증 · 시간 소요',{policy:4,trust:3},{support:2,partyTrust:1},'운항 차질 원인과 안전조치에 대한 확인 절차가 마련됐다.',86],
+ ['교통 지원 예산안을 신속하게 제시한다','즉각 대응 · 비용 검토 필요',{media:3,policy:1},{support:3,partyTrust:-1},'지원 예산이 쟁점으로 떠올랐지만 집행 기준 검토가 추가로 필요해졌다.',73],
+ ['육지 의료기관과 연계하는 대안을 제안한다','임시 접근성 확보 · 근본 운항 문제 미해결',{network:3,org:3},{support:1,partyTrust:1},'진료 지원 방안의 협의가 진행됐다. 운항 정상화는 별도 과제로 남았다.',76]
+ ],g=>g.bloc==='dem' && /전남|광주|전북/.test(g.region));
+ add('yeongship','항만 물류센터 야간노동 민원','영남 지역 현안',`${place} 인근 항만·산업 물류센터 종사자들이 야간 통근 버스 증편을 요청했다. 운송업체는 비용을 걱정하고, 주민들은 주거지 주변 야간 차량 소음을 문제 삼는다.`,[
+ ['교대시간대 통근 인원과 노선을 조사한다','수요 분석 · 비용',{policy:5,trust:2},{support:2,partyTrust:1},'교대시간 통근 자료를 확보했다. 소음이 적은 노선 대안을 함께 검토하기로 했다.',86],
+ ['물류업계와 비용 공동부담 협약을 추진한다','협상력↑ · 실패 가능',{network:4,org:2},{support:2,partyTrust:0},'비용 분담을 놓고 실무 회의가 열렸다. 당사자 간 입장 차이가 있어 추가 협의가 필요해졌다.',72],
+ ['주민 소음 민원을 먼저 해결한다','주거지역 만족 · 노동자 대책 지연',{trust:3,policy:1},{support:1,partyTrust:-1},'야간 노선에 대한 소음 저감 대책이 먼저 논의됐다. 종사자들은 증편 방안도 함께 제시하라고 요구했다.',78]
+ ],g=>g.bloc==='con');
+ add('yeongbiz','중소 제조기업 납품대금 지연','영남 지역 현안',`${place} 소재 부품업체들이 납품대금 지급 지연으로 운영자금 확보가 어렵다고 주장한다. 관련 계약서를 확보하지 않은 상태에서 특정 업체를 지목하는 데는 신중해야 한다.`,[
+ ['계약서·세금계산서 검토와 상담을 연결한다','증거 확보 · 검토시간 소요',{policy:4,trust:4},{support:3,partyTrust:1},'금액과 지급 조건을 정리해 관계기관 상담으로 연결했다.',88],
+ ['공개 간담회를 먼저 열어 제도 개선을 논의한다','의제화 · 개별 분쟁 해결 지연',{media:3,network:2},{support:1,partyTrust:1},'납품 거래 관행을 주제로 간담회가 열렸고 후속 자료 취합이 시작됐다.',78],
+ ['긴급 운영자금 지원 프로그램을 제안한다','단기 대응 · 사업 타당성 검증',{org:3,policy:2},{support:2,partyTrust:0},'지원 제도 검토가 시작됐지만 수혜 범위와 재원 조달 문제가 남았다.',73]
+ ],g=>g.bloc==='con');
+ // Elected politician scene, additional concrete legislative work
+ add('amend','상임위 법률안 수정 협상','의정 활동',`${g.office}으로 활동하는 당신에게 위원회 심사 중인 법률안의 수정 의견이 전달됐다. 예산 추계는 연간 280억 원 규모이며 지원 범위와 시범사업 기간을 놓고 상반된 의견이 나왔다. ${opp}도(도) 실무 협상에 관여할 수 있다는 연락이 왔다.`,[
+ ['2년 시범사업과 평가보고서 제출을 수정안에 넣는다','통과 협상 여지↑ · 지원 범위 축소',{policy:5,network:3},{partyTrust:1,support:0},'시범사업 조건과 평가 조항을 반영한 수정안이 작성됐다. 본회의 채택 여부는 별도의 표결 절차에 달려 있다.',78,opp,2],
+ ['원안을 지키고 공개 토론으로 쟁점을 부각한다','정책 일관성↑ · 합의 난항',{media:5,network:-2},{partyTrust:1,support:1},'쟁점은 부각됐지만 수정안 합의가 지연됐다.',66,opp,-2],
+ ['지원 대상을 좁히고 부대의견을 추가한다','예산 절감 · 수혜 범위 감소',{policy:4,org:2,trust:-1},{partyTrust:2,support:-1},'수혜 범위를 축소하는 수정 방향이 검토됐다. 지원을 기대하던 일부 주민들의 비판이 제기됐다.',74]
+ ],g=>g.office!=='정당 신인');
+ add('committee','국회 정책 간담회 질의 순서','의정 활동',`당 소속 의원들의 정책 간담회에서 질의 시간을 4분만 배정받았다. 정부 부처가 제출한 보고서에서 사업별 실적과 집행률의 차이가 발견됐다. ${ally}에게도 참석 요청이 전달됐다.`,[
+ ['숫자 차이를 하나씩 확인하는 질의를 준비한다','정책 정확성↑ · 화제성 제한',{policy:5,trust:2},{partyTrust:1,support:0},'집행률 차이에 대한 보완 자료 요청을 공식 기록에 남겼다.',88,ally,2],
+ ['현장 증언을 먼저 제시한다','공감 유발 · 비교 자료 부족',{media:4,trust:1},{partyTrust:0,support:2},'주민 증언은 주목받았으나 수치 분석 요구가 뒤따랐다.',80,ally,0],
+ ['동료와 질의 주제를 나눠 진행한다','팀워크↑ · 개인 인지도 분산',{network:4,org:3,media:-2},{partyTrust:2,support:1},'질의 순서를 조정해 중복 질문을 줄였다.',83,ally,3]
+ ],g=>g.office!=='정당 신인');
+ // Long term late events
+ add('cabinet','당내 정책조정 회의의 불일치','당 지도부',`${chief} 명의로 개최된 정책조정 회의에서 지역 현안의 우선순위를 둘러싼 의견 차이가 나왔다. 당신은 공식 기록에 남길 수정 의견서를 제출할 수 있다.`,[
+ ['서면 수정안을 내고 공개회의에서 설명한다','정책 영향↑ · 조직 부담',{policy:5,media:2,org:-1},{partyTrust:2,support:1},'수정 의견이 정책 검토표에 첨부됐다. 채택 여부는 별도 논의로 남았다.',78,chief,3],
+ ['지도부 초안에 조건부 동의한다','내부 조율↑ · 독자성 약화',{network:3,policy:1},{partyTrust:3,support:0},'조건부 합의로 논의가 진행됐다. 다만 유권자에게 조건을 명확히 설명할 필요가 생겼다.',84,chief,2],
+ ['추가 공청회부터 요청한다','숙의 확대 · 일정 지연',{trust:4,org:1,media:-2},{partyTrust:-1,support:2},'추가 공청회가 논의됐다. 일정 지연에 대한 당내 우려도 나왔다.',74,chief,-1]
+ ],g=>g.office!=='정당 신인');
+ return list;
 }
-function getLifeEvent(s){
- const key=`${s.year}:${s.turn}:${s.track}:${s.specialty||''}:${s.office}`;
- if(s.pendingEvent?.key===key)return s.pendingEvent.event;
- let pool=getCareerEvents(s).filter(e=>!(s.recentEventIds||[]).includes(e.id));
- if(!pool.length)pool=getCareerEvents(s);
- let ev=pick(s,pool);
- if(s.age>=19&&s.age<=22&&s.track==='pro'&&!s.specialty){ev=E('co_specialty','진로를 결정할 실습·전공 선택','대학에서 전문 분야를 깊게 공부할 기회가 생겼다. 어느 분야에 집중해볼까?',[
- S('법률·법조 분야에 집중한다','실무 사례와 법률 분석을 공부한다',{policy:4,network:-2},-.08,{rights:1},{specialty:'lawyer'}),
- S('의료·보건 분야에 집중한다','지역 보건과 임상 현장의 경험을 쌓는다',{policy:4,org:-2},-.08,{welfare:1},{specialty:'doctor'}),
- S('기술·데이터 분야에 집중한다','연구실과 개발 프로젝트를 경험한다',{policy:4,trust:-1},-.06,{market:1},{specialty:'engineer'}),
- S('교육·공공행정 분야에 집중한다','교육과 행정 서비스 운영을 공부한다',{policy:3,network:2},-.06,{welfare:1},{specialty:'educator'})]);}
- const event={id:ev.id,title:ev.title,text:eventText(s,ev.text),choices:ev.choices};
- s.pendingEvent={key,event};save();return event;
-}
-function noteIssues(s,delta){s.issues??=INIT_ISSUES();for(const k of ISSUE_FIELDS)if(delta?.[k])s.issues[k]=clamp((s.issues[k]||0)+delta[k],0,100);}
-// Different contemporary parties cover overlapping goals; these are game design weights, not moral ratings or a political recommendation.
-const PARTY_SECTORS={
- '더불어민주당':{rights:3,welfare:4,market:3,labor:3,reform:4,security:2,local:4},
- '국민의힘':{rights:3,welfare:3,market:5,labor:2,reform:3,security:5,local:4},
- '조국혁신당':{rights:4,welfare:4,market:2,labor:3,reform:5,security:2,local:2},
- '개혁신당':{rights:3,welfare:2,market:5,labor:2,reform:5,security:3,local:3},
- '진보당':{rights:5,welfare:5,market:2,labor:5,reform:4,security:2,local:3},
- '정의당':{rights:5,welfare:5,market:2,labor:5,reform:3,security:2,local:3},
- '민주노동당':{rights:5,welfare:5,market:2,labor:5,reform:4,security:2,local:3}
-};
-function getSectorWeights(party){if(PARTY_SECTORS[party])return PARTY_SECTORS[party];if(/민주당|새정치|열린우리|국민회의|통합민주|평화민주/.test(party))return PARTY_SECTORS['더불어민주당'];if(/신한국|한나라|새누리|자유한국|민주자유|민주정의|미래통합/.test(party))return PARTY_SECTORS['국민의힘'];if(/자유선진|자유민주연합|통일국민|신민주공화/.test(party))return {rights:2,welfare:2,market:4,labor:2,reform:2,security:5,local:5};return {rights:3,welfare:3,market:3,labor:3,reform:3,security:3,local:3};}
-function partySuitability(s,party){
- const w=getSectorWeights(party),values=s.issues||INIT_ISSUES();const score=ISSUE_FIELDS.reduce((n,k)=>n+(values[k]||0)*(w[k]-2.3),0);const engagement=Math.min(33,score/4.3);
- const st=s.stats,localSupport=s.achievements?.length||0;
- const base=st.network*.29+st.trust*.27+st.policy*.20+st.fame*.17+st.org*.07;
- const career=(s.track==='pro'&&st.policy>=58?5:0)+(s.track==='biz'&&s.money>=3?4:0)+Math.min(7,localSupport*1.5);
- return Math.round(clamp(base*.68+engagement+career-(s.financialState==='distressed'?9:0),0,100));
-}
-function invitationThreshold(s){return s.age<=22?44:s.age<=32?51:57;}
-function checkInvites(s){
- if(s.age<joinMinAge(s)||s.gameover)return;
- s.invitations??=[];s.invitationHistory??=[];
- s.invitations=s.invitations.filter(x=>x.year+5>=s.year&&x.status==='pending');
- if(s.invitations.filter(x=>x.status==='pending').length>=2)return;
- if(s.partyLabel&&getParties(s.year).includes(s.partyLabel))return;
- if(r(s)>.5)return;
- const parties=getParties(s.year), ranked=parties.map(p=>({party:p,score:partySuitability(s,p)})).sort((a,b)=>b.score-a.score);
- const chosen=ranked.filter(x=>x.score>=invitationThreshold(s)&&!s.invitationHistory.some(h=>h.party===x.party&&s.year-h.year<6))[0];
- if(!chosen)return;
- const stage=s.age<=23?'지역 청년정책 간담회 참여 제안':chosen.score>=75?'외부인재 영입 면담 제안':'지역 정책 자문·당원 활동 제안';
- s.invitations.push({id:s.year+'_'+parties.indexOf(chosen.party),party:chosen.party,year:s.year,score:chosen.score,status:'pending',stage});
- s.invitationHistory.push({party:chosen.party,year:s.year});
- s.history.push({year:s.year,age:s.age,title:'정당의 연락 · '+chosen.party,text:`${stage}이 도착했다. 수락해도 공천이 자동 확정되지는 않는다.`});
-}
-function acceptInvitation(id){const s=current;const inv=s?.invitations?.find(x=>x.id===id);if(!inv||inv.status!=='pending'||s.gameover||overlay)return;
- if(!getParties(s.year).includes(inv.party)){inv.status='expired';save();render();return;}
- if(s.partyLabel&&s.partyLabel!==inv.party){if(!confirm('기존 정당 활동을 정리하고 새로운 정당의 제안을 수락할까요?'))return;apply(s,{stats:{network:-6,trust:-3}});}
- s.partyLabel=inv.party;s.partyIndex=getParties(s.year).indexOf(inv.party);inv.status='accepted';s.invitations=[];
- apply(s,{stats:{network:3,org:2}});s.history.push({year:s.year,age:s.age,title:'정당의 접촉 수락',text:`${inv.party} 측의 ${inv.stage}을 수락했다. 공천은 별도의 심사를 통과해야 한다.`});save();render();
-}
-function declineInvitation(id){const s=current;const inv=s?.invitations?.find(x=>x.id===id);if(!inv)return;inv.status='declined';s.invitations=s.invitations.filter(x=>x.id!==id);s.history.push({year:s.year,age:s.age,title:'정당 제안 보류',text:inv.party+'의 접촉을 정중히 거절했다.'});save();render();}
-
-const SURPRISES=[
- {title:'후원 행사 취소',text:'예정된 행사 참여자가 크게 줄면서 조직과 인지도에 타격이 생겼다.',stats:{network:-6,org:-4}},
- {title:'현안 발언 논란',text:'짧은 발언이 논쟁을 불렀다. 지지하는 의견과 비판하는 의견이 엇갈렸다.',stats:{fame:5,trust:-7}},
- {title:'지역 활동 경력 쌓기',text:'수년간 해오던 자원봉사 활동을 지역 주민들이 알아보기 시작했다.',stats:{trust:5,org:4}},
- {title:'정책 보고서 오류',text:'정책 자료에서 통계 오류가 발견돼 수정안을 발표했다.',stats:{policy:-6,trust:-5}},
- {title:'경쟁자와의 협력',text:'지역의 가상 정치 신인들과 공통 과제에 합의했다.',stats:{network:6,trust:2}},
- {title:'조직 내 지지층 이탈',text:'정치 활동의 방향을 두고 조직원이 일부 탈퇴했다.',stats:{org:-7,network:-4}},
- {title:'현장 프로젝트 실패',text:'기획한 프로젝트가 성과를 내지 못해 지출만 커졌다.',stats:{trust:-4,org:-3}},
- {title:'청년 모임과의 연대',text:'여러 세대가 함께 참석하는 지역 토론회를 열었다.',stats:{speech:4,fame:4}},
- {title:'예상 밖의 정책 토론 반응',text:'공개 토론 영상이 주목받으며 발언 능력이 널리 알려졌다.',stats:{speech:3,fame:5}},
- {title:'지역 민원 상담의 성과',text:'꾸준히 들어온 주민 의견이 구체적인 개선 제안으로 이어졌다.',stats:{trust:5,policy:2}},
- {title:'행사 일정이 어긋났다',text:'중요한 간담회 일정이 겹쳐 일부 약속을 지키지 못했다.',stats:{trust:-4,org:2}},
- {title:'오해를 부른 짧은 인터뷰',text:'인터뷰 일부만 화제가 되면서 설명이 더 필요해졌다.',stats:{fame:5,trust:-5}},
- {title:'새로운 협력 제안',text:'타 지역 시민 모임에서 정책 세미나 공동 개최를 제안했다.',stats:{network:5,policy:2}},
- {title:'소규모 정책 연구가 주목받다',text:'현실적인 제안이라는 평가가 이어지며 자료 요청이 늘었다.',stats:{policy:4,fame:3}},
- {title:'뜻밖의 조직 갈등',text:'함께 일하던 사람들이 역할 분담을 놓고 이견을 보였다.',stats:{org:-4,network:-2}},
- {title:'토론회에서 반론을 만나다',text:'예상치 못한 반론에 즉시 답하기 어려웠고 추가 공부를 시작했다.',stats:{speech:-2,policy:4}},
- {title:'지역 청소년의 편지',text:'지역의 문제를 해결해 달라는 제안이 새로운 동기가 되었다.',stats:{trust:3,org:2}},
- {title:'선배의 조언',text:'지역사회에서 오랫동안 활동해 온 선배가 회의 운영을 도왔다.',stats:{network:3,org:3}},
- {title:'길어진 업무와 피로',text:'여러 일이 동시에 진행되면서 일부 활동의 완성도가 떨어졌다.',stats:{policy:-2,trust:-2}},
- {title:'여론의 작은 반전',text:'처음에는 관심이 적던 의제에 지역 주민들이 점차 관심을 보였다.',stats:{fame:5,trust:2}}
-];
-
-function electionsDue(s){const y=s.year;let arr=[];const minAge=y>=2022?18:25;if(s.age<minAge)return arr;
- if(y>=1995&&(y===1995||y===1998||(y>=2002&&(y-2002)%4===0))){arr.push({id:'council',title:'지방의회의원 선거',desc:'지역 주민과 가장 가까운 선출직',difficulty:0});arr.push({id:'mayor',title:'지방자치단체장 선거',desc:'시·군·구의 행정을 책임지는 선출직',difficulty:12});}
- if(y>=1988&&(y-1988)%4===0)arr.push({id:'assembly',title:'국회의원 선거',desc:'국가 정책과 법률에 참여하는 선출직',difficulty:17});
- const presidential = [1992,1997,2002,2007,2012,2017,2022,2025];if(s.age>=40&&(presidential.includes(y)||(y>2025&&(y-2025)%5===0)))arr.push({id:'president',title:'대통령 선거',desc:'정당 경선과 전국 단위 본선을 통과해야 함',difficulty:37});
- return arr;}
-function eligibleYearMsg(s){if(s.age<40)return `대통령 피선거권: 만 40세부터 · 현재 ${s.age}세`;return `대통령 선거 일정에 맞춰 정치 탭에서 도전할 수 있어.`;}
-function chance(s,option){return clamp((option.roll.base||40)+((s.stats[option.roll.skill]||50)-40)*.38+s.stats.trust*.10,8,94);}
-function quietEventAftermath(s,e,opt){
- const decision=opt.n;
- const issues=Object.entries(opt.issues||{}).sort((a,b)=>b[1]-a[1]);
- const lead=issues[0]?.[0];
- const setting={rights:'계약과 권리 문제를 바라보는 시야가 달라졌다.',welfare:'도움이 필요한 사람들의 생활을 더 가까이 살피게 됐다.',market:'돈과 기회의 현실적인 제약을 직접 체감했다.',labor:'함께 일하는 사람들의 입장을 새롭게 알게 됐다.',reform:'제도를 바꾸는 일이 생각보다 복잡하다는 걸 느꼈다.',security:'현장의 안전과 행정 절차를 다시 확인했다.',local:'이웃과 지역의 이야기를 듣는 계기가 됐다.'};
- const st=opt.eff?.stats||{};
- let cost='';
- if((st.org||0)<0)cost='다른 일정에 쓸 시간이 줄어들었다.';
- else if((st.network||0)<0)cost='주변 일부 사람과의 관계에는 부담이 남았다.';
- else if((st.policy||0)<0)cost='공부와 전문 업무에 충분한 시간을 쓰지 못했다.';
- else if((st.trust||0)<0)cost='이 선택을 두고 주변 사람들의 평가가 엇갈렸다.';
- else if((opt.eff?.money||0)<0)cost='당장 지출은 감수해야 했다.';
- const abstain=/불참|거절|포기|집중|개입하지|관망|미루|하지 않|맡지 않|이번에는/.test(decision);
- const action=abstain?`당신은 ‘${decision}’ 쪽을 선택하고, 그 입장을 지켰다.`:`당신은 ‘${decision}’ 결정을 말로만 끝내지 않고 실제 행동으로 옮겼다.`;
- return [action,setting[lead]||'그 뒤에도 일상은 이어졌고 이번 일은 하나의 경험으로 남았다.',cost].filter(Boolean).join(' ');
-}
-function actionEvent(i){
- if(!current||current.gameover||overlay)return;
- const s=current,e=events(s),opt=e.choices[i];if(!opt)return;
- const old={...s.stats};const moneyBefore=s.money;let msg=opt.n,extra='',good=true;
- apply(s,opt.eff);noteIssues(s,opt.issues);
- if(opt.specialty)s.specialty=opt.specialty;
- if(opt.track)s.track=opt.track;
- if(opt.roll){const p=chance(s,opt);good=r(s)*100<p;extra=good?opt.roll.success:opt.roll.failure;
-   if(good&&opt.roll.achievement&&!s.achievements.includes(opt.roll.achievement))s.achievements.push(opt.roll.achievement);
-   apply(s,good?opt.roll.goodEff:opt.roll.badEff);
- }
- if(opt.business){const v=r(s),before=s.money;let change=v<.21?-(.55+r(s)*1.6):v<.50?-(.1+r(s)*.4):v<.88?(.15+r(s)*.8):(.85+r(s)*2.3);
-   apply(s,{money:change,stats:change<0?{trust:-3,network:-2}:{org:3}});good=change>=0;extra=good?'새로운 사업을 추진해 예상보다 좋은 결과가 나왔다.':'제품 반응이 기대에 못 미쳐 운영 자금이 크게 줄었다.';}
- if(opt.recovery){const repay=opt.recovery==='settle'?.75:opt.recovery==='work'?.5:.28;s.debt=Math.max(0,(s.debt||0)-repay);if(s.debt<.12){s.debt=0;s.financialState='normal';extra='부채를 해결하고 재기를 시작했다.';}else extra=`부채 정리를 계속하고 있다. 남은 부채 ${fmt(s.debt)}억원.`;}
- if(!extra&&!opt.roll&&!opt.business&&!opt.recovery)extra=quietEventAftermath(s,e,opt);
- s.history.push({year:s.year,age:s.age,title:e.title+' · '+msg,text:extra||opt.d});
- s.recentEventIds??=[];s.recentEventIds.push(e.id);s.recentEventIds=s.recentEventIds.slice(-6);s.pendingEvent=null;
- finishTurn(s,old,{title:good?'선택의 결과':'선택의 대가',text:extra||`${opt.n} — ${opt.d}`,label:msg,context:e.text,eventTitle:e.title,moneyBefore,achievement:good&&opt.roll?.achievement?opt.roll.achievement:null,choiceMade:true,issues:Object.entries(opt.issues||{}).filter(([k,v])=>v>0).map(([k,v])=>({label:ISSUE_KEYS.find(x=>x[0]===k)?.[1]||k,num:v}))});
-}
-function events(s){return getLifeEvent(s);}
-function surprise(s){if(s.age<20||r(s)>.24)return '';const v=pick(s,SURPRISES);apply(s,{stats:v.stats});s.history.push({year:s.year,age:s.age,title:'돌발 사건 · '+v.title,text:v.text});return `\n\n[돌발 사건] ${v.title}: ${v.text}`;}
-function finishTurn(s,old,result){
- const year=s.year,inc=yearIncome(s);s.money=clamp(s.money+inc,0,500);
- if(s.debt>0){const repay=Math.max(.03,Math.min(s.money*.09,.22));s.debt=Math.max(0,s.debt-repay);s.money=Math.max(0,s.money-repay);
-  if(s.debt<.09){s.debt=0;s.financialState='normal';s.history.push({year:s.year,age:s.age,title:'빚 청산',text:'재정 위기를 극복했다.'});}}
- const unexpected=surprise(s);result.text+=unexpected;result.unexpected=unexpected;
- if(s.age>=30){s.stats.fame=clamp(s.stats.fame-1);s.stats.trust=clamp(s.stats.trust-(r(s)<.38?1:0));}
- s.turn++;s.age++;s.year++;
- if(s.partyLabel&&!getParties(s.year).includes(s.partyLabel)){const former=s.partyLabel;s.partyLabel=null;s.partyIndex=null;s.history.push({year:s.year,age:s.age,title:'정당 재편',text:former+'이 당시의 게임 내 주요 정당 목록에서 사라졌다. 새로운 정당으로의 자동 소속 변경은 없다.'});}
- if(!s.gameover){const before=(s.invitations||[]).filter(x=>x.status==='pending').length;checkInvites(s);const newOnes=(s.invitations||[]).filter(x=>x.status==='pending');if(newOnes.length>before){result.invitationNotice=`${newOnes.at(-1).party} · ${newOnes.at(-1).stage}`;result.text+=`
-
-[새 연락] ${newOnes.at(-1).party}에서 '${newOnes.at(-1).stage}' 연락이 도착했다. 정치 탭에서 확인할 수 있어.`;}}
- if(s.officeUntil&&s.year>=s.officeUntil&&s.office!=='대통령'){const former=s.office;s.office='전직 '+former;s.officeUntil=null;
- s.history.push({year:s.year,age:s.age,title:former+' 임기 종료',text:'선출직 임기를 마치고 새로운 도전을 준비한다.'});}
- if(s.gameover){s.ending||='사업 위기';archive(s);}
- else if(s.age>=70&&(s.age>=79||(r(s)<(s.age-69)*.012))){s.gameover=true;
-   s.ending = s.president?'대통령 당선':s.leadership?'정당 지도부 경력':s.peakOffice==='국회의원'?'국회의원 경력':s.peakOffice==='광역·기초단체장'?'지역 행정가':s.peakOffice==='지방의회의원'?'지역 정치인':s.bankruptcies>0?'재기와 도전의 인생':s.track==='pro'?'전문직 경력':s.track==='biz'?'사업가의 인생':'평범한 시민의 인생';
-   s.history.push({year:s.year,age:s.age,title:'인생 마무리',text:`${s.ending}으로 남은 인생을 정리했다.`});archive(s);
-   result.title='정치 인생 종료';result.text+=` ${s.ending}의 기록을 남기고 은퇴했다.`;}
- const diff=STATS.map(([id,label])=>({label,num:s.stats[id]-old[id]})).filter(o=>o.num!==0).sort((a,b)=>Math.abs(b.num)-Math.abs(a.num));
- overlay={...result,year,nextYear:s.year,age:s.age,changes:diff.slice(0,3),moneyDelta:result.moneyBefore==null?null:Math.round((s.money-result.moneyBefore)*100)/100,stage:'decision',done:s.gameover,sceneKey:`${s.seed}-${year}-${s.turn}`};save();render();
-}
-
-function runElection(type){
- const s=current;if(!s||s.gameover||overlay)return;const opt=electionsDue(s).find(x=>x.id===type);
- if(!opt||s.lastElectionYear===s.year)return;
- const old={...s.stats};s.lastElectionYear=s.year;
- const titles={council:'지방의회의원',mayor:'광역·기초단체장',assembly:'국회의원',president:'대통령'};
- const party=partyName(s),majorWins=s.elections.filter(x=>x.won).length,highWins=s.elections.filter(x=>x.won&&['국회의원','광역·기초단체장'].includes(x.title)).length;
- const trust=s.stats.trust,net=s.stats.network,fame=s.stats.fame,org=s.stats.org,policy=s.stats.policy,speech=s.stats.speech;
- // Single-player career game probabilities. They are not forecasts of real elections or parties.
- let nominationChance;
- if(type==='president'){
-  s.presidentAttempts=(s.presidentAttempts||0)+1;
-  nominationChance=clamp(2+(fame-68)*.34+(net-70)*.35+(org-65)*.15+highWins*3.5+(s.leadership?9:0),1.5,31);
-  nominationChance*=Math.max(.18,1-(s.presidentAttempts-1)*.20);
-  if(!highWins&&!s.leadership)nominationChance*=.32;
- }else{
-  const diff={council:0,mayor:16,assembly:12}[type];
-  nominationChance=clamp(25+(net-43)*.42+(org-43)*.32+(trust-45)*.15+majorWins*4-diff,7,83);
- }
- if(s.financialState==='distressed')nominationChance*=.62;
- // Independent candidacy skips party nomination, but has less campaign structure.
- const nominated=party==='무소속'||r(s)*100<nominationChance;
- let won=false,share=null,note='';
- if(!nominated){note=`${party} 내부의 가상 공천 경선에서 패배했다. 유권자 본선에는 출마하지 못했다.`;s.politicalSetbacks++;
-   apply(s,{stats:{speech:2,org:1,network:-2}});}
+function pickEvent(){let g=game;let all=eventCards();let pool=all.filter(x=>!g.seen.includes(x.id));if(pool.length<3){g.seen=g.seen.slice(-4);pool=all.filter(x=>!g.seen.includes(x.id))}let index=(g.turn*3+g.age+g.party.length+rand(0,1000))%pool.length;return pool[index]||all[0]}
+function ensureEvent(){if(!game||game.over||game.pending)return;if(!game.currentEvent){game.currentEvent=pickEvent();game.seen.push(game.currentEvent.id);save()}}
+function sceneHtml(){let g=game;ensureEvent();if(g.over)return endHtml();if(g.pending)return resultHtml();let e=g.currentEvent;return `<div class="paper scene"><div class="row between"><span class="eyebrow">${humanDate(g)} / ${g.region}</span><span class="badge">${g.office}</span></div><div class="stage"><i class="dot on"></i><i class="dot"></i><i class="dot"></i></div><span class="eventkicker">${safe(e.topic)} · 제${g.turn+1}장</span><h1 class="serif">${safe(e.title)}</h1><p class="eventtext">${safe(e.desc)}</p><div class="hr"></div><div class="eyebrow">YOUR DECISION</div>${e.choices.map((c,i)=>`<button class="option" onclick="choose(${i})"><b>0${i+1} · ${safe(c[0])}</b><em>${safe(c[1])}</em></button>`).join('')}<p class="inputhelp">수치는 보정 없는 가상 게임 시뮬레이션이며, 선택 뒤 성공·실패와 예상 밖의 결과가 달라질 수 있습니다.</p></div><div class="paper"><div class="row between"><b class="small">현재 활동 상황</b><span class="tiny muted">정당 ${safe(g.party)}</span></div><div class="metricgrid"><div class="metric"><strong>${g.support}</strong><span>지역 지지도</span></div><div class="metric"><strong>${g.partyTrust}</strong><span>당내 신뢰</span></div><div class="metric"><strong>${g.wealth.toFixed(1)}</strong><span>자산 (억원)</span></div></div></div>`}
+function choose(index){if(!game||game.pending||game.over)return;let g=game,e=g.currentEvent,c=e.choices[index];if(!c)return;let before={...g.stats,support:g.support,partyTrust:g.partyTrust,wealth:g.wealth};let win=rand(1,100)<=c[5];let mult=win?1:.32;for(let[k,v]of Object.entries(c[2]||{})){if(!(k in g.stats))continue;g.stats[k]=clamp(g.stats[k]+Math.round(v*mult)-(win?0:Math.max(1,Math.ceil(Math.abs(v)/2))))}for(let[k,v]of Object.entries(c[3]||{})){if(k==='support'||k==='partyTrust')g[k]=clamp(g[k]+Math.round(v*mult)-(win?0:1))}if(c[6])g.relation[c[6]]=clamp((g.relation[c[6]]||50)+(win?(c[7]||0):-(c[7]||0)));
+ let loss=0;if(!win&&rand(1,100)<40){loss=+.1*rand(1,4);g.wealth=Math.max(0,g.wealth-loss)}
+ let afterText=win?c[4]:`시도 과정에서 예상보다 큰 반발과 행정적 문제가 발생했다. ${c[4]} 성과는 일부에 그쳤고, 후속 보완 계획을 세워야 했다.`;
+ if(!win){g.stats.trust=clamp(g.stats.trust-1);}
+ if(win&&['rent','traffic','school','market'].includes(e.id)){g.promises.push({created:g.year,label:e.title,due:g.turn+rand(3,7),status:'진행 중',impact:rand(1,3)})}
+ g.pending={title:e.title,choice:c[0],win,detail:afterText,changes:{...Object.fromEntries(Object.keys(g.stats).map(k=>[k,Math.round(g.stats[k]-before[k])])),support:g.support-before.support,partyTrust:g.partyTrust-before.partyTrust,wealth:+(g.wealth-before.wealth).toFixed(1)}};g.history.unshift({y:g.year,q:g.quarter,t:e.title,d:`${c[0]} · ${afterText}`,win});g.currentEvent=null;mode='outcome';save();render();window.scrollTo(0,0)}
+function resultHtml(){let g=game,o=g.pending;return `<div class="paper scene"><div class="eyebrow">DECISION REPORT / ${humanDate(g)}</div><div class="stage"><i class="dot on"></i><i class="dot on"></i><i class="dot"></i></div><span class="tag ${o.win?'':'red'}">${o.win?'진행 성과':'예상 밖의 난관'}</span><h1 class="serif">${safe(o.title)}</h1><p class="lead">당신의 선택 · ${safe(o.choice)}</p><div class="result">${safe(o.detail)}</div><div class="hr"></div><b class="small">이번 사건이 남긴 변화</b><div class="delta" style="margin-top:10px">${Object.entries(o.changes).filter(([k,v])=>v!==0).map(([k,v])=>`<span class="${v<0?'neg':''}">${safe(STATLABEL[k]||{support:'지역 지지도',partyTrust:'당내 신뢰',wealth:'자산'}[k]||k)} ${v>0?'+':''}${v}</span>`).join('')||'<span>능력치 변화 없음 · 정치적 기록 추가</span>'}</div><p class="inputhelp">행동의 결과는 연대기에 기록됩니다. 일부 사건은 몇 분기 뒤 다시 영향을 미칩니다.</p><button class="btn primary full" onclick="nextQuarter()">다음 분기로 진행 →</button></div>`}
+function nextQuarter(){if(!game||!game.pending)return;let g=game;g.pending=null;g.turn++;g.quarter++;if(g.quarter>4){g.quarter=1;g.year++;g.age++} // evaluate delayed commitments
+ for(let p of g.promises){if(p.status!=='진행 중'||g.turn<p.due)continue;let success=rand(1,100)<clamp(g.stats.org*.6+g.stats.policy*.3+18,15,95);p.status=success?'이행':'지연';g.support=clamp(g.support+(success?p.impact:-p.impact));g.stats.trust=clamp(g.stats.trust+(success?2:-2));g.history.unshift({y:g.year,q:g.quarter,t:`이전 약속의 후속 결과 · ${p.label}`,d:success?'후속 일정과 결과가 공개되어 지역 지지가 소폭 높아졌다.':'약속의 실행이 지연되면서 결과를 설명해야 했다.'});}
+ // resources/time
+ if(g.turn%4===0){g.wealth=Math.max(0,+(g.wealth+({'youth':.09,law:.28,health:.24,biz:.36,edu:.12,labor:.11}[g.track]||.1)-(g.office==='정당 신인'?.08:.03)).toFixed(2));g.partyTrust=clamp(g.partyTrust+rand(-2,2));}
+ // player aging and random news
+ if(g.turn%5===0){g.support=clamp(g.support+rand(-3,2));g.history.unshift({y:g.year,q:g.quarter,t:'정치 환경 변화',d:'지역 현안과 유권자 관심사가 달라지면서 정치 활동의 우선순위를 다시 검토하게 되었다.'})}
+ if(g.age>=75){g.over=true;g.history.unshift({y:g.year,q:g.quarter,t:'정계 은퇴',d:'오랜 정치 활동을 정리했다.'})}
+ mode='event';save();render();window.scrollTo(0,0)}
+function endHtml(){let g=game;return `<div class="paper"><div class="ending"><div class="eyebrow" style="color:#c9e4d6">CAREER COMPLETED</div><h1 class="serif">${safe(g.name)}의 정치 연대기</h1><p>${g.won}회 당선 · ${g.lost}회 낙선<br>최종 공직: ${safe(g.office)}</p></div><p class="lead">대통령 당선은 가능한 결말 중 하나일 뿐이며 모든 플레이에서 보장되지 않습니다.</p><button class="btn primary full" onclick="restart()">새 정치 인생 시작</button></div>`}
+function contactsHtml(){let g=game;let people=Object.keys(g.relation);let parties=PARTIES[g.era];return `<div class="paper"><div class="eyebrow">PUBLIC FIGURES · ${g.era}</div><h2 class="serif">실존 정치인 관계망</h2><p class="lead">이름과 출발 시점의 소속은 역사적 사실을 참고했지만, 아래 관계 수치는 전부 게임 속 가상 지표야. 실제 정치인의 평가나 현실의 관계를 의미하지 않아.</p>${people.map(n=>{let p=parties.find(p=>p.people.includes(n));return `<div class="npc"><div class="avatar">${safe(n.slice(0,1))}</div><div><b>${safe(n)}</b><small>${safe(p?.name||'')} · 게임 속 관계도</small></div><div style="width:70px"><b class="small">${num(g.relation[n])}</b><div class="miniProgress"><i style="width:${g.relation[n]}%"></i></div></div></div>`}).join('')}<p class="source">게임에 등장하는 모든 이름 있는 NPC는 실제 역사·정치 인물입니다. 사건 속 발언이나 만남은 사실 보도가 아니라 가상 상황입니다.</p></div>`}
+function electionDue(){let g=game;let y=g.year;let general=g.era===1988?y>=1988&&(y-1988)%4===0:g.era===2008?y>=2008&&(y-2008)%4===0:y>=2028&&(y-2028)%4===0;let local=g.era===1988?y>=1995&&(y-1995)%4===0:g.era===2008?y>=2010&&(y-2010)%4===0:y>=2030&&(y-2030)%4===0;let pres=g.era===1988?y>=1992&&(y-1992)%5===0:g.era===2008?y>=2012&&(y-2012)%5===0:y>=2030&&(y-2030)%5===0;return {general,local,pres}}
+function electionReadiness(type){let g=game,base=g.stats.org*.22+g.stats.rep*.28+g.stats.media*.15+g.support*.22+g.partyTrust*.13;let margin=type==='president'?83:type==='assembly'?58:48;let qualify=type==='president'?g.age>=40&&g.won>=2:g.stats.org>=30;return {base:Math.round(base),margin,qualify}}
+function tryNomination(type){
+ let g=game;if(g.pending||g.over)return;let d=electionDue();if(type==='president'&&!d.pres||type==='assembly'&&!d.general||type==='local'&&!d.local){alert('아직 해당 선거의 출마 시기가 아니야.');return}
+ if(g.electionLast===g.year){alert('이번 연도에는 이미 선거에 도전했어.');return}
+ let rd=electionReadiness(type);if(!rd.qualify){alert(type==='president'?'대통령 도전은 만 40세 이상, 선출직 당선 경력 2회 이상이어야 해.':'조직 운영 능력을 더 쌓아야 출마를 준비할 수 있어.');return}
+ // The party screening and the general election are two separate fictional checks.
+ let office=type==='president'?'대통령':type==='assembly'?'국회의원':'지방의회의원';
+ let nominationScore=g.partyTrust*.46+g.stats.org*.27+g.stats.network*.18+g.stats.policy*.09;
+ let nominationBar=type==='president'?72:type==='assembly'?52:40;
+ let nominationWon=nominationScore+rand(-22,22)>=nominationBar;
+ let elected=false,firstMsg='';
+ if(!nominationWon){g.partyTrust=clamp(g.partyTrust-3);firstMsg=`${g.party} 당내 공천 심사에서 후보 선출을 받지 못했다. 지역 조직력, 정책 발표, 내부 평가 자료가 종합적으로 검토되었지만 이번에는 최종 후보가 되지 못했다.`}
  else{
-  const spend=Math.min(s.money,type==='president'?1.8:type==='assembly'?.65:.42);
-  s.money=clamp(s.money-spend,0,500);
-  let winChance;
-  if(type==='president'){
-    winChance=clamp(1+(fame-70)*.22+(trust-70)*.24+(speech-70)*.09+(policy-70)*.09+highWins*1.8+(s.leadership?5:0)+(net-70)*.09,1,19);
-    winChance*=Math.max(.15,1-(s.presidentAttempts-1)*.16);
-    if(!highWins&&!s.leadership)winChance*=.19;
-    if(party==='무소속')winChance*=.10;
-  }else{
-    const base={council:21,mayor:9,assembly:12}[type];
-    winChance=clamp(base+(trust-48)*.34+(fame-45)*.29+(org-45)*.17+(speech-45)*.14+majorWins*3+(spend>.2?3:0),4,70);
-    if(party==='무소속')winChance*=.65;
-  }
-  if(s.financialState==='distressed')winChance*=.68;
-  won=r(s)*100<winChance;
-  share=won?50+8*r(s):24+25*r(s);
-  if(won){const office=titles[type];if(!s.achievements.includes(office+' 당선'))s.achievements.push(office+' 당선');
-    s.office=office;s.peakOffice=office;s.officeUntil=s.year+(type==='president'?5:4);s.stats.fame=clamp(s.stats.fame+(type==='president'?30:11));s.stats.network=clamp(s.stats.network+7);s.stats.trust=clamp(s.stats.trust+4);
-    if(type==='president'){s.president=true;s.gameover=true;s.ending='대통령 당선 · 최고 엔딩';}
-  }else {s.politicalSetbacks++;apply(s,{stats:{speech:2,org:2,fame:1,trust:-3}});}
-  note=`${titles[type]} 선거에서 가상 경쟁 후보와 맞붙어 득표율 ${share.toFixed(1)}%를 기록했다. ${won?'당선!':'낙선했다.'}`;
+  let electionScore=g.support*.30+g.stats.rep*.23+g.stats.media*.18+g.stats.trust*.15+g.stats.org*.14;
+  let electionBar=type==='president'?79:type==='assembly'?65:58;
+  elected=electionScore+rand(-27,27)>=electionBar;
+  if(elected){g.office=office;g.won++;g.support=clamp(g.support+8);g.partyTrust=clamp(g.partyTrust+5);g.stats.media=clamp(g.stats.media+4);if(office==='대통령')g.over=true}
+  else{g.lost++;g.support=clamp(g.support-5);g.partyTrust=clamp(g.partyTrust-2)}
+  firstMsg=`당내 공천 심사를 통과해 ${office} 선거에 출마했다. ${elected?`개표 결과 당선되었다. 이후 ${office}으로서 새로운 책임과 조정 과제가 시작된다.`:'하지만 본선에서 득표가 충분하지 않아 낙선했다. 지역 활동과 정치 경력을 유지하며 다음 기회를 모색할 수 있다.'}`;
  }
- s.elections.push({year:s.year,title:titles[type],party,nomination:nominated,share,won});
- s.history.push({year:s.year,age:s.age,title:titles[type]+' '+(won?'당선':nominated?'낙선':'공천 실패'),text:note});
- if(s.president){archive(s);overlay={title:'대한민국 대통령 당선 · 전설 엔딩',year:s.year,
- text:`${s.name}의 오랜 도전이 가상 대통령 선거의 승리로 이어졌다. 당선 연령 ${s.age}세. 모든 인생에서 나오는 결과가 아닌 최고의 엔딩이다.`,changes:[],stage:'outcome',done:true,president:true};save();render();return;}
- finishTurn(s,old,{title:won?'선거 승리':nominated?'선거 낙선':'공천 탈락',text:note,label:opt.title});
+ g.electionLast=g.year;
+ g.history.unshift({y:g.year,q:g.quarter,t:`${office} 도전 · ${!nominationWon?'공천 탈락':elected?'당선':'본선 낙선'}`,d:firstMsg});
+ g.pending={title:`${office} 도전`,choice:'공천 심사에 신청했다',win:elected,detail:firstMsg,changes:{support:elected?8:nominationWon?-5:0,partyTrust:!nominationWon?-3:elected?5:-2}};
+ save();screen='event';render();window.scrollTo(0,0);
 }
-
-function joinParty(idx){return;}
-function newGame(){const s=current;if(s&&!s.gameover&&s.turn>0&&!confirm('현재 진행 중인 인생을 끝내고 새 게임을 시작할까요? 기록은 저장되지만 진행 데이터는 초기화됩니다.'))return;if(s&&s.turn>0)archive(s);current=null;tab='story';overlay=null;ob={era:'e20',name:'',track:'youth',roll:0,origin:null};render();}
-function showOnboard(){const origin=ob.origin;
- const eraHtml=ERAS.map(e=>`<button class="option ${ob.era===e.id?'selected':''}" onclick="selectEra('${e.id}')"><div class="era-choice"><div class="era-date">${e.name.split('년대')[0]}</div><div><strong>${e.name}</strong><span>${e.line}<br>고1 시작 ${e.year}년</span></div></div></button>`).join('');
- return `<div class="start"><div class="row between"><div class="eyebrow">CHRONICLE / 시민의 기록</div><span class="pill">인생 서사집</span></div><div class="hero"><div class="sun"></div><div class="parliament"><div class="roof"></div><div class="body-building"></div><div class="base-building"></div></div></div><h1 class="onboard-title">교실에서<br><span>대통령 되기</span></h1><p class="sub">17세 고등학생에서 시작하는 대한민국 정치 인생.<br>학생회장, 전문직, 창업가… 누구나 도달하는 자리는 아니다. 어디까지 갈 수 있을까?</p><div class="step">01 / 시작할 시대를 선택하세요</div><div class="era-grid">${eraHtml}</div><div class="step">02 / 내 인생의 출발 조건</div><div class="card highlight"><div class="row between"><div><div class="label">랜덤 출생 배경</div><h3>${origin?esc(origin.family?.label||origin.region):'아직 생성되지 않음'}</h3></div><button class="btn slim ghost" onclick="rollOrigin()">↻ 다시 뽑기</button></div><p class="caption">${origin?esc(origin.family?.desc||origin.bg.desc):'출발 조건을 생성하세요.'}</p><div class="family-grid"><div><small>가정 구성</small><b>${esc(origin?.family?.guardian||'—')}</b></div><div><small>가구 경제 상황</small><b>${esc(origin?.family?.income||'—')}</b></div><div><small>보호자 직업</small><b>${esc(origin?.family?.guardianJob||'—')}</b></div><div><small>추가 보호자 직업</small><b>${esc(origin?.family?.secondJob||'—')}</b></div><div><small>형제자매</small><b>${origin?.family?.siblings??'—'}명</b></div><div><small>초기 가용 자산</small><b>${origin?.family?fmt(origin.family.assets):'—'}억</b></div></div><p class="caption">출생 배경은 활동 기회·재정 사건에 영향을 주지만, 특정 정치 성향을 자동으로 부여하지는 않아.</p></div><div class="step">03 / 처음 생각한 진로</div>${TRACKS.map(t=>`<button class="option ${ob.track===t.id?'selected':''}" onclick="selectTrack('${t.id}')"><strong>${t.icon} ${t.name}</strong><span>${t.text}</span></button>`).join('')}<div class="step">04 / 이름 설정</div><input class="nameinput" id="pname" type="text" maxlength="12" placeholder="정치인 이름 (기본: 김정훈)" value="${esc(ob.name)}" oninput="ob.name=this.value"><button class="btn primary full mt16" onclick="startGame()">나의 정치 인생 시작 →</button><p class="minor-note">실제 대한민국 정당·시대별 정치인의 이름을 사용하지만, 게임 속 관계·정책 선택·선거 결과는 모두 가상입니다. 미래 시점의 정당명은 2026년 구도를 바탕으로 한 가상의 분기입니다.</p></div>`;
-}
-function selectEra(x){ob.era=x;render()}function selectTrack(x){ob.track=x;render()}
-function head(s){return `<header class="mast"><div class="brand"><span class="seal">✦</span><div><small>LIFE ARCHIVE</small><strong>교실에서 대통령 되기</strong></div></div><div class="headright"><span class="pill">${s.year} · ${s.age}세</span><button class="round-btn" title="설정·새 게임" onclick="tab='record';render()">⚙</button></div></header>`;}
-function bottom(){const items=[['story','⌂','인생'],['activity','◉','성장'],['politics','♜','정치'],['record','▤','기록']];return `<nav class="bottomnav" aria-label="게임 메뉴">${items.map(([id,icon,t])=>`<button class="navbtn ${tab===id?'active':''}" onclick="tab='${id}';render()"><span class="navico">${icon}</span>${t}</button>`).join('')}</nav>`;}
-
-function schoolLabel(id){
- if(/vote|president|council|volunteer|budget|local/.test(id))return '자치 · 지역사회';
- if(/family|parttime|work|commute|roads|cafe/.test(id))return '일상 · 가정';
- if(/exam|study|tutor|entrance|coding|hackathon/.test(id))return '학업 · 진로';
- if(/friend|classmate|rumor|media|teacher|exchange/.test(id))return '관계 · 갈등';
- return '교내 생활';
-}
-
-function story(s){const evt=events(s),election=electionsDue(s);const schoolFocus=s.age<=19?schoolLabel(evt.id):null;const step=clamp((s.age-17)/33*100,0,100);return `<main class="screen"><div class="profiletop"><div class="eyebrow">${esc(ERAS.find(e=>e.id===s.era).name)} 출발 · ${esc(phase(s))}</div><div class="profile-name">${esc(s.name)} <span class="tag gold">${s.age}세</span></div><div class="profile-rank">${esc(s.region)} · ${esc(partyName(s))} · ${esc(s.office)}</div></div><div class="progress-strip"><div class="metric"><span class="text">대중 인지도</span><span class="num">${s.stats.fame}</span><span class="text">/ 100</span></div><div class="metric"><span class="text">신뢰도</span><span class="num">${s.stats.trust}</span><span class="text">/ 100</span></div><div class="metric"><span class="text">현재 재산</span><span class="num">${fmt(s.money)}</span><span class="text">억원</span></div></div><div class="card highlight story-feature"><div class="row between"><span class="label">제 ${s.turn+1}장 · ${s.year}년</span><span class="tag">${esc(phase(s))}</span></div><div class="caption mt8">${esc(s.family?.area||s.region)} · ${esc(s.family?.income||"일반")} 가정 · ${s.track==='pro'?({lawyer:'법률',doctor:'보건·의료',engineer:'기술',educator:'교육'}[s.specialty]||'전문직 준비'):s.track==='biz'?'사업 경로':'공공 활동 경로'}</div><div class="episode-kicker">${schoolFocus?`<span class="topic-marker">${esc(schoolFocus)}</span>`:`<span class="topic-marker">선택의 기록</span>`}<span>${esc(s.year)} / ${s.age}세</span></div><h2>${esc(evt.title)}</h2><p class="sub m0">${esc(evt.text)}</p><p class="caption mt8">선택하면 금전·신뢰·평판이 내려갈 수도 있으며, 일부 결과는 현재 능력치와 확률에 따라 달라져.</p>${!s.gameover?evt.choices.map((c,i)=>`<button class="option" onclick="actionEvent(${i})"><span class="arrow">›</span><strong>${esc(c.n)}</strong><span>${esc(c.d)}</span></button>`).join(''):'<div class="no-events">이 인생은 종료되었어. 기록에서 새 인생을 시작할 수 있어.</div>'}</div>${election.length&&!s.gameover?`<div class="news"><b>🗳 ${s.year}년 선거 일정</b><br>올해 출마할 수 있는 선거 ${election.length}개. 아래 정치 탭에서 도전할 수 있어.</div>`:''}<div class="block-title">나의 정치 경로</div><div class="card"><div class="row between"><span class="caption">대통령 출마 최소 연령까지</span><strong class="gold">${s.age>=40?'출마 연령 충족':`${40-s.age}년`}</strong></div><div class="bar mt8" style="height:9px"><div style="width:${step}%"></div></div><div class="caption mt8">${eligibleYearMsg(s)} · 실제 대통령 임기는 5년 단임</div><div class="divider"></div><div class="row between"><span class="caption">최근 성취</span><span class="tag">${s.achievements.length}개</span></div><p class="small">${s.achievements.length?esc(s.achievements.slice(-2).join(' · ')):'아직 특별한 경력 없음 — 선택에 따라 이야기가 바뀐다.'}</p></div>${historicalNews(s.year)}${historicalBanner(s)}</main>`;}
-function historicalBanner(s){const people=REALPEOPLE[s.era];const starter=ERAS.find(e=>e.id===s.era);return `<details class="fold"><summary>▸ ${starter.year}년 출발 시대의 실제 정치 인물</summary><div class="foldbody">${people.map(p=>`<div class="listitem"><strong>${esc(p.n)}</strong><p>${esc(p.d)}</p></div>`).join('')}<p class="caption">실제 인물의 공개적으로 확인 가능한 직책·경력을 소개하는 자료 카드야. 게임에서 가상의 대화나 실제 선거 예측을 만들지는 않아.</p></div></details>`;}
-function activity(s){return `<main class="screen"><div class="profiletop"><div class="eyebrow">CAREER DEVELOPMENT</div><h1 class="h1">능력치와 경력</h1><p class="sub">정치 생활에서 중요한 능력은 하나가 아니야. 연설, 정책, 협상, 신뢰가 다른 상황에서 작동해.</p></div><div class="card"><div class="row between"><strong>현재 능력치</strong><span class="tag">0~100</span></div>${statsHtml(s.stats)}</div><div class="card"><span class="label">누적 관심·활동 분야</span><p class="caption">정당 성향이 아니라 사건에서 어떤 분야를 직접 다뤘는지 기록한 수치야.</p>${ISSUE_KEYS.map(([k,label])=>`<div class="statline"><span class="statname">${label}</span><div class="bar"><div style="width:${clamp(s.issues?.[k]||0)}%;background:linear-gradient(90deg,#4d849c,#84c8b9)"></div></div><span class="statval">${s.issues?.[k]||0}</span></div>`).join('')}</div><div class="card"><span class="label">현재 진로</span><h2>${esc(TRACKS.find(t=>t.id===s.track)?.name||'청년 정치')}</h2><p class="sub m0">${s.track==='youth'?'학생회·지역 활동에서 시작해 조직과 인지도를 높이는 정치 경로':s.track==='pro'?'전문직의 실적과 정책 전문성을 바탕으로 정계에 진출하는 경로':'사업에서 만든 재산과 조직 운영 경험을 공적 영역으로 확장하는 경로'}</p><div class="divider"></div><p class="caption">진로는 고정되어 있지 않아. 매년 등장하는 선택지를 통해 전문직·사업·정치 활동 사이를 이동할 수 있어.</p></div><div class="card"><span class="label">주요 경력</span>${s.leadership?'<div class="listitem"><strong>✦ 정당 지도부 경험</strong></div>':''}${s.achievements.length?s.achievements.map(a=>`<div class="listitem"><strong>✦ ${esc(a)}</strong></div>`).join(''):'<p class="sub">아직 주요 경력이 없어. 학생회장 선거부터 도전해 봐.</p>'}</div><div class="card"><span class="label">가정 및 재정</span><h3>${esc(s.family?.desc||BG.find(b=>b.id===s.background)?.name||'')}</h3><p class="caption">${esc(s.region)} ${esc(s.family?.area||'')} · 가구 소득 상황 ${esc(s.family?.income||'미상')}</p><div class="row between"><span class="small">현재 재산</span><b class="gold">${asset(s)}</b></div><p class="caption mt8">누적 사업 실패 ${s.bankruptcies||0}회 · 미상환 부채 ${fmt(s.debt||0)}억원. 재산은 실제 공직자 재산신고나 현실 수입 통계가 아닌 가상 자원이야.</p></div></main>`;}
-function politics(s){const names=getParties(s.year);const due=electionsDue(s),minimum=s.year>=2022?18:25;
- const invitations=(s.invitations||[]).filter(x=>x.status==='pending'&&names.includes(x.party));
- return `<main class="screen"><div class="profiletop"><div class="eyebrow">POLITICAL CONTACT · NOMINATION</div><h1 class="h1">정치 무대</h1><p class="sub">정당 버튼으로 즉시 입당하는 기능은 없어졌어. 경력과 누적 활동을 평가한 가상의 연락을 기다리거나 무소속으로 활동할 수 있어.</p></div>
- <div class="card highlight"><div class="row between"><div><div class="label">현재 소속</div><h2>${esc(partyName(s))}</h2></div><span class="tag gold">${s.year}년</span></div><p class="caption">누적 정책 관심 분야와 정치 경력·신뢰·인지도·조직력을 토대로 연락이 들어올 수 있어. 제안 수락과 공천 확정은 서로 다른 단계야.</p><div class="divider"></div><strong class="small">들어온 연락 · ${invitations.length}건</strong>
- ${invitations.length?invitations.map(x=>`<div class="invite"><b>${esc(x.party)}</b><span class="tag">가상 접촉</span><p class="small">${esc(x.stage)}</p><p class="caption">관심 지표 ${x.score} / 100 · ${x.year}년 연락. 공천·당선을 보장하지 않아.</p><div class="row"><button class="btn primary slim" onclick="acceptInvitation('${esc(x.id)}')">제안 수락</button><button class="btn ghost slim" onclick="declineInvitation('${esc(x.id)}')">보류</button></div></div>`).join(''):'<div class="no-events mt8">아직 정당에서 연락이 오지 않았어. 사건에서 활동 실적을 쌓으면 향후 접촉이 발생할 수 있어.</div>'}</div>
- <details class="fold"><summary>▸ 시대별 주요 정당의 관심 분야 보기 (게임 모델)</summary><div class="foldbody"><p class="caption">실제 정당의 강령을 단순화한 게임용 분야 가중치야. 모든 정당이 인권·경제·복지·안전 등을 함께 다루며 한 가지 행동만으로 소속이 자동 결정되지는 않아. 관심 점수는 현실 정치인에 대한 평가나 선거 전망이 아님.</p>${names.map(p=>`<div class="listitem"><strong>${esc(p)}</strong><p>내 활동 분야와 경력을 반영한 게임상 접촉 지표 ${partySuitability(s,p)} / 100</p></div>`).join('')}</div></details>
- <div class="block-title">선거 출마</div><div class="card"><div class="row between"><span class="label">${s.year}년 선거 일정</span><span class="tag">${s.age}세</span></div>${s.age<minimum?`<div class="no-events">게임의 해당 시대 피선거권 연령까지 ${minimum-s.age}년 남았어.</div>`:!due.length?'<div class="no-events">올해는 예정된 시뮬레이션 선거가 없어.</div>':due.map(x=>`<div class="listitem"><div class="row between"><div class="grow"><strong>${esc(x.title)}</strong><p>${esc(x.desc)}. 정당 소속이면 별도 공천 심사, 무소속이면 독립 출마.</p></div><button class="btn slim ${x.id==='president'?'primary':'ghost'}" onclick="runElection('${x.id}')" ${s.gameover?'disabled':''}>도전</button></div></div>`).join('')}<div class="divider"></div><p class="caption">공천 심사와 선거는 가상 결과야. 지역별 실제 득표율을 예측하지 않아. 국회의원·지방선거 피선거권은 2022년부터 18세, 대통령은 40세.</p></div>
- <details class="fold"><summary>▸ 실제 법률과 게임 모델의 차이</summary><div class="foldbody"><p class="sub">현실에서는 가입 요건을 충족하면 본인이 자발적으로 입당을 신청할 수도 있어. 이 게임에서는 현실감을 위한 난이도 규칙으로 ‘정당의 접촉’을 거쳐 소속을 변경하도록 단순화했어. 공천은 당별 심사와 경선 절차가 필요해.</p></div></details>${historicalBanner(s)}</main>`;
-}
-function record(s){const rec=getArchive();return `<main class="screen"><div class="profiletop"><div class="eyebrow">MY POLITICAL LEGACY</div><h1 class="h1">정치 연대기</h1><p class="sub">지금까지 걸어온 인생과 선거 결과, 다음 인생의 기록을 확인해.</p></div><div class="card highlight"><div class="row between"><div><span class="label">${s.president?'최종 목표 달성':'현재까지의 이야기'}</span><h2>${esc(s.name)}의 정치 인생</h2></div><span class="tag gold">${s.year}년</span></div><div class="progress-strip"><div class="metric"><span class="text">현재 나이</span><b class="num">${s.age}</b></div><div class="metric"><span class="text">선거 출마</span><b class="num">${s.elections.length}</b></div><div class="metric"><span class="text">당선 횟수</span><b class="num">${s.elections.filter(x=>x.won).length}</b></div></div></div><div class="block-title">인생 연대기</div><div class="card"><div class="timeline">${s.history.slice().reverse().slice(0,60).map(h=>`<div class="timeitem"><small>${h.year}년 · ${h.age}세</small><strong>${esc(h.title)}</strong><p>${esc(h.text)}</p></div>`).join('')}</div></div>${s.gameover?`<div class="card highlight"><span class="label">이번 인생의 엔딩</span><h2>${esc(s.ending||'정치 인생 마무리')}</h2><p class="caption">대통령 당선은 희귀 최고 엔딩. 다른 직업·지역 정치·낙선·사업 실패 역시 각기 다른 기록으로 남아.</p></div>`:''}${s.elections.length?`<div class="card"><span class="label">선거 기록</span>${s.elections.slice().reverse().map(x=>`<div class="listitem"><strong>${x.year} ${esc(x.title)} ${x.won?'<span class="good">당선</span>':'<span class="bad">미당선</span>'}</strong><p>${esc(x.party)} · ${x.share==null?'공천 심사 탈락':`득표율 ${fmt(x.share)}%`}</p></div>`).join('')}</div>`:''}<div class="card"><span class="label">내 게임 관리</span><p class="caption">이 기기의 브라우저에 자동 저장돼. 기록을 파일로 내보낼 수도 있어.</p><div class="row wrap mt8"><button class="btn slim ghost" onclick="exportGame()">↓ 저장 파일 내보내기</button><button class="btn slim ghost" onclick="document.getElementById('importGame').click()">↑ 불러오기</button></div><input type="file" id="importGame" accept=".json,application/json" style="display:none" onchange="importGame(event)"><div class="divider"></div><button class="btn primary full" onclick="newGame()">↻ 다른 시대에서 새 인생 시작</button></div>${rec.length?`<div class="card"><span class="label">이전 인생 기록</span>${rec.map(x=>`<div class="listitem"><strong>${esc(x.name)} · ${x.success?'대통령 당선':'정치 인생 종료'}</strong><p>${esc(x.era)} / ${x.year}년 · ${x.age}세 · ${esc(x.office)}</p></div>`).join('')}</div>`:''}<div class="source-footer">출처·제도 참고: <a href="https://www.nec.go.kr" target="_blank" rel="noopener">중앙선거관리위원회</a> · <a href="https://easylaw.go.kr" target="_blank" rel="noopener">찾기쉬운 생활법령정보</a> · <a href="https://www.archives.go.kr" target="_blank" rel="noopener">국가기록원</a><br>본 게임은 비공식 창작 시뮬레이션으로, 게임 속 사건은 실제 정당·정치인과 무관해. 게임의 사건과 개표 결과는 현실 선거에 대한 예측이 아니야.</div></main>`;}
-function exportGame(){if(!current)return;const obj={kind:'class-to-president',version:3,date:new Date().toISOString(),data:current};const a=document.createElement('a'),url=URL.createObjectURL(new Blob([JSON.stringify(obj,null,2)],{type:'application/json'}));a.href=url;a.download='political-life-'+current.year+'.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);}
-async function importGame(event){const file=event.target.files&&event.target.files[0];if(!file)return;try{const d=JSON.parse(await file.text());if(d.kind!=='class-to-president'||![1,2,3].includes(d.version)||!d.data||!d.data.stats||!Number.isInteger(d.data.year))throw new Error('file');current=d.data;current.version=3;current.issues??=INIT_ISSUES();current.family??=familyInfo(current.seed||1234,current.region||'서울');current.invitations??=[];current.invitationHistory??=[];current.recentEventIds??=[];current.partyLabel??=(current.partyIndex!=null?getParties(current.year)[current.partyIndex]:null);tab='story';overlay=null;save();render();}catch(e){alert('올바른 정치 인생 저장 파일이 아니야.')}event.target.value='';}
-// A short interactive story sequence makes each decision readable as a lived event.
-let sceneTimer=null;
-function prefersQuietMotion(){return !!window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;}
-function cancelSceneTimer(){if(sceneTimer!==null){clearTimeout(sceneTimer);sceneTimer=null;}}
-function scheduleScene(){
- cancelSceneTimer();if(!overlay)return;
- const key=overlay.sceneKey,step=overlay.stage||'outcome';
- if(step==='decision'||step==='chapter'){
-  const duration=prefersQuietMotion()?(step==='decision'?120:160):(step==='decision'?1250:1550);
-  sceneTimer=setTimeout(()=>{
-   if(!overlay||overlay.sceneKey!==key||(overlay.stage||'outcome')!==step)return;
-   if(step==='decision')showOutcome();else closeResult();
-  },duration);
- }
-}
-function showOutcome(){if(!overlay)return;cancelSceneTimer();overlay.stage='outcome';render();}
-function toNextChapter(){if(!overlay)return;cancelSceneTimer();if(overlay.done){closeResult();return;}overlay.stage='chapter';render();}
-function sceneGlyph(t){const x=((t.eventTitle||'')+' '+(t.label||'')).toLowerCase();if(/선거|출마|공천|학생회장/.test(x))return '▤';if(/기업|투자|사업|계약|창업|금융|돈|임금/.test(x))return '◇';if(/의회|정당|정치|법안|행정/.test(x))return '⚖';if(/학교|교사|급식|시험|대학|연구|장학/.test(x))return '✎';if(/진료|보건|의료/.test(x))return '✚';return '✦';}
-function consequenceNarrative(t){
- const changes=t.changes||[],up=changes.filter(c=>c.num>0),down=changes.filter(c=>c.num<0);
- const lossMoney=t.moneyDelta!==null&&t.moneyDelta<-0.04,earnMoney=t.moneyDelta!==null&&t.moneyDelta>0.04;
- let text='이번 선택도 한 해의 경험으로 남았다.';
- if(up.length&&down.length)text=`${up[0].label}에서 성과를 얻었지만, ${down[0].label}에서는 대가를 치렀다. 모든 선택이 이득으로만 이어지지는 않는다.`;
- else if(down.length)text=`${down[0].label}이(가) 떨어졌다. 눈앞의 문제는 지나갔어도 이 경험은 다음 선택에 부담으로 남을 수 있다.`;
- else if(up.length)text=`${up[0].label}이(가) 높아졌다. 쌓인 경험은 다음 사건을 마주할 때 새로운 선택지가 될 수 있다.`;
- if(lossMoney)text+=' 예상보다 재정적인 부담도 컸다.';
- else if(earnMoney)text+=' 재정적으로도 여유가 생겼다.';
- return text;
-}
-function resultModal(){
- if(!overlay)return '';
- const t=overlay,stage=t.stage||'outcome',isDone=!!t.done;
- const segments=`<div class="story-segments" aria-hidden="true"><i class="on"></i><i class="${stage!=='decision'?'on':''}"></i><i class="${stage==='chapter'?'on':''}"></i></div>`;
- let content='';
- if(stage==='decision'){
-  content=`${segments}<div class="eyebrow">${esc(t.year)}년 · 그날의 선택</div><div class="scene-illustration"><span class="scene-glyph">${sceneGlyph(t)}</span><span class="scene-sub">THE MOMENT OF CHOICE</span></div><span class="scene-stamp">하나의 결정이 내려졌다</span><h2>${esc(t.eventTitle||t.title)}</h2><p class="scene-quote">“${esc(t.label||'한 걸음 내디뎠다')}”</p><div class="scene-narration">${esc(t.context||'지금 내린 결정을 실행하기 시작했다. 어떤 결과가 나올지는 아직 모른다.')}</div><p class="scene-footnote">결과를 확인하고 그 선택이 남긴 변화를 살펴보자.</p><button class="btn primary full" onclick="showOutcome()">결과 확인 →</button>`;
- }else if(stage==='chapter'){
-  const next=current&&!current.gameover?events(current):null;
-  content=`${segments}<div class="eyebrow">TIME PASSES · 인생의 다음 장</div><div class="scene-illustration"><span class="scene-glyph">⌛</span><span class="scene-sub">A NEW CHAPTER</span></div><div class="scene-years"><span class="last-year">${esc(t.year)}</span><span class="year-arrow">→</span><span class="new-year">${esc(t.nextYear??t.year+1)}</span></div><div class="scene-next-title"><span class="scene-next">${esc(t.age??current?.age??'')}세 · ${esc(current?phase(current):'새로운 일상')}</span><div>${next?esc(next.title):'새로운 한 해가 시작됐다'}</div><small>당신의 인생에 또 다른 사건이 찾아온다.</small></div><button class="btn primary full" onclick="closeResult()">바로 다음 장으로 →</button>`;
- }else{
-  const numberCards=t.changes?.length?`<div class="resultnumbers">${t.changes.map(d=>`<div><b class="${d.num>=0?'good':'bad'}">${d.num>0?'+':''}${d.num}</b><span>${esc(d.label)}</span></div>`).join('')}</div>`:'';
-  let finances=t.moneyDelta!==null&&Number.isFinite(t.moneyDelta)&&Math.abs(t.moneyDelta)>.005?`<div class="scene-finance"><span>올해 재산 변화</span><b class="${t.moneyDelta>=0?'good':'bad'}">${t.moneyDelta>0?'+':''}${t.moneyDelta.toFixed(2)}억원</b></div>`:'';
-  const story=t.text||'한 해의 시간이 흘렀다.';
-  const textParts=story.split(/\n\n(?=\[돌발 사건\]|\[새 연락\])/);
-  const primaryStory=textParts.shift()||story;
-  const addenda=textParts.map(v=>`<div class="scene-milestone">${esc(v.trim())}</div>`).join('');
-  content=`${segments}<div class="eyebrow">${t.president?'THE HIGHEST ENDING':`DECISION RESULT · ${esc(t.year)}년`}</div><span class="scene-stamp">${esc(t.president?'대통령 당선':t.title)}</span><h2>${esc(t.eventTitle||t.title)}</h2>${t.label?`<div class="caption" style="margin:10px 0">선택한 행동 · ${esc(t.label)}</div>`:''}<div class="scene-narration"><strong>그 뒤에 일어난 일</strong><p class="scene-result-text">${esc(primaryStory)}</p></div>${t.achievement?`<div class="scene-milestone">✦ 새 경력 획득 · ${esc(t.achievement)}</div>`:''}${t.invitationNotice?`<div class="scene-milestone">✉ 정당의 연락 · ${esc(t.invitationNotice)}<div class="caption">정치 탭에서 영입 제안을 확인할 수 있어.</div></div>`:''}${addenda}${t.issues?.length?`<div class="caption" style="margin:12px 0;color:var(--mint)">활동 기록 · ${t.issues.map(x=>`${esc(x.label)} +${x.num}`).join(' · ')}</div>`:''}${numberCards}${finances}<div class="scene-impact">${esc(consequenceNarrative(t))}</div>${t.president?'<div class="scene-milestone">✦ 대통령 당선 · 이번 인생의 최고 엔딩</div>':''}<button class="btn primary full" onclick="toNextChapter()">${isDone?'나의 인생 기록 보기':'다음 장으로 →'}</button>`;
- }
- return `<div class="resultshade" role="presentation"><section class="resultbox" role="dialog" aria-modal="true" aria-label="선택의 결과"><div class="story-modal-content">${content}</div></section></div>`;
-}
-function closeResult(){cancelSceneTimer();const done=overlay?.done;overlay=null;if(done)tab='record';window.scrollTo({top:0,behavior:'instant'});render();}
-function render(){const app=document.getElementById('app');if(!current){cancelSceneTimer();app.innerHTML=showOnboard();return;}const content=tab==='story'?story(current):tab==='activity'?activity(current):tab==='politics'?politics(current):record(current);app.innerHTML=head(current)+content+bottom()+resultModal();scheduleScene();}
-current=load();if(!current)rollOrigin();else render();
-</script>
-</body></html>
+function politicsHtml(){let g=game,d=electionDue(),p=partyData();return `<div class="paper"><div class="eyebrow">PARTY & ELECTORAL SYSTEM</div><h2 class="serif">정치 활동 상황</h2><div class="notice"><b>${safe(g.party)}</b> 소속 · ${safe(g.region)}<br>선택한 정당에서 시작하며, 공천과 선거는 별도의 절차입니다.</div><div class="metricgrid" style="margin-top:10px"><div class="metric"><strong>${g.support}</strong><span>지역 지지도</span></div><div class="metric"><strong>${g.partyTrust}</strong><span>당내 신뢰</span></div><div class="metric"><strong>${g.won}</strong><span>선출직 당선</span></div></div><h2 class="serif" style="font-size:19px;margin-top:25px">선거 도전</h2><p class="lead">아래 선거 일정은 게임용으로 단순화한 가상 일정이야. 공천 심사와 유권자 투표 결과는 통계가 아닌 난수 기반 게임 판정으로 결정돼.</p>${[['local','지방의회 도전',d.local],['assembly','국회의원 도전',d.general],['president','대통령 도전',d.pres]].map(([type,title,due])=>{let r=electionReadiness(type);return `<div class="choosecard"><div class="row between"><b>${title}</b><span class="tag ${due?'':'gray'}">${due?'해당 선거 연도':'일정 대기'}</span></div><p>출마 준비 지표 ${r.base} / 기준 참고치 ${r.margin} · ${type==='president'?'만 40세 이상 · 당선 경험 2회 이상':'조직 운영 경험 필요'}</p><button class="btn ${due?'primary':'subtle'} full" ${due?'':'disabled'} onclick="tryNomination('${type}')">${due?'공천 심사 및 출마 도전':'선거 일정까지 활동하기'}</button></div>`}).join('')}<div class="hr"></div><div class="source">2026년 기준 민주당·국민의힘 출발 지역은 요청에 따라 각각 호남·영남으로 설정했어. 실제 정당의 전국 활동을 제한하거나 지역 전체의 정치적 성향을 단정한 설정은 아니야.</div></div>`}
+function timelineHtml(){let g=game;return `<div class="paper"><div class="eyebrow">CHRONICLE</div><h2 class="serif">${safe(g.name)}의 연대기</h2><p class="lead">출신: ${safe(g.career)} · ${safe(g.backstory)}<br>활동 지역: ${safe(g.region)} · 소속: ${safe(g.party)}</p>${g.history.map(h=>`<div class="timelineitem"><span class="eyebrow">${h.y}년 ${h.q||''}분기</span><br><b>${safe(h.t)}</b><p>${safe(h.d)}</p></div>`).join('')}</div><div class="paper"><h2 class="serif" style="font-size:18px">이행 추적 중인 약속</h2>${g.promises.length?g.promises.slice(-12).reverse().map(x=>`<div class="listitem"><b>${safe(x.label)}</b> · ${safe(x.status)}<br><span class="muted tiny">제안: ${x.created}년</span></div>`).join(''):'<p class="lead">기록된 약속이 없어.</p>'}</div>`}
+function moreHtml(){let g=game;return `<div class="paper"><div class="eyebrow">PROFILE & DATA</div><h2 class="serif">${safe(g.name)}의 능력치</h2>${statHtml()}<div class="hr"></div><p class="lead">정계 입문 경로: ${safe(g.backstory)}<br>현재 나이: ${g.age}세 · 자산: ${g.wealth.toFixed(2)}억 원</p><button class="btn subtle full" onclick="exportSave()">저장 데이터 파일로 내보내기</button><label class="label">저장 파일 불러오기</label><input type="file" class="field" accept="application/json,.json" onchange="importSave(this)"><div class="hr"></div><button class="btn warn full" onclick="restart()">인생 초기화하고 다시 시작</button><details><summary>역사적 사실과 게임 창작의 구분</summary><p class="lead">정당과 이름 있는 NPC는 실존 인물·정당의 출발 시점 정보를 참고했어. 게임의 개별 사건, 공천, 선거 결과, 사람 사이의 가상 관계 수치는 사실 관계와 무관한 창작 시뮬레이션이야. 2026년 주요 인물과 직함은 2026-10-27 공개 일정 기준이야.</p><p class="source"><a target="_blank" rel="noopener" href="https://www.theminjoo.kr/">더불어민주당 공식 사이트</a> · <a target="_blank" rel="noopener" href="https://www.peoplepowerparty.kr/">국민의힘 공식 사이트</a> · <a target="_blank" rel="noopener" href="https://www.nec.go.kr/">중앙선거관리위원회</a></p></details></div>`}
+function exportSave(){let data=JSON.stringify(game,null,2),b=new Blob([data],{type:'application/json'}),url=URL.createObjectURL(b),a=document.createElement('a');a.href=url;a.download='political-life-save.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}
+async function importSave(el){let file=el.files[0];if(!file)return;try{let s=JSON.parse(await file.text());if(s.v!==1||!s.stats||!s.party||!s.year)throw new Error('잘못된 데이터');game=s;mode=s.pending?'outcome':'event';screen='event';save();render()}catch(e){alert('올바른 저장 파일이 아니야.')} }
+function restart(){if(!confirm('현재 게임을 초기화할까? 이 진행 데이터는 삭제돼.'))return;try{localStorage.removeItem(KEY)}catch(e){}freshStart()}
+function render(){let target=$('app');if(!target)return;if(!game){target.innerHTML=setupHtml();return}target.innerHTML=head()+`<main class="page">${({event:sceneHtml,people:contactsHtml,politics:politicsHtml,record:timelineHtml,more:moreHtml}[screen]||sceneHtml)()}</main>`+nav()}
+main();
+</script></body></html>
