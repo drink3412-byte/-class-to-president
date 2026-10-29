@@ -99,6 +99,24 @@ body[data-era="1975"] .boss-entry .btn,body[data-era="1975"] .boss-stage .btn{co
 .nav{gap:1px}.nav button{min-width:0;flex:1;padding-left:1px;padding-right:1px}
 @media(prefers-reduced-motion:reduce){.boss-cinematic{animation:none}}
 
+
+/* V17 — cinematic without gore or a human target */
+.cinema-backdrop{position:fixed;inset:0;z-index:16000;background:rgba(7,10,18,.97);display:flex;align-items:center;justify-content:center;padding:18px;backdrop-filter:blur(9px);color:#fff4e1}
+.cinema-view{width:min(100%,490px);border:1px solid #97765a;border-radius:12px;padding:18px;background:linear-gradient(145deg,#29252a,#101723);box-shadow:0 0 70px #9d5e3633}
+.cinema-label{color:#e9af79;letter-spacing:.16em;font-size:10px;font-weight:800}
+.cinema-view h2{color:#fff0cc;font-size:26px;margin:14px 0 8px}.cinema-view p{color:#e1d0bb;line-height:1.65}
+.cinema-flash{height:165px;margin-top:16px;display:grid;place-items:center;position:relative;overflow:hidden;border:1px solid #66505b;background:radial-gradient(circle,#765a3e 0%,#352634 25%,#11171f 75%)}
+.cinema-flash.armed{animation:cinemaFlash 1.4s ease-in-out 1;}
+.cinema-cross{position:absolute;font-size:130px;color:#ffe7ab;opacity:.75;filter:blur(1px);animation:cinemaBurst .85s ease-out 1}
+.cinema-ring{width:115px;height:115px;border:5px solid #f3d4a0;border-radius:50%;position:absolute;animation:cinemaRing 1.3s ease-out 1;opacity:0}
+.cinema-stamp{z-index:2;font-weight:900;font-size:31px;letter-spacing:.22em;color:#fff8db;text-shadow:0 2px 10px #0a080b}
+.cinema-bars{display:flex;gap:6px;margin:14px 0}.cinema-bars span{height:4px;flex:1;background:#665e62}.cinema-bars span.active{background:#e1a56b}
+.cinema-view .btn{background:#b4774d!important;color:white!important;border-color:#e6a76a!important}.cinema-note{font-size:10px!important;color:#ad9d90!important}
+@keyframes cinemaFlash{0%,60%,100%{filter:brightness(.6)}8%{filter:brightness(2.8)}12%{filter:brightness(.6)}17%{filter:brightness(2.1)}21%{filter:brightness(.65)} }
+@keyframes cinemaBurst{0%{transform:scale(.25) rotate(-20deg);opacity:0}13%{opacity:1}100%{transform:scale(1.4) rotate(12deg);opacity:.22}}
+@keyframes cinemaRing{0%{transform:scale(.35);opacity:.8}100%{transform:scale(2.5);opacity:0}}
+@media(prefers-reduced-motion:reduce){.cinema-flash,.cinema-cross,.cinema-ring{animation:none}}
+
 </style></head><body data-era="2026"><div id="app" class="wrap"></div>
 <script>
 'use strict';
@@ -130,17 +148,33 @@ const careers=[{id:'youth',name:'청년 정당인',age:27,summary:'당원 조직
 const statLabels={org:'정치 조직',policy:'정책 역량',network:'인맥',media:'언론 영향',trust:'공적 신뢰',support:'대중 지지',control:'국정 장악력',liberty:'시민의 권리',stability:'사회 안정',legitimacy:'제도적 정당성',opposition:'사회적 반발'};
 const order=['support','org','policy','network','media','trust'];
 function save(){try{localStorage.setItem(SAVE,JSON.stringify(g))}catch(e){}}
-function load(){try{let q=JSON.parse(localStorage.getItem(SAVE)||localStorage.getItem(LEGACY)||localStorage.getItem(LEGACY13)||'null');if(q&&[12,13,14,15,16].includes(q.v)){g=q;ensureNarrative();tab='event';return true}}catch(e){console.warn(e)}return false}
+function load(){try{let q=JSON.parse(localStorage.getItem(SAVE)||localStorage.getItem(LEGACY)||localStorage.getItem(LEGACY13)||'null');if(q&&[12,13,14,15,16,17].includes(q.v)){g=q;ensureNarrative();tab='event';return true}}catch(e){console.warn(e)}return false}
 function drawCareers(){setup.drawn=[...careers].sort(()=>Math.random()-.5).slice(0,4);setup.job=setup.drawn[0].id}
 function regions(p,e){if(p==='더불어민주당'||p==='통합민주당'||p==='신민당')return ['광주','전남','전북'];if(p==='국민의힘'||p==='한나라당'||p==='민주공화당')return e===1975?['부산','대구','경북','경남']:['부산','대구','울산','경남','경북'];return scens[e].regions}
 function pickEra(x){setup.era=x;setup.faction=factions[x][0].id;setup.party=activeFaction().parties[0];setup.region=one(regions(setup.party,x));drawCareers();render()}
 function pickParty(x){setup.party=x;setup.region=one(regions(x,setup.era));render()}
 function pickCareer(x){setup.job=x;render()}
 function reroll(){drawCareers();render()}
-function setupPage(){let sc=scens[setup.era],f=activeFaction();return `<div class="appbar">${musicButton()}<div class="brand">THE REPUBLIC / ALTERNATE HISTORY</div><h1>대한민국: 권력의 역사</h1><div class="meta">V16 · 1975 최종장 · 위기 탈출 · BGM</div></div><main class="page"><div class="hero"><div class="tag">당신의 진영이 역사를 바꾼다</div><h2>${esc(sc.name)}</h2><p class="lede">${esc(sc.intro)}</p></div><div class="card"><div class="label">01 · 출발 시대</div><div class="three" style="margin-top:9px">${[1975,2008,2026].map(x=>`<button class="btn ${setup.era===x?'selected':''}" onclick="pickEra(${x})">${x}<span class="desc">${scens[x].name}</span></button>`).join('')}</div></div><div class="card"><div class="label">02 · 첫 번째 진영</div><p class="small muted" style="margin:7px 0">소속 세력에 따라 사건, 면담 요청, 초기 정치 관계가 달라집니다.</p><div class="stack">${factions[setup.era].map(x=>`<button class="btn ${f.id===x.id?'selected':''}" onclick="chooseFaction('${x.id}')"><strong>${esc(x.name)}</strong><span class="desc">${esc(x.desc)}</span></button>`).join('')}</div></div><div class="card"><div class="row between"><div class="label">03 · 출신 경력</div><button class="btn ghost" style="min-height:28px;padding:5px 9px;font-size:11px" onclick="reroll()">다시 추첨 ↻</button></div><div class="stack" style="margin-top:8px">${setup.drawn.map(c=>`<button class="btn ${setup.job===c.id?'selected':''}" onclick="pickCareer('${c.id}')">${c.name}<span class="desc">${c.summary} · 자산 ${c.wealth}억 원</span></button>`).join('')}</div></div><div class="card"><div class="label">04 · 소속 정당</div><div class="columns" style="margin:9px 0">${f.parties.map(p=>`<button class="btn ${setup.party===p?'selected':''}" style="text-align:center;font-size:12px" onclick="pickParty('${p}')">${p}</button>`).join('')}</div><div class="label">출신 및 활동 지역</div><select class="input" onchange="setup.region=this.value">${regions(setup.party,setup.era).map(r=>`<option ${setup.region===r?'selected':''}>${r}</option>`).join('')}</select></div><div class="card"><div class="label">05 · 플레이어 이름</div><input id="name" class="input" maxlength="12" placeholder="이름 입력" value="김정우" style="margin-top:8px"/><p class="small muted">인물 간 면담과 이후의 대화는 모두 가상 시나리오입니다.</p><button class="btn primary full" onclick="start()">${setup.era}년, 정치판에 뛰어들기 →</button></div><div class="notice">사진은 출처를 표시한 실제 기록 사진을 사용합니다. 역사적 상황에 대한 가상 결정은 실제 인물의 발언이 아닙니다.</div></main>`}
+function setupPage(){let sc=scens[setup.era],f=activeFaction();return `<div class="appbar">${musicButton()}<div class="brand">THE REPUBLIC / ALTERNATE HISTORY</div><h1>대한민국: 권력의 역사</h1><div class="meta">V17 · 서사 확장 · 성장 밸런스 · 시네마틱</div></div><main class="page"><div class="hero"><div class="tag">당신의 진영이 역사를 바꾼다</div><h2>${esc(sc.name)}</h2><p class="lede">${esc(sc.intro)}</p></div><div class="card"><div class="label">01 · 출발 시대</div><div class="three" style="margin-top:9px">${[1975,2008,2026].map(x=>`<button class="btn ${setup.era===x?'selected':''}" onclick="pickEra(${x})">${x}<span class="desc">${scens[x].name}</span></button>`).join('')}</div></div><div class="card"><div class="label">02 · 첫 번째 진영</div><p class="small muted" style="margin:7px 0">소속 세력에 따라 사건, 면담 요청, 초기 정치 관계가 달라집니다.</p><div class="stack">${factions[setup.era].map(x=>`<button class="btn ${f.id===x.id?'selected':''}" onclick="chooseFaction('${x.id}')"><strong>${esc(x.name)}</strong><span class="desc">${esc(x.desc)}</span></button>`).join('')}</div></div><div class="card"><div class="row between"><div class="label">03 · 출신 경력</div><button class="btn ghost" style="min-height:28px;padding:5px 9px;font-size:11px" onclick="reroll()">다시 추첨 ↻</button></div><div class="stack" style="margin-top:8px">${setup.drawn.map(c=>`<button class="btn ${setup.job===c.id?'selected':''}" onclick="pickCareer('${c.id}')">${c.name}<span class="desc">${c.summary} · 자산 ${c.wealth}억 원</span></button>`).join('')}</div></div><div class="card"><div class="label">04 · 소속 정당</div><div class="columns" style="margin:9px 0">${f.parties.map(p=>`<button class="btn ${setup.party===p?'selected':''}" style="text-align:center;font-size:12px" onclick="pickParty('${p}')">${p}</button>`).join('')}</div><div class="label">출신 및 활동 지역</div><select class="input" onchange="setup.region=this.value">${regions(setup.party,setup.era).map(r=>`<option ${setup.region===r?'selected':''}>${r}</option>`).join('')}</select></div><div class="card"><div class="label">05 · 플레이어 이름</div><input id="name" class="input" maxlength="12" placeholder="이름 입력" value="김정우" style="margin-top:8px"/><p class="small muted">인물 간 면담과 이후의 대화는 모두 가상 시나리오입니다.</p><button class="btn primary full" onclick="start()">${setup.era}년, 정치판에 뛰어들기 →</button></div><div class="notice">사진은 출처를 표시한 실제 기록 사진을 사용합니다. 역사적 상황에 대한 가상 결정은 실제 인물의 발언이 아닙니다.</div></main>`}
 function relations(s){let obj={};scens[s.era].people.forEach(([n,p],i)=>{let aligned=p===s.party;if(p==='군부'&&s.faction==='newguard')aligned=true;if(s.faction==='yushin'&&p==='민주공화당')aligned=true;if(s.faction==='reform'&&p==='신민당')aligned=true;obj[n]={p,score:aligned?rnd(49,74):rnd(12,42),faction:aligned?'협력 가능':'다른 세력'}});return obj}
 function start(){let name=$('name')?.value.trim();if(!name){alert('이름을 입력해 주세요.');return}let c=careers.find(x=>x.id===setup.job);let s={v:12,faction:setup.faction,positionScore:27,factionPower:{...activeFaction().bias},fundingRisk:8,urgentSeen:[],emergency:null,emergencyResult:null,name,era:setup.era,year:setup.era,half:0,age:c.age,job:c.id,career:c.name,party:setup.party,region:setup.region,office:'정치 신인',phase:'세력 형성',wealth:c.wealth,partyFunds:3,treasury:52,org:31,policy:30,network:26,media:26,trust:44,support:27,control:13,liberty:58,stability:58,legitimacy:52,opposition:23,parliament:12,coalition:12,branch:'현실과 유사한 출발',regime:'현실과 유사한 출발',history:[],decisions:{},relations:{},pending:null,flash:null,election:null,seen:[],actionLeft:1,won:0,term:0,ended:false};for(let [k,v] of Object.entries(c.stats))s[k]=lim(s[k]+v);if(s.faction==='newguard'){s.positionScore=22;s.network+=8}if(s.faction==='yushin'){s.positionScore=34;s.control+=10}if(s.faction==='reform'){s.positionScore=26;s.trust+=8}if(s.faction.includes('capital'))s.wealth+=12;if(s.faction.includes('independent'))s.org+=9;s.relations=relations(s);s.history.push({y:s.year,title:'대체역사 시작',desc:`${s.region}에서 ${FACTION_NAME(s.era,s.faction)} 진영에 합류했다. 소속 ${s.party}, 출신 ${s.career}.`});g=s;ensureNarrative();tab='event';setEvent();save();render()}
-function mod(delta){let changed=[];for(let [k,v] of Object.entries(delta||{})){if(typeof g[k]!=='number')continue;let prev=g[k],next=prev+v;if(['wealth','partyFunds'].includes(k))next=Math.max(0,next);else next=lim(next);g[k]=next;if(prev!==next)changed.push({key:k,delta:next-prev})}return changed}
+/* V17: 실력은 성과 한 번에 폭증하지 않는다. 손실은 감쇠하지 않는다. */
+const CAREER_SKILLS=new Set(['org','policy','network','media','trust','support','control','parliament','coalition']);
+function scaledGain(k, v){
+ if(v<=0||!CAREER_SKILLS.has(k))return v;
+ g.skillGrowth??={year:g.year,used:{}};
+ if(g.skillGrowth.year!==g.year)g.skillGrowth={year:g.year,used:{}};
+ const now=g[k]||0,used=g.skillGrowth.used[k]||0;
+ const mult=now>=90?.07:now>=80?.12:now>=70?.20:now>=55?.32:now>=40?.43:.55;
+ const annualLimit=now>=85?2:now>=75?3:now>=60?5:now>=45?6:8;
+ const raw=Math.max(1,Math.round(v*mult));
+ const gain=Math.max(0,Math.min(raw,annualLimit-used,100-now));
+ g.skillGrowth.used[k]=used+gain;
+ return gain;
+}
+function mod(delta){let changed=[];for(let [k,v] of Object.entries(delta||{})){if(typeof g[k]!=='number')continue;let prev=g[k],gain=scaledGain(k,v),next=prev+gain;if(['wealth','partyFunds'].includes(k))next=Math.max(0,next);else next=lim(next);g[k]=next;if(prev!==next)changed.push({key:k,delta:next-prev})}return changed}
+/* 권력 수치는 약한 조직일 때만 빠르게 움직이고, 이미 유력하면 신임이 더디게 쌓인다. */
+function intrigueGain(k,raw){let v=Math.round(raw||0);if(v<=0)return v;let n=g[k]||0;return Math.max(1,Math.round(v*(n>=85?.22:n>=70?.38:n>=55?.56:.72)))}
 function fmt(n){return (n>0?'+':'')+Math.round(n*10)/10}
 const C=(label,detail,delta,mark,branch)=>({label,detail,delta,mark,branch});
 const M=(id,year,title,short,detail,choices,condition)=>({id,year,title,short,detail,choices,condition});
@@ -220,7 +254,18 @@ M('president_cabinet',null,'국무위원 후보자 인사청문회','대통령�
 M('repression',null,'집회와 국가권력의 경계','대규모 집회가 이어지며 국가권력 행사 범위를 둘러싼 논쟁이 발생했다.','정치적 선택에 따라 단기 질서 유지와 기본권 보호 사이에서 큰 차이가 나타난다.',[C('강경한 공권력 행사를 승인한다','국가의 통제력은 커지지만 권리 침해와 반발도 발생한다.',{control:12,liberty:-17,legitimacy:-15,opposition:18,stability:3},'강경 대응의 정치적 후폭풍이 이어졌다.','국가 통제 확대'),C('집회의 권리를 보장하고 대화한다','국가권력의 통제보다는 협의를 택한다.',{liberty:14,trust:10,legitimacy:8,control:-8},'대화와 집회 보장이 정치 의제로 떠올랐다.','시민권 확대'),C('국회 감독과 외부 조사에 맡긴다','제도적 책임과 절차를 강화한다.',{parliament:8,policy:8,legitimacy:11,control:-4},'의회 감독절차가 개시됐다.','의회 감독 강화')]),
 M('regional',null,'지역 조직의 뜻밖의 반란','지역 당직자들이 중앙당의 공천 방식에 반발했다.','지역과 중앙의 의견이 갈리는 가운데 플레이어에게 중재를 요청한다.',[C('지역 조직을 지지한다','조직은 강화되지만 중앙당 관계가 악화된다.',{org:12,network:-7,support:6},'지역 정치인들의 지지를 얻었다.'),C('중앙당의 절차를 따르게 한다','지도부 인맥을 확보한다.',{network:10,org:-7,control:4},'중앙당과의 관계가 가까워졌다.'),C('경선 절차 개선안을 제시한다','제도적 정당성을 높인다.',{policy:11,legitimacy:8,org:3},'새로운 당내 경선 절차가 도입됐다.')])];
 const eraGeneric={1975:[M('press_old',null,'신문 검열과 언론 자유','신문사 편집진과 집권세력 사이에 갈등이 생겼다.','1970년대에는 언론의 자유를 둘러싼 정치적 긴장이 컸다.',[C('검열 유지를 지지한다','언론에 대한 국가 통제를 늘린다.',{control:9,media:-5,liberty:-12,legitimacy:-10},'언론 통제가 강화됐다.','언론 통제'),C('언론 자유 보장을 요구한다','기존 권력층과 거리가 생긴다.',{trust:12,liberty:13,control:-8},'언론의 자유를 요구하는 세력이 확대됐다.','언론 자유'),C('편집권 보장 협의안을 낸다','절충안을 마련한다.',{network:8,policy:8,liberty:5},'언론 관련 협의가 시작됐다.','협상')]),M('oil_old',null,'산업화의 비용','중화학공업 투자 계획과 지역 주민의 이해가 충돌한다.','산업화에 필요한 자금과 주민 생활의 문제를 함께 해결해야 한다.',[C('산업 투자 확대를 주장한다','경제 관료와 재계 인맥을 얻는다.',{network:10,treasury:-8,opposition:6},'산업 투자계획이 확대됐다.'),C('지역 주민 대책을 우선한다','지역사회의 지지를 얻는다.',{support:11,trust:8,treasury:-5},'주민 지원 대책이 추진됐다.'),C('투자 사업을 재평가한다','경제적 효과를 따진다.',{policy:13,stability:6,network:-5},'재평가로 일부 사업이 조정됐다.')])],2008:[M('internet',null,'포털 뉴스와 온라인 여론','온라인 기사와 동영상이 정치적 논쟁을 확대한다.','2000년대 후반 인터넷 포털과 온라인 정치 토론이 활발해졌다.',[C('온라인 정책 설명회를 연다','정책을 직접 설명한다.',{media:10,policy:7,partyFunds:-1},'정책 설명이 널리 공유됐다.'),C('전통 언론과 심층 인터뷰한다','언론 관계를 다진다.',{media:7,network:8},'심층 인터뷰가 보도됐다.'),C('부정확한 정보부터 바로잡는다','더딘 대신 신뢰를 얻는다.',{trust:11,media:4},'정정 자료가 공개됐다.')]),M('housing08',null,'도시 재개발을 둘러싼 갈등','재개발 계획에 주민과 건설업계가 엇갈린 반응을 보인다.','주거 이전과 지역 개발 사이에서 정책 논쟁이 커졌다.',[C('주거 이전 대책을 강화한다','공공재정을 투입한다.',{trust:9,support:9,treasury:-7},'주민지원 대책이 확대됐다.'),C('사업 추진 일정을 유지한다','경제 사업을 우선한다.',{network:7,stability:2,opposition:8},'사업은 진행되지만 사회적 대립이 남았다.'),C('주민 공론화 과정을 연다','시간을 들여 합의를 모색한다.',{legitimacy:10,policy:8,control:-4},'공론화 절차가 시작됐다.')])],2026:[M('ai',null,'공공 AI 사업, 누구의 데이터인가','행정 자동화 사업을 두고 개인정보와 효율 논쟁이 발생했다.','디지털 행정 서비스의 확대와 개인정보 보호는 다른 방식의 설계를 요구한다.',[C('개인정보 보호 장치를 강화한다','서비스 확대가 늦어질 수 있다.',{policy:9,trust:11,treasury:-3},'데이터 보호 장치가 강화됐다.'),C('행정 효율화를 우선한다','처리 속도가 빨라지지만 우려도 생긴다.',{control:7,policy:5,opposition:8},'AI 행정 사업이 확대됐다.'),C('독립 감사를 도입한다','제도적 신뢰를 우선한다.',{legitimacy:10,parliament:8,treasury:-3},'독립 감독기구가 검증을 시작했다.')]),M('energy',null,'전력망과 지역 갈등','신규 에너지 시설 계획이 지역 현안으로 떠올랐다.','산업계와 지역 주민들이 서로 다른 대안을 제시한다.',[C('지역지원 협약을 강화한다','사업비 부담이 커진다.',{support:9,network:7,treasury:-7},'지역지원 협약이 체결됐다.'),C('사업 추진 속도를 유지한다','집권세력의 정책 추진력이 올라간다.',{control:9,opposition:9,stability:3},'사업 계획이 빠르게 추진됐다.'),C('노선 대안을 다시 평가한다','전문성과 지역 신뢰를 확보한다.',{policy:10,trust:8,network:-4},'대안 평가가 시작됐다.')]) ]};
-function eligibleEvents(){let story=((factionArcs[g.era]||{})[g.faction]||[]).filter(x=>x.year<=g.year&&!g.decisions[x.id]);if(story.length)return story.filter(x=>!g.seen.slice(-3).includes(x.id));let arr=[...powerEvents];if(g.office==='대통령')arr.push(...generics.filter(x=>['president_budget','president_cabinet','bill'].includes(x.id)));if(g.office==='국회의원')arr.push(...generics.filter(x=>['bill','party_board'].includes(x.id)));return arr.filter(x=>!g.seen.slice(-Math.min(4,arr.length-1)).includes(x.id))}
+function eligibleEvents(){
+ let arcs=((factionArcs[g.era]||{})[g.faction]||[]).filter(x=>x.year<=g.year&&!g.decisions[x.id]&&!g.storySeen.includes(x.id));
+ let expanded=v17EligibleEvents();
+ let classics=[...powerEvents,...(eraGeneric[g.era]||[])];
+ if(g.office==='대통령')classics.push(...generics.filter(x=>['president_budget','president_cabinet','bill'].includes(x.id)));
+ if(g.office==='국회의원')classics.push(...generics.filter(x=>['bill','party_board'].includes(x.id)));
+ let rare=classics.filter(x=>!g.storySeen.includes(x.id)&&!g.seen.slice(-12).includes(x.id));
+ let all=[...arcs,...expanded,...rare];
+ if(all.length)return all;
+ // 카드가 모두 소모되었을 때에도 직전 사건 반복을 방지한다.
+ return [...classics,...generics].filter(x=>!g.seen.slice(-20).includes(x.id));
+}
 function branchEvent(e){let prev=(id)=>g.decisions[id]?.branch||'';
 if(e.id==='y79'&&g.faction==='newguard'&&g.decisions.park79==='historic')return M('y79',1979,'권력 공백, 군 내부의 새로운 질서','10·26 이후 군 내부 인맥 사이의 권력 경쟁이 시작되었다.','1979년 10·26 이후 실제로 권력 공백이 발생했다. 군 내부 신흥 세력에 합류한 플레이어는 헌정질서 유지, 인맥 중심 정치 권력 확대, 독자적인 정치 세력화 사이에서 선택한다.',[
  C('전두환 측 정치 인맥과의 협력을 확대한다','소속 조직 내 지위를 높이지만 헌정질서에 대한 갈등이 커진다.',{org:15,network:12,control:11,legitimacy:-14,opposition:13},'신흥 군 내부 인맥의 정치적 영향력이 커졌다.','군부 영향력 확대'),
@@ -280,7 +325,7 @@ function urgentChoice(i){let e=g?.emergency;if(!e||g.ended)return;let c=e.option
  let changes=mod(c.delta);g.urgentSeen.push(e.id);
  if(e.id==='chun_meeting'){g.leaderTrust=lim(g.leaderTrust+(originalIndex===0?19:originalIndex===1?-3:-24));g.internalSupport=lim(g.internalSupport+(originalIndex===0?10:originalIndex===1?1:-8));g.storyFlags.chunFirstMeeting=originalIndex;}
  if(e.id==='park_warning'){g.decisions.park79=c.flag||'historic';g.storyFlags.parkIntervention=c.flag==='survived';if(c.flag==='complicit'){g.storyFlags.parkComplicit=true;g.exposure=lim(g.exposure+35);g.threat=lim(g.threat+42);g.leaderTrust=lim(g.leaderTrust-21);g.internalSupport=lim(g.internalSupport-10);}syncHistoricalPeople();}
- g.positionScore=lim(g.positionScore+(originalIndex===0?12:originalIndex===1?4:2));
+ g.positionScore=lim(g.positionScore+intrigueGain('positionScore',(originalIndex===0?6:originalIndex===1?3:1)));
  if(c.branch)g.branch=c.branch;
  historyNote('[긴급] '+e.title,c.impact);g.emergency=null;
  g.emergencyResult={title:c.impact,subtitle:c.branch||'',changes};g.pending=null;
@@ -294,13 +339,13 @@ Object.assign(statLabels,{internalSupport:'진영 내 지지',leaderTrust:'지�
 const SC=(label,detail,delta,mark,branch,effect={})=>({...C(label,detail,delta,mark,branch),effect});
 function ensureNarrative(){
  if(!g)return;
- g.v=16;
+ g.v=17;
  g.internalSupport??=g.faction==='yushin'?67:g.faction==='newguard'?57:54;
  g.leaderTrust??=g.faction==='yushin'?64:g.faction==='newguard'?48:46;
  g.rivalInfluence??=40;
  g.threat??=16;
  g.exposure??=g.fundingRisk||7;
- g.storySeen??=[];g.storyFlags??={};g.finances??=[];g.ending??=null;
+ g.storySeen??=[];g.v17Echoes??=[];g.storyFlags??={};g.skillGrowth??={year:g.year,used:{}};g.cinematic??=null;g.finances??=[];g.ending??=null;
  g.politicalMoves??=0;g.autoContests??=[];g.partyStrikes??=0;
  g.urgencyResultSeen??=[];g.pendingFinance??=null;
  g.rivalName??=randomRivalName(g.name);g.rivalNextYear??=g.year+1;g.shadowNetwork??=0;g.escapeUsed??=0;g.lastChance??=null;g.purgeShieldUntil??=-1;g.yearPromptYear??=(g.half===0?g.year:-1);g.briefHistory??=[];g.financeNudgeSeen??=false;
@@ -400,6 +445,7 @@ function storyPick(){
       SC('공식 보호와 기록 보존을 요청한다','안전과 증거 확보를 우선한다.',{trust:9,network:-4},'당국에 보호 및 조사 요청이 전달됐다.','공적 대응',{threat:-29,loyalty:-7}),
       SC('당내 공개 토론을 요구해 정치적으로 반격한다','정치적 역공을 시도하되 내부 갈등이 확대된다.',{media:10,org:9},'지도부의 배제 논의가 공개적 당권 경쟁으로 바뀌었다.','정치적 반격',{threat:-18,rival:-14,partySupport:6}),
       SC('활동을 잠시 중단하고 협상을 제안한다','당장의 충돌은 피하지만 입지가 약화된다.',{network:5,org:-7},'휴지기를 거쳐 진영과 재협상이 시작됐다.','교착 상태',{threat:-16,position:-12})]);
+ let remembered=v17ConsequenceScene();if(remembered)return remembered;
  let liveRival=nextRivalStory();if(liveRival)return liveRival;
  let chrono=timelineStory();if(chrono)return chrono;
  if(g.exposure>=63&&storyActive('finance_inquiry'))
@@ -420,7 +466,7 @@ function processStoryChoice(c,e){let x=c.effect||{};
  if(x.finance){g.finances.push({...x.finance,year:g.year,resolved:false});g.fundingRisk=lim(g.fundingRisk+x.finance.risk);g.exposure=lim(g.exposure+Math.round(x.finance.risk/2));}
  if(x.resolveFinance){let f=g.finances.find(z=>z.region===x.resolveFinance&&!z.resolved);if(f)f.resolved=true;}
  if(x.breakaway){let prev=g.faction;g.faction=factionForIndependent();g.party='무소속';g.internalSupport=lim(28+Math.round(g.org/4),18,67);g.positionScore=lim(g.positionScore-18);g.leaderTrust=16;g.rivalInfluence=lim(g.rivalInfluence+12);g.factionPower[g.faction]=lim((g.factionPower[g.faction]||22)+10);historyNote('진영 이탈',`${FACTION_NAME(g.era,prev)}과 결별하고 새로운 독자 세력을 형성했다.`)}
- if(x.challenge){let my=g.positionScore*.26+g.internalSupport*.29+g.org*.15+g.network*.13+(100-g.rivalInfluence)*.12+ rnd(-13,13);let target=49+Math.round(g.rivalInfluence*.13);if(my>=target){g.office=g.era===1975?'진영 최고 지도자':'정당 대표';g.positionScore=89;g.internalSupport=lim(g.internalSupport+18);g.leaderTrust=12;g.rivalInfluence=lim(g.rivalInfluence-15);g.control=lim(g.control+12);historyNote('지도부 교체',`경쟁을 거쳐 ${g.office} 자리를 확보했다. 이전 지도부와의 관계는 악화됐다.`)}else {makeEnding('권력투쟁에서 패배',`지도권 도전에 실패해 ${FACTION_NAME(g.era,g.faction)}의 지도부에서 배제됐다. 당시 조직 내 지지 ${g.internalSupport}/100.`, '권력 경쟁 패배')}}
+ if(x.challenge){let my=g.positionScore*.26+g.internalSupport*.29+g.org*.15+g.network*.13+(100-g.rivalInfluence)*.12+ rnd(-13,13);let target=49+Math.round(g.rivalInfluence*.13);if(my>=target){g.office=g.era===1975?'진영 최고 지도자':'정당 대표';g.positionScore=89;g.internalSupport=lim(g.internalSupport+18);g.leaderTrust=12;g.rivalInfluence=lim(g.rivalInfluence-15);g.control=lim(g.control+12);historyNote('지도부 교체',`경쟁을 거쳐 ${g.office} 자리를 확보했다. 이전 지도부와의 관계는 악화됐다.`);openPoliticalCinematic('지도부 교체 성공',`경쟁을 거쳐 ${g.office}의 지도권을 확보했습니다.`,false)}else {makeEnding('권력투쟁에서 패배',`지도권 도전에 실패해 ${FACTION_NAME(g.era,g.faction)}의 지도부에서 배제됐다. 당시 조직 내 지지 ${g.internalSupport}/100.`, '권력 경쟁 패배')}}
  if(x.confidenceVote){let roll=g.internalSupport+g.org*.19+g.network*.11+rnd(-15,10);if(roll<46)makeEnding('당내 불신임으로 축출',`당내 지지를 회복하지 못해 지도부가 당신의 해임을 결정했다. 조직을 유지할 정치적 기반이 부족했다.`, '당내 신임 상실');else{g.internalSupport=lim(g.internalSupport+11);g.positionScore=lim(g.positionScore-8)}}
  if(x.presidentialTransfer==='vote'){
    if(!g.election){g.election={opponent:randomRivalName(g.name),type:'president',step:0,score:0,nomDone:true,done:false,progress:0,ours:50,theirs:50,final:50,automatic:true};tab='election';}
@@ -482,6 +528,164 @@ function afterNarrativeTurn(){ensureNarrative();
  if(!g.ended&&!g.lastChance)highDifficultyTick();
 }
 
+/* V17 — 105+ independent situation cards, authored by era and political camp. */
+const V17_COMMON_RAW={
+1975:[
+"유신 관료들의 인사 명부┃인사처에 두 종류의 승진 명단이 돌아다닌다는 보고가 들어왔다.┃인사 기준을 공개 회의에 부친다┃원로들에게 배분안을 조정해 달라고 요청한다┃자신의 인사 명단을 별도로 발표한다",
+"부산의 노동 분쟁┃공장 대표와 노동자 측이 동시에 당신에게 면담을 요청했다.┃노동조건 조사와 공개 청문을 제안한다┃지역 경제계와 단계적 합의를 추진한다┃당의 지침보다 독자적인 중재안을 먼저 발표한다",
+"유신헌법에 대한 원로의 편지┃한 원로가 헌법 문제를 담은 비공개 편지를 전달했다.┃편지를 공개하고 개헌 논의를 요청한다┃원로의 의중을 확인한 뒤 절충안을 작성한다┃편지를 이용해 당내 반대 세력을 결집한다",
+"지역 신문사의 빈 지면┃한 지역 신문이 정치 기사를 싣지 못해 논란이 커졌다.┃언론 자유 보장에 관한 공개 토론을 연다┃편집진과 관계 당국 사이 중재에 나선다┃독자적으로 성명서를 발표해 쟁점을 선점한다",
+"남산의 소문┃정치권 인사들 사이에서 인사 교체설이 돌고 있다.┃확인된 사실만 유권자에게 알린다┃소문에 연루된 인사들을 직접 만나 해명받는다┃교체설을 공개하며 지도부 교체를 요구한다",
+"1976년의 야권 탄원서┃연명 탄원서에 서명한 인사들이 정치적 압박에 직면했다.┃탄원 내용을 토론회 안건으로 올린다┃상대 진영과 비공개 정치적 조정을 시도한다┃서명 인사들을 독자 정치모임으로 규합한다",
+"대학가 토론회의 초청장┃학생 대표들이 사회 변화에 관한 공개 토론 참석을 요청했다.┃대학가 의견을 경청하고 정책 답변을 발표한다┃학교와 당 관계자들을 포함한 협의회를 만든다┃대학 토론을 전국적인 정치 쟁점으로 확대한다",
+"1977년 예산의 불일치┃상공부와 재무부 보고서의 예상 비용이 서로 맞지 않는다.┃예산 산출 근거를 재검증한다┃양쪽 부처의 갈등을 조정한다┃자료를 공개하며 여권 실세를 비판한다",
+"농촌의 민심 보고서┃현지 조사 결과와 중앙당의 낙관적 발표가 어긋났다.┃실제 민심을 반영한 지역 정책을 제안한다┃당직자와 농민 대표의 공동 간담회를 연다┃중앙당 발표의 신빙성을 정면 비판한다",
+"권력자의 생일 연회┃참석 명단에 빠진 정치인들이 새로운 모임을 만들었다.┃연회 대신 공개 정책 행사를 연다┃소외된 인사들과 화해의 자리를 마련한다┃소외파의 독자 후보 추대를 추진한다",
+"1978년 후보 명단 교체┃공천을 약속받은 인사가 갑자기 명단에서 제외됐다.┃공천 기준 공개를 공식 요구한다┃경쟁 후보들과 공정한 경선 규칙을 협의한다┃제외된 후보들을 독자 후보군으로 조직한다",
+"국회 정기회의의 균열┃지역별 예산 요구가 중앙의 정책 기조와 충돌했다.┃상임위에서 지출 근거를 따져 묻는다┃여야 의원들에게 공동 수정안을 제안한다┃당론을 거슬러 독자 표결을 선언한다",
+"1979년 부산·마산의 긴장┃부산과 마산의 사회적 불안이 정국 전체에 영향을 주고 있다.┃시민 안전과 평화적 해결을 요구한다┃지역 대표들과 공개 조정회의를 연다┃중앙 지도부의 대응을 공개 비판한다",
+"정권 후계자들의 인사 경쟁┃유력 정치인 세 명이 서로 다른 후계 구상을 제시했다.┃공개 원칙을 정해 후계 논의를 제도화한다┃각 인물과 대면해 조정안을 만든다┃자신의 정치노선을 후계 대안으로 선포한다",
+"비밀회의 이후의 침묵┃중요한 회의 직후 참석자들이 서로 다른 내용을 전했다.┃공식 회의록 열람을 요청한다┃관련 인사 간 사실 확인 협의를 중재한다┃누락된 내용을 문제 삼아 특별 조사를 요청한다",
+"새 공화국의 이름┃정권 변동 이후 새로운 헌정 질서의 이름과 방향을 둘러싼 논쟁이 커졌다.┃국민적 토론을 통해 명칭과 제도를 정한다┃당내 각 계파의 공통 원칙을 마련한다┃새 정치세력의 독자적인 헌정 구상을 제시한다"
+],
+2008:[
+"금융회사의 긴급 간담회┃대출 중단으로 지역 중소기업들이 자금난을 호소한다.┃현장 피해 조사를 토대로 지원안을 작성한다┃금융권과 기업 대표의 정책 협약을 중재한다┃당 지도부에 책임을 묻는 특별위원회를 출범시킨다",
+"환율 급등과 물가┃수입 비용 증가로 시장 상인들의 항의가 이어졌다.┃물가 안정 대책을 공개적으로 제시한다┃경제부처와 민생 간담회를 연다┃정부안과 다른 독자 경제공약을 발표한다",
+"개각설의 첫 유출┃다음 내각 인선을 두고 서로 다른 명단이 언론에 등장했다.┃인사 검증 자료 공개를 요구한다┃여야와 인사 기준 합의를 추진한다┃공식 후보군과 다른 인물을 공개 추천한다",
+"인터넷 여론의 반전┃당신을 지지하던 온라인 커뮤니티가 갑자기 비판으로 돌아섰다.┃비판 의견과 함께 답변문을 공개한다┃여론 대표와 직접 간담회를 연다┃독자 언론 채널을 만들어 반박한다",
+"지역 건설사업의 의문┃도로 건설 예산의 추정치가 갑자기 늘어났다.┃사업 타당성 재검토를 요구한다┃지방자치단체와 공사 범위를 조정한다┃당내 예산 책임자 교체를 요구한다",
+"2009년 실업대책 논란┃청년 취업 프로그램의 실효성을 두고 정책 전문가들이 다투고 있다.┃효과 평가 지표를 공개하고 개선한다┃기업·학교의 공동 참여를 제안한다┃기존 정책을 버리고 독자 공약을 추진한다",
+"미디어 제도 협상의 밤┃신문·방송 제도 개편안으로 여야 협상이 중단됐다.┃공청회를 통해 합의점을 찾는다┃여야 원내지도부의 중재안을 제안한다┃기존 안건의 전면 재검토를 선언한다",
+"도시 재개발 주민회의┃이주 대책을 둘러싸고 주민과 개발 추진 측의 갈등이 커졌다.┃주민 권리 보호 기준을 제시한다┃시행사와 주민 간 단계적 합의를 이끈다┃당의 기존 개발 정책을 공개적으로 뒤집는다",
+"2010년 지방조직 파열┃현역 지역위원장과 신인들이 공천 심사 방식을 놓고 충돌했다.┃후보 검증 기준을 문서로 확정한다┃양측의 경선 방식을 중재한다┃자신이 지지하는 신진 후보를 공개한다",
+"새로운 SNS 정치┃짧은 발언 하나가 언론 보도보다 빠르게 확산됐다.┃전문 정책설명과 근거자료를 게시한다┃지지자와 비판자가 함께하는 토론을 연다┃대규모 온라인 정치 캠페인을 독자적으로 이끈다",
+"여야 원내대표 비공개 회동┃원내대표들의 합의가 당내 의원들에게 알려지지 않았다.┃합의 내용의 투명한 공개를 촉구한다┃소속 의원 의견을 수렴하는 절차를 만든다┃합의를 거부하고 별도의 의원 연합을 만든다",
+"2012년 예비후보 연합┃차기 후보를 지지하는 두 집단이 동시에 참여를 요청했다.┃정책 기준으로 지지 후보를 결정한다┃두 후보의 공동 토론회를 주선한다┃제3의 후보 육성을 공개 선언한다",
+"정치자금 회계 감사┃회계 담당자 교체 직후 장부 정리에서 오류가 발견됐다.┃독립 회계 검증을 즉시 요청한다┃당 감사조직과 문제를 바로잡는다┃지출 구조 전반을 바꾸는 개혁안을 내놓는다",
+"중도층 지지율 급변┃연속 조사에서 중도층의 지지 방향이 예상과 다르게 나타났다.┃정책 내용에 대한 정밀 조사를 한다┃계파 간 선거 전략 회의를 조정한다┃핵심 공약을 대폭 바꿔 새 노선을 선포한다",
+"미래세대의 당원 청원┃청년 당원들이 지도부의 세대교체 계획을 공개하라고 요구했다.┃세대교체 로드맵을 공개한다┃지도부와 청년 당원의 간담회를 연다┃청년 정치인 중심의 독자 경선 조직을 만든다",
+"부동산 세제 논쟁┃세제 변경안을 놓고 지역구별 이해관계가 심하게 엇갈렸다.┃정책의 분배 효과를 평가한다┃지방 정치인 사이의 절충을 추진한다┃당의 원안을 반대하는 독자 수정안을 제출한다"
+],
+2026:[
+"국가 AI 연구예산 논쟁┃첨단기술 투자와 교육·복지 지출 사이에서 당의 입장이 갈렸다.┃예산 효과 분석 보고서를 제출한다┃연구자와 시민단체의 공동 의견을 수렴한다┃당론을 거스르는 새 예산안을 발표한다",
+"공천 심사 알고리즘 논란┃데이터 기반 공천 평가의 투명성을 두고 후보들이 항의했다.┃평가 기준과 오류 검증을 공개한다┃당내 독립 검증위원회 구성을 제안한다┃기존 공천 결과 전면 재심사를 요구한다",
+"전기요금 개편의 파장┃지역 산업계와 시민단체가 서로 다른 부담을 주장했다.┃계층별 부담 분석을 공개한다┃산업계와 소비자 단체의 합의를 추진한다┃자신의 지역구 공약을 별도 발표한다",
+"유권자 단체의 공개 질의┃청년층 정책 10개 항목에 관한 답변 요청이 들어왔다.┃근거와 추진 일정이 담긴 답변서를 제출한다┃정당 간 공동 질의 응답회를 개최한다┃기존 당론과 다른 독립 정책 패키지를 발표한다",
+"지역 방송 토론 섭외┃지역 방송사가 당신과 경쟁자를 같은 날 토론에 초청했다.┃자료를 준비해 공개 토론에 참여한다┃공동 정책검증 방식으로 토론을 조정한다┃지도부 허락 없이 자신의 대선 구상을 발표한다",
+"국회 법안 협상 결렬┃안건 조정 협의가 틀어지면서 책임 공방이 시작됐다.┃쟁점별 수정 법안을 다시 낸다┃상대 정당과 제한적 합의에 나선다┃원내 지도부의 협상권을 공개 비판한다",
+"딥페이크 선거 광고 논란┃허위 영상이 퍼지면서 후보 간 검증 논쟁이 커졌다.┃사실 확인 결과를 신속히 공개한다┃정당 간 허위정보 공동대응 협약을 제안한다┃검증 실패를 이유로 당 홍보 책임자 교체를 요구한다",
+"청년 정치조직의 진정서┃청년 조직이 중앙당의 의사결정 구조를 비판했다.┃청년 당원 대표권을 제도화한다┃중앙당과 청년조직의 회의를 주선한다┃청년 조직의 독립적 지도부를 지지한다",
+"새 광역교통 계획┃수도권과 지방의 투자 우선순위를 놓고 논쟁이 벌어졌다.┃비용편익과 지역 형평성을 평가한다┃지자체별 단계적 사업안을 조정한다┃소속 정당과 다른 광역 공약을 발표한다",
+"후원회 실시간 공개 제안┃당내 신인들이 정치자금 공개 수준을 높이라고 요구했다.┃후원금 공개 기준을 강화한다┃회계 담당자들과 현실적인 절충을 찾는다┃기존 후원 구조 전면 개편을 주장한다",
+"당대표의 돌발 기자회견┃당대표가 당신이 준비하던 정책을 먼저 발표했다.┃공동 정책으로 성과를 인정한다┃지도부와 역할 배분을 협의한다┃당내 공로 독점 문제를 공개적으로 제기한다",
+"국민청원에 등장한 실명┃당신의 과거 발언이 시민 청원과 함께 재조명됐다.┃발언의 맥락과 자료를 공개한다┃청원 대표와 공개 면담을 추진한다┃당의 기존 메시지 전략을 교체하자고 요구한다",
+"지방선거 전략 유출┃예비후보 명단과 지역별 목표가 언론에 먼저 보도됐다.┃유출 경위를 공식 절차로 조사한다┃소속 후보와 당직자들을 직접 설득한다┃기존 공천 전략을 전면 변경하자고 주장한다",
+"개헌특위 첫 회의┃대통령과 국회의 권력 배분에 관한 다양한 의견이 제출됐다.┃권력 분립을 강화하는 초안을 제안한다┃여야가 참여하는 개헌토론을 중재한다┃독자적인 헌정 개혁 선언을 발표한다",
+"정당 합류 제안서┃다른 정치세력이 인재와 예산 지원을 조건으로 합류를 요청했다.┃공동 공약의 실현 가능성부터 검증한다┃정치연합의 투명한 조건을 협상한다┃제안을 거부하고 별도 세력을 공개 선언한다",
+"2028년 정치 신인의 부상┃신인 후보가 예상을 깨고 전국적 인지도를 높였다.┃공정한 정책 경선을 제안한다┃상호 지원과 역할 분담을 협의한다┃지도부에 신인의 단독 행보를 문제 삼는다"
+]};
+const V17_FACTION_RAW={
+newguard:[
+"장성들의 인사 평가서┃상관의 후원과 공개적인 조직 원칙이 충돌한다.┃공식 평가 기준을 지키겠다고 밝힌다┃선임 장교들과 인사 갈등을 조정한다┃차기 인사회의에 독자적인 정치 의견을 낸다",
+"동기 모임의 균열┃오래된 동료들이 서로 다른 정치 후견인을 선택했다.┃동료들의 정치적 중립을 지지한다┃각 그룹과 차례로 협력 방안을 협의한다┃별도의 장교 정치모임을 공개한다",
+"원로의 충성 시험┃조직 원로가 당신에게 공개적인 충성 선언을 요구했다.┃개인의 충성보다 제도적 원칙을 강조한다┃원로에게 조건부 지지안을 전달한다┃공개 토론을 통해 원로의 입지에 도전한다",
+"정권 후계 관측┃내부 문서에 여러 후계 후보가 거론됐다.┃서열보다 공개 정치제도를 지지한다┃여러 세력의 이해를 조정한다┃자신을 새로운 권력 후계자로 내세운다",
+"퇴역 인사의 경고┃정계에 진출한 퇴역 인사가 내부 파벌 갈등을 우려했다.┃군과 정치를 분리하는 성명을 낸다┃동료들의 정치적 의견차를 중재한다┃독자적 민간 정치기구 창설을 주장한다",
+"계파 원로의 최후통첩┃원로들이 당신의 별도 정치활동을 중단하라고 요구했다.┃활동 명세를 공개하고 제도 안에 머문다┃지도부와 공식 중재 절차를 요청한다┃원로들의 불신임 표결을 공개 요구한다"],
+yushin:[
+"청와대 보고 누락┃중요 정책 의견이 대통령 보고 과정에서 삭제됐다.┃누락 사실의 정식 정정을 요청한다┃보고라인의 당사자와 직접 논의한다┃정책 담당 고위직의 교체를 요구한다",
+"여당 원로들의 계파 회합┃원로들이 차기 공천 배분을 사전 협의하려 한다.┃공개 공천 원칙을 제시한다┃원로와 신진 후보의 절충안을 마련한다┃기존 원로 중심 구조에 정면 도전한다",
+"정책비서관의 사임┃핵심 실무자가 갑자기 사임하며 내부 갈등이 알려졌다.┃사임 사유를 공식적으로 검토한다┃실무 인사들과 갈등 봉합을 시도한다┃독자 실무위원회를 조직한다",
+"경제계 인맥 경쟁┃정권의 산업정책 자문을 두고 두 후원그룹이 다툰다.┃후원과 정책 결정을 분리한다┃양측과 투명한 자문 계약을 추진한다┃기존 후원자들의 영향력 축소를 요구한다",
+"비공개 후계 면담┃여권 실세가 후계 문제를 조심스럽게 꺼냈다.┃공식 절차가 우선이라고 답한다┃현 지도부의 정책 유산 계승을 논의한다┃후계 구도에 자신을 포함해야 한다고 주장한다",
+"여권 공천권 분쟁┃당 지구당이 중앙의 일방적인 공천 결정에 반발했다.┃지역 의견을 반영한 경선을 제안한다┃중앙과 지역의 의견을 조정한다┃지구당 대표들과 독자 후보군을 결성한다"],
+reform:[
+"재야 지도자의 편지┃재야인사가 합법정치와 시민운동의 관계를 묻고 있다.┃민주적 제도개혁안을 공개한다┃재야와 원내 정치의 공동 의견을 모은다┃기존 야당 지도부를 비판하는 새 모임을 연다",
+"야당 원내총무와 갈등┃원내 전략을 놓고 당직자들의 의견이 갈렸다.┃상임위 활동을 중심으로 대안을 마련한다┃의원단과 원외 조직 사이 회의를 중재한다┃당 원내총무의 책임을 공개 요구한다",
+"지역구 민심 탐방┃지역 주민이 추상적 개헌 구호보다 생활 문제 해결을 원했다.┃지역 민원에 대한 정책 답변을 낸다┃시민단체와 기성 야당의 역할을 조정한다┃전국 순회 민주화 정치운동을 선언한다",
+"공동 성명 서명 논란┃성명서의 표현을 두고 원로들이 반발했다.┃공개 성명에 법적 근거를 보강한다┃공동 서명을 위한 수정안을 협의한다┃원로들의 반대에도 독자 성명서를 발표한다",
+"차기 야권 대표 경선┃야권 원로 두 명이 서로 다른 후보를 지지하고 있다.┃정책 공개토론을 중심으로 경선을 요구한다┃양측과 단일 지도부 조건을 협의한다┃자신의 독자 후보 추대를 추진한다",
+"야권 연합의 균열┃선거 연합을 유지할지 단독 노선을 갈지 분쟁이 생겼다.┃연합의 원칙과 공약을 정비한다┃참여 정당의 이해관계를 조정한다┃새로운 독자 야권 블록을 선언한다"],
+independent:[
+"후원자의 정치 조건┃지원 제안자가 특정 공직자의 영입을 요구했다.┃조건 없는 공개 후원만 수용한다┃후원 조건의 이해충돌 여부를 검토한다┃해당 후원 없이 독자 인재 영입을 추진한다",
+"지역 사무실 임대 만료┃작은 정치조직의 첫 거점이 사라질 위기다.┃합법적인 소액후원으로 사무실을 유지한다┃지역 시민단체와 공간 공유를 협의한다┃기존 정당과 결별한 인사를 대거 영입한다",
+"무소속 후보들의 불화┃세 후보가 같은 지역에서 지지층을 놓고 다툰다.┃공개 정책평가로 단일 후보를 정한다┃후보들의 공정한 합의를 조정한다┃내부 선거를 열어 자신의 지도권을 세운다",
+"창당 발기인 분쟁┃발기인들이 당헌과 대표 임기를 놓고 갈렸다.┃대표 임기와 회계 공개를 명문화한다┃발기인들의 공동 지도제를 제안한다┃독자 대표 선출을 강행한다",
+"정당 등록 준비의 벽┃선거에 나서려면 조직과 자금의 지속성이 필요하다.┃합법적 당원 모집과 회계를 우선한다┃기존 정치세력과 정책연대를 협의한다┃전국 단위 창당 선언을 앞당긴다",
+"지역 연합의 마지막 회의┃서로 다른 출신 정파가 신당의 색깔을 정하지 못했다.┃공통 정책강령을 공개 토론한다┃지지 기반 사이에서 공정한 지분을 협의한다┃독자 최고지도부의 선출을 요구한다"],
+ruling08:[
+"여당 비상경제특위┃여당 지도부가 긴급 경제대책에 대한 충성도를 묻고 있다.┃경제 지표를 근거로 정책 수정안을 낸다┃지도부와 공개 공동대책을 만든다┃별도의 경제정책 세력을 출범시킨다",
+"차기 공천 조직의 내홍┃여당 내 예비후보들이 공천위원회 편향을 주장했다.┃선발 기준 공개와 재평가를 제안한다┃지도부와 지역 후보의 협상을 중재한다┃공천위원장 교체 요구를 주도한다",
+"정책실 회의록 논란┃정부안에 대한 이견이 회의록에서 누락됐다.┃의견 누락의 정정을 공식 요구한다┃관계자들과 합의문을 다시 쓴다┃독립 정책위원회 설치를 주장한다",
+"신인 여당 의원의 반발┃신진 의원들이 원로 계파의 의사결정 방식을 비판했다.┃정책토론 기회를 제도화한다┃원로와 신진 세력 간 협약을 주선한다┃신인 의원들의 독자 모임을 지원한다",
+"청와대와 당의 거리┃정부 요청과 지역 민심이 정면으로 충돌하고 있다.┃지역 의견을 반영한 정책 변경을 요구한다┃정부와 여당의 조정 회의를 연다┃여당의 독자 정책 노선을 선언한다",
+"여당 대표 불신임 소문┃기자들이 지도부 교체설을 묻기 시작했다.┃공개적인 내부 평가 절차를 제안한다┃대표와 비주류 사이 협의를 중재한다┃당대표 경선 조기 실시를 요구한다"],
+opposition08:[
+"야당 원내 전략 재정비┃정부 정책에 대한 반대만으로는 지지가 늘지 않는다는 경고가 나왔다.┃대안 예산과 법안을 함께 제안한다┃야권 의원들의 공통 입장을 조정한다┃기존 야당 지도부 교체를 주장한다",
+"지역 민주당원들의 반발┃지역 당원들이 중앙당의 후보 지명을 거부했다.┃당원 중심 경선제 개편을 요구한다┃중앙과 지역 사이 조정안을 제시한다┃지역 후보 중심의 새 계파를 만든다",
+"경제위기 책임 공방┃야당의 경제 전문가들 사이에서도 대응책이 갈리고 있다.┃정부안 평가와 별도 대안을 발표한다┃전문가들의 합의 가능한 목표를 정한다┃야권 경제정책 지도부를 새로 구성한다",
+"재보궐 선거 공천 협의┃여러 후보가 단일 야권 후보 자리를 요구하고 있다.┃후보 공개검증을 우선한다┃정당 간 단일 후보 협약을 추진한다┃신진 후보의 독자 출마를 지원한다",
+"당내 세대교체 선언┃원로 정치인과 신진 그룹의 전당대회 의견이 갈렸다.┃당원 투표와 평가 제도를 개선한다┃원로와 신인의 역할 조정을 제안한다┃차기 당대표 선거에 독자 계파를 출범시킨다",
+"야권 통합 협상 결렬┃연대하려던 정치세력 사이에 명칭과 지분 갈등이 생겼다.┃정책 협약을 우선 확정한다┃지분 갈등에 대한 중재위원회를 만든다┃통합을 포기하고 별도 후보군을 육성한다"],
+capital08:[
+"경제계의 공개 자문 요청┃금융계 동료들이 정치적으로 민감한 정책 자문을 제안했다.┃이해충돌을 공개하며 자문에 응한다┃전문가 공동보고서를 발간한다┃독자 경제정치연합을 발표한다",
+"투자 손실과 당내 소문┃개인 자산의 손익이 정치적 논란으로 번졌다.┃개인 자산과 정치활동을 분리해 공개한다┃회계 검증을 받아 의혹을 해소한다┃정책 논란으로 맞서며 당 지도부에 반발한다",
+"산업계 후원 경쟁┃후원자들이 서로 상반된 사업 지원을 요구했다.┃후원과 정책 판단을 구분한다┃공개된 산업정책 포럼을 연다┃후원자 중 한 그룹과 독자 정치계파를 만든다",
+"기업인 출신 후보 검증┃사업 경력에 대한 질문이 후보 토론회에서 쏟아졌다.┃과거 의사결정을 공개 검증받는다┃당내 법률·경제 자문단을 구성한다┃기존 후보 검증 위원회를 불신임한다",
+"금융규제 개편의 갈등┃기업인과 금융당국의 요구가 대립하고 있다.┃소비자 보호를 중심으로 법안을 만든다┃업계와 감독당국의 절충을 중재한다┃신생 경제정당의 독자 노선을 발표한다",
+"자산과 공직의 경계┃정계 진출과 개인사업 운영을 동시에 지속할 수 있는지 논쟁이 일었다.┃이해충돌 방지 장치를 마련한다┃독립 외부감사와 역할 분리를 추진한다┃사업가 출신 의원들을 별도 조직으로 결집한다"],
+independent08:[
+"신당 발기인 대회의 분열┃대표 선출 절차를 두고 창당준비위원회가 갈렸다.┃당헌에 공정한 대표 선거를 명시한다┃발기인 간 지분 협의를 추진한다┃새로운 준비위원장 추대를 강행한다",
+"소수 정당의 공약 협력┃다른 소수 정당들이 한정된 의석을 두고 연대를 요청했다.┃공통 정책만 공동 발표한다┃후보 단일화 조건을 협상한다┃독자 전국 후보 명단을 공개한다",
+"후원회 운영의 위기┃회계 정리와 당원 관리에 인력이 부족해졌다.┃회계 공개와 소액후원 시스템을 개선한다┃지역 조직 사이 인력 지원을 조정한다┃유명 인사를 지도부로 영입하자고 제안한다",
+"무소속 영입 전쟁┃정당들 사이에서 인기 무소속 정치인 영입 경쟁이 시작됐다.┃새 인사의 정책 적합성을 검증한다┃당내 발언권을 합의한 뒤 영입한다┃영입을 계기로 당대표 교체를 추진한다",
+"원내교섭 한계┃작은 정당에 의회 활동의 기회가 충분하지 않다.┃법적 제도개혁을 공개 요구한다┃타 정당과 의제별 협력을 추진한다┃독립 의원 연합의 새 지도부를 선포한다",
+"정계 개편 직전의 선택┃양당의 비주류가 새 통합정당을 만들자고 제안했다.┃정책 강령 합의부터 요구한다┃합당 과정의 민주적 절차를 협의한다┃기존 신당을 지키며 독자 노선을 선택한다"],
+ruling26:[
+"집권당 정책위원회 갈등┃정부 시책의 성과 평가를 두고 의원들 사이에 이견이 커졌다.┃독립적인 정책 평가자료를 공개한다┃정부와 여당의 공동 개선안을 조정한다┃지도부의 정책 책임을 공개 요구한다",
+"차기 당대표군의 움직임┃차기 전당대회 후보군이 비공식 만남을 늘렸다.┃공정한 경선 규칙부터 제시한다┃후보군의 공통 공약을 조정한다┃당권 도전 준비위원회 출범을 알린다",
+"원내대표의 비공개 요청┃원내대표가 갈등 법안에 대한 단독 지지를 요청했다.┃법안의 문제를 공개적으로 검토한다┃원내대표와 수정안을 협의한다┃별도 의원 연합으로 이견을 발표한다",
+"지역구 공약과 국정과제┃지역 사업을 둘러싸고 정부 안과 주민 요구가 달라졌다.┃사업 타당성을 공개 검증한다┃지역 대표와 부처의 조정 회의를 만든다┃정부 원안을 거부하고 대체 사업을 추진한다",
+"중앙당의 신인 견제┃인지도가 높아진 신인이 지도부의 불편한 시선을 받기 시작했다.┃공정한 신인 지원 규정을 도입한다┃지도부와 신진 그룹 사이 중재한다┃신진 의원을 중심으로 독자 후보군을 조직한다",
+"인선 개편과 후계 경쟁┃집권당 실무진 교체를 앞두고 계파별 추천이 쏟아졌다.┃직무 성과 기준을 공개한다┃당내 추천을 통합한 인선안을 작성한다┃인사 개혁을 명분으로 현 지도부를 교체하자고 요구한다"],
+opposition26:[
+"야당 원내감사 전략┃행정부 정책을 검증하는 과정에서 자료 확보 기준에 논쟁이 생겼다.┃정당한 자료 요구와 검증을 강조한다┃다른 야당과 감사 협의를 진행한다┃기존 원내 지도부의 전략 실패를 공개 지적한다",
+"차기 야권 후보의 충돌┃유력 후보 둘이 상반된 정책 노선을 내세웠다.┃정책검증 중심 경선을 제안한다┃두 후보의 공동 선언을 중재한다┃신흥 후보의 지도부 도전을 지원한다",
+"야당 지역조직 선출┃중앙 공천과 지역 당원의 투표 결과가 어긋났다.┃당원 의견에 따른 재평가를 요구한다┃중앙당과 지역 후보가 합의하도록 한다┃독자 지역정치 블록을 공식화한다",
+"정부 예산안 견제┃지출 항목의 우선순위를 놓고 야당 내부도 나뉘었다.┃수정 예산안의 근거를 제시한다┃여야 의원의 절충안을 협의한다┃지도부의 기존 예산 전략을 교체한다",
+"야권 연대 후원 문제┃공동 행사를 주최하는 비용을 누가 부담할지 갈등이 생겼다.┃정치자금을 투명하게 관리한다┃합법적인 공동후원 절차를 협의한다┃독자 후원회를 확대해 지도부와 거리를 둔다",
+"대안 정권 준비 논쟁┃국정 비판을 넘어서 차기 정책팀을 꾸려야 한다는 요구가 나왔다.┃공개 정책 전문가 위원회를 만든다┃원내·원외 정치세력의 업무를 조정한다┃자신을 중심으로 독자 정책 내각을 발표한다"],
+third26:[
+"제3지대 통합 선언┃비슷한 노선의 소수 정당들이 지분 배분에 합의하지 못했다.┃공동 정책강령부터 작성한다┃당 지도부의 통합 협상안을 중재한다┃독자 신당 통합안을 먼저 발표한다",
+"원내 교섭권 협상┃소수정당 의원들이 제한된 의회 발언 기회에 항의했다.┃제도 개선안을 공개 제시한다┃양당과 의제별 협약을 협상한다┃독자 교섭단체를 즉시 출범시키겠다고 선언한다",
+"청년층 지지의 편차┃일부 지역에서만 지지가 높다는 여론조사가 나왔다.┃지역별 정책 요구를 비교 분석한다┃연합 정당의 후보 배분을 협의한다┃집중 지역에 독자 후보를 대거 내세운다",
+"전당대회의 낮은 참여┃소규모 정당의 당원 참여율이 크게 줄어들었다.┃당원 의사결정 방식을 개선한다┃당원·후원자 공동 회의를 연다┃전당대회에서 지도부 불신임을 요구한다",
+"양당의 인재 영입 제안┃대형 정당들이 당신의 정책팀 인사들을 영입하려 한다.┃핵심 인력의 독자성을 보장한다┃협력 가능한 정책 의제만 협의한다┃더 강한 독자 지도부를 세우겠다고 선언한다",
+"제3지대 차기 대표 경쟁┃신흥 인사가 조직의 새 얼굴이 되겠다고 발표했다.┃공개 정책 토론과 당원 선거를 제안한다┃새 인사에게 공동대표를 제안한다┃자신의 독자 대표 경선캠프를 출범시킨다"],
+independent26:[
+"시민 정당 설립 제안┃전문가 그룹이 독립 정책조직을 정당으로 전환하자고 제안했다.┃회계 공개와 당원 민주주의부터 정비한다┃시민 그룹들과 정책협약을 체결한다┃정당 창설을 공식 선언한다",
+"지역 후원 네트워크┃서로 다른 지역 활동가들이 협력 방식에 이견을 보였다.┃지역별 자치 운영 원칙을 마련한다┃지역 대표 간 공동 회의를 주선한다┃중앙 집행부 권한을 강화한다",
+"신흥 인재 영입 문제┃유명 정치 신인이 높은 직책을 조건으로 참여하려 한다.┃직책보다 역량 평가를 앞세운다┃공동 정책 책임자로 영입을 협상한다┃기존 최고위 지도부를 새로 구성한다",
+"무소속 의원의 연대 요청┃현직 의원들이 독립 연합의 의회 영향력을 높이자고 제안했다.┃공통 입법 과제만 합의한다┃정당 간 공개 협약을 추진한다┃독립 의원들의 차기 지도부를 선언한다",
+"전국조직의 자금 부족┃지역 사무실과 인력 유지에 필요한 비용이 부족해졌다.┃소액후원과 회계 투명성을 개선한다┃연합 단체와 합법적 비용 분담을 논의한다┃전국 단위 후보 모집을 강행한다",
+"정치 노선 결정의 밤┃중도와 개혁을 표방하는 구성원들이 서로 다른 진로를 주장했다.┃당원 토론을 통해 정책 강령을 정한다┃여러 세력의 공동 지도체제를 협상한다┃단일 대표 선출로 당내 이견을 정리한다"]};
+function v17RawEvent(row,id,minYear,faction){const [title,short,a,b,c]=row.split('┃');let era=g.era,local=g.region;let mentioned=title.match(/(?:19|20)\d{2}/);if(mentioned)minYear=Math.max(minYear,Number(mentioned[0]));let explanations=[
+'법적·공개적 절차를 택합니다. 결과가 느릴 수 있으나 기록이 남습니다.',
+'정치적 합의와 인맥을 우선합니다. 상대에게 양보한 대가가 뒤따릅니다.',
+'지도부의 동의 없이 주도권을 쥐려 합니다. 크게 성공할 수도 있지만 축출 위험이 큽니다.'
+];let choice=[a,b,c].map((label,i)=>{let base=i===0?{policy:8,trust:7,partyFunds:-1}:i===1?{network:8,org:5,trust:-3,partyFunds:-1}:{org:9,media:7,partyFunds:-2,trust:-5};let effects=i===0?{partySupport:3,loyalty:1,rival:2}:i===1?{loyalty:5,rival:4,partySupport:-2}:{loyalty:-11,threat:10,rival:9,shadowGrowth:faction?3:0};return {...SC(label,explanations[i],base,`${title}: ${label} 결정이 이루어졌다. 다음 정치적 국면에서 후속 파장이 예상된다.`,i===2?'계파 긴장':i===1?'불안정한 중재':'공개 정치 원칙',effects),approach:i}});
+return {...M(id,null,title,short,`${era}년을 출발점으로 한 ${g.year}년 ${local}의 가상 정국. ${short} 소속 진영은 ${FACTION_NAME(g.era,g.faction)}이며 현재 지위는 ${g.office}이다.`,choice),minYear,factionTailored:true,v17:true};}
+function v17EligibleEvents(){let common=(V17_COMMON_RAW[g.era]||[]).map((row,i)=>v17RawEvent(row,`v17_${g.era}_common_${i}`,g.era+(i<5?0:i<9?1:i<12?2:i<14?3:4),false));let fac=(V17_FACTION_RAW[g.faction]||[]).map((row,i)=>v17RawEvent(row,`v17_${g.era}_${g.faction}_${i}`,g.era+i, true));return [...fac,...common].filter(e=>g.year>=e.minYear&&!g.storySeen.includes(e.id)&&!g.decisions[e.id]);}
+function v17RecordEcho(e,c){if(!e.id.startsWith('v17_')||e.id.startsWith('v17_echo_'))return;let i=c.approach??0;if(i!==2&&Math.random()>.58)return;g.v17Echoes??=[];g.v17Echoes.push({id:e.id,origin:e.title,year:g.year,dueYear:g.year+(i===2?1:2),approach:i,done:false});g.v17Echoes=g.v17Echoes.slice(-35);}
+function v17ConsequenceScene(){let e=(g.v17Echoes||[]).find(x=>!x.done&&g.year>=x.dueYear);if(!e)return null;let options=e.approach===2?[
+SC(`‘${e.origin}’에 대한 공식 검증에 응한다`,'당장 성장한 지지 기반을 잃지만 축출 위험을 낮춘다.',{trust:6,org:-6},'당내 조사가 시작됐고 일부 지지 조직이 이탈했다.','당내 조사',{threat:-10,loyalty:5,position:-5}),
+SC(`‘${e.origin}’의 책임 문제를 타협안에 담는다`,'경쟁자가 정치적 양보를 요구한다.',{network:6,media:-4},'지도부와 조건부 타협이 이루어졌다.','지도부 타협',{loyalty:7,partySupport:-7,rival:5}),
+SC(`‘${e.origin}’의 논란을 걸고 차기 지도부에 도전한다`,'이전의 반대 계파까지 공개적으로 결집할 수 있다.',{org:7,media:5},'당내 지도권 경쟁이 한층 격화됐다.','지도권 도전',{threat:15,loyalty:-14,rival:12})]:[
+SC(`‘${e.origin}’의 후속 성과를 공개 검증받는다`,'기록과 실적을 다시 평가받는다.',{policy:7,trust:4},'당시 결정의 긍정과 부정이 함께 평가됐다.','후속 검증',{partySupport:3}),
+SC(`‘${e.origin}’ 당시 협력자의 요구를 수용한다`,'협력이 유지되지만 정치적 독립성은 약해진다.',{network:7,org:-4},'협력 세력들이 새 조건을 제시했다.','지분 협상',{loyalty:3,rival:7}),
+SC(`‘${e.origin}’의 과거 결정을 뒤집고 새 노선을 선언한다`,'당내 혼란이 커지고 이전 지지자들이 반발할 수 있다.',{media:7,trust:-6},'노선 변경으로 기존 동맹과 갈등이 생겼다.','정책 전환',{loyalty:-9,threat:7,rival:9})];
+return {...M('v17_echo_'+e.id,g.year,`뒤늦은 대가: ${e.origin}`,`${e.year}년에 내린 선택을 둘러싸고 다시 책임을 묻는 목소리가 나왔다.`,`과거에 있었던 ‘${e.origin}’ 사건의 기록이 다시 공개됐다. 당시의 선택이 지금의 권력투쟁과 연결됐다.`,options),factionTailored:true,story:true};}
+
 function setEvent(){
  if(!g||g.ended||g.pending||g.flash||g.election||g.lastChance||g.boss75?.status==='fighting')return;
  ensureNarrative();maybeUrgent();
@@ -490,8 +694,8 @@ function setEvent(){
  // 소속 정당의 공천과 선거는 이야기 진행 중 자동으로 시작한다.
  if(!isMajor&&maybeAutoPoliticalContest()){save();return}
  // 이전 선택이 유발한 후속 사건 → 진영별 기존 이야기 → 일반 기반 사건 순서.
- let story=storyPick();let generic=one(eligibleEvents());
- let e=isMajor?landmark:(story||generic);if(!e)e=generics[0];
+ let story=storyPick();let pool=eligibleEvents();let fresh=pool.filter(x=>x.v17);let generic=one(fresh.length&&Math.random()<.88?fresh:pool);
+ let interlude=story&&/^(daily_arc_|chronicle_)/.test(story.id)&&fresh.length>0&&Math.random()<.78;let e=isMajor?landmark:(interlude?generic:(story||generic));if(!e)e=generics[0];
  if(e===landmark)e=branchEvent(e);
  e=tailorEvent(e,isMajor,!!story);
  let choices=[...e.choices];for(let i=choices.length-1;i>0;i--){let j=rnd(0,i);[choices[i],choices[j]]=[choices[j],choices[i]]}
@@ -510,18 +714,19 @@ function applyChoice(i){
  let e=g.pending,c=e.choices[i];if(!c)return;
  let del={...c.delta};if(g.job==='finance'&&e.id==='e08'&&c.label.includes('분산'))del.wealth=(del.wealth||0)+6;
  if(g.job==='soldier'&&e.id==='y79'&&c.branch==='군부 영향력 확대')del.network=(del.network||0)+6;
- let changes=mod(del);let beforeIntrigue={internalSupport:g.internalSupport,leaderTrust:g.leaderTrust,rivalInfluence:g.rivalInfluence,positionScore:g.positionScore};
+ let changes=mod(del);let realized=Object.fromEntries(changes.map(x=>[x.key,x.delta]));let beforeIntrigue={internalSupport:g.internalSupport,leaderTrust:g.leaderTrust,rivalInfluence:g.rivalInfluence,positionScore:g.positionScore};
  // 현재 세력의 결집과 지도부 신임은 각기 별도인 값이다.
- g.internalSupport=lim(g.internalSupport+Math.round((del.org||0)*.22+(del.network||0)*.09+(del.trust||0)*.13-(del.opposition||0)*.13));
- g.leaderTrust=lim(g.leaderTrust+Math.round((del.network||0)*.12+(del.control||0)*.07-(del.legitimacy||0)*-.02));
- g.positionScore=lim(g.positionScore+Math.round(((del.org||0)+(del.network||0))/7)+(e.major?3:1));
- g.factionPower[g.faction]=lim((g.factionPower[g.faction]||30)+Math.max(-7,Math.min(9,Math.round(((del.org||0)+(del.control||0))/5))));
+ g.internalSupport=lim(g.internalSupport+intrigueGain('internalSupport',(realized.org||0)*.22+(realized.network||0)*.09+(realized.trust||0)*.13-(del.opposition||0)*.13));
+ g.leaderTrust=lim(g.leaderTrust+intrigueGain('leaderTrust',(realized.network||0)*.12+(realized.control||0)*.07+(del.legitimacy||0)*.02));
+ g.positionScore=lim(g.positionScore+intrigueGain('positionScore',((realized.org||0)+(realized.network||0))/8+(e.major?2:0)));
+ g.factionPower[g.faction]=lim((g.factionPower[g.faction]||30)+Math.max(-5,Math.min(4,Math.round(((realized.org||0)+(realized.control||0))/7))));
  if(e.id==='power_shadow'&&c.label.includes('수용')){g.fundingRisk=lim(g.fundingRisk+36);g.exposure=lim(g.exposure+29);historyNote('자금 조사 위험 증가','당시 수락한 자금의 출처가 향후 정치 활동의 약점으로 남았다.');}
  processStoryChoice(c,e);processFactionChoice(c);
  for(let [k,old] of Object.entries(beforeIntrigue))if(g[k]!==old)changes.push({key:k,delta:g[k]-old});
  if(c.branch){g.branch=c.branch;if(e.major)g.regime=c.branch}
  g.decisions[e.id]={choice:c.label,branch:c.branch||null,year:g.year};
- g.storySeen.push(e.id);g.storySeen=g.storySeen.slice(-200);
+ v17RecordEcho(e,c);if(e.id.startsWith('v17_echo_')){let ref=e.id.slice('v17_echo_'.length);let echo=(g.v17Echoes||[]).find(x=>x.id===ref);if(echo)echo.done=true;}
+ g.storySeen.push(e.id);g.storySeen=g.storySeen.slice(-450);
  historyNote(e.title,c.mark+(c.branch?` [분기: ${c.branch}]`:''));
  g.seen.push(e.id);g.seen=g.seen.slice(-40);g.pending=null;
  if(['y79','e12','f28'].includes(e.id))for(let r of Object.values(g.relations)){r.score=lim(r.score+(r.p===g.party?rnd(1,4):-rnd(1,3)))}
@@ -533,13 +738,13 @@ function continueGame(){if(!g||g.ended)return;
  if(g.flash){let auxiliary=!!g.flash.auxiliary;g.flash=null;
  if(auxiliary){save();render();window.scrollTo(0,0);return}
  g.half++;if(g.half>=4){g.half=0;g.year++;g.age++;g.actionLeft=1;g.yearPromptYear=g.year;g.financeNudgeSeen=false;g.briefHistory.push({year:g.year,text:annualBriefing(g.year)});g.briefHistory=g.briefHistory.slice(-14);
- g.rivalInfluence=lim(g.rivalInfluence+rnd(1,4));
+ g.rivalInfluence=lim(g.rivalInfluence+rnd(1,4));g.skillGrowth={year:g.year,used:{}};
  if(g.leaderTrust<33)g.internalSupport=lim(g.internalSupport-rnd(2,5));
  if(g.office==='대통령'){g.term++;if(g.term>=5){g.office='정당 대표';historyNote('대통령 임기 종료','대통령 임기의 정치적 기록이 연대기에 남았다.');g.term=0}}
  }
  afterNarrativeTurn();if(!g.ended&&!g.lastChance)setEvent();save();render();window.scrollTo(0,0);
  }}
-function header(){return `<div class="appbar">${musicButton()}<div class="brand">THE REPUBLIC / ALTERNATE HISTORY · ${g.era} / V16</div><h1>${g.year} · ${g.phase}</h1><div class="meta">${esc(g.name)} · ${esc(g.office)} · ${esc(g.party)} · ${esc(g.region)}</div></div>`}
+function header(){return `<div class="appbar">${musicButton()}<div class="brand">THE REPUBLIC / ALTERNATE HISTORY · ${g.era} / V17</div><h1>${g.year} · ${g.phase}</h1><div class="meta">${esc(g.name)} · ${esc(g.office)} · ${esc(g.party)} · ${esc(g.region)}</div></div>`}
 function eventPage(){ensureNarrative();if(g.boss75?.status==='fighting')return boss75Page();if(g.lastChance)return lastChancePage();
  if(g.ended){let z=g.ending;return `<div class="card ending ending-v14" style="margin-top:18px"><div class="tag">최종 기록 · ${esc(z.kind)}</div><h2 class="title" style="font-size:27px">${esc(z.title)}</h2><p>${esc(z.description)}</p><div class="columns"><div class="kpi"><strong>${g.year}</strong><span>정치 인생 종료</span></div><div class="kpi"><strong>${g.internalSupport}</strong><span>마지막 당내 지지</span></div></div><p class="small muted">다른 선택을 하면 다른 역사가 만들어집니다.</p><button class="btn primary full" onclick="resetGame()">새 역사 시작 ↻</button></div>`}
  if(g.flash){let f=g.flash;return `<div class="card flicker"><div class="tag">정치사 속보 · ${g.year}</div><h2 class="title" style="margin-top:11px">${esc(f.heading)}</h2>${f.branch?`<div class="flash"><div class="label">새로운 역사 분기</div><strong>${esc(f.branch)}</strong></div>`:''}<div class="columns">${f.changes.filter(x=>Math.abs(x.delta)>=2).slice(0,4).map(x=>`<div class="surface"><div class="small muted">${statLabels[x.key]||x.key}</div><strong style="color:${x.delta>0?'var(--good)':'var(--danger)'}">${fmt(x.delta)}</strong></div>`).join('')}</div><button class="btn primary full" style="margin-top:15px" onclick="continueGame()">다음 장면 →</button></div>`}
@@ -548,9 +753,9 @@ function eventPage(){ensureNarrative();if(g.boss75?.status==='fighting')return b
  return `<div class="row between" style="margin-bottom:9px"><span class="tag">${e.major?'역사적 분기':e.story?'과거 선택의 후폭풍':'권력 · 조직 · 자본'}</span><span class="pill">${g.year}년 ${['1분기','2분기','3분기','4분기'][g.half]||'1분기'}</span></div><div class="hero flicker"><div class="small muted">${esc(FACTION_NAME(g.era,g.faction))} · ${esc(g.office)}</div><h2>${esc(e.title)}</h2><p class="lede">${esc(e.short)}</p></div><details><summary>사건 배경 자세히 읽기</summary><p>${esc(e.detail)}</p></details><div class="card"><div class="tag">당신의 결정</div>${e.choices.map((c,i)=>`<button class="btn opt" onclick="applyChoice(${i})"><span class="n">${i+1}</span><span class="text"><strong>${esc(c.label)}</strong><span class="desc">${esc(c.detail)}</span></span><span style="color:var(--accent)">›</span></button>`).join('')}</div><div class="state-row"><span>진영 내 지지 <b>${g.internalSupport}</b></span><span>지도부 신임 <b>${g.leaderTrust}</b></span><span>내 위치 <b>${g.positionScore}</b></span></div>${activeClues?`<div class="notice">◈ 아직 회수되지 않은 사건의 실마리 ${activeClues}건 · 과거의 선택이 나중에 다시 나타날 수 있습니다.</div>`:''}${!e.major&&!e.story&&(milestones[g.era]||[]).some(x=>x.year>g.year&&!g.decisions[x.id])?'<button class="btn ghost full" style="margin:6px 0 12px" onclick="openBriefing()">▤ 정세 변화 브리핑 보기</button>':''}`}
 
 function worldPage(){ensureNarrative();syncHistoricalPeople();return `<div class="tag">THE POWER ATLAS / ${g.year}</div><h2 class="title">대한민국 권력 지도</h2>${politicalMap()}<div class="card"><div class="tag">${g.year}년 정국 브리핑</div><h3 class="title" style="margin-top:6px">${esc(annualBriefing(g.year))}</h3><p class="small muted">분기: ${esc(g.regime||g.branch)} · 내 소속 ${esc(FACTION_NAME(g.era,g.faction))}</p><button class="btn full" onclick="openBriefing()">연대기 및 세력 변동 열람 →</button></div><div class="card"><h3 class="title">생존 인물 · 현재 정치 관계</h3>${Object.entries(g.relations).filter(([n])=>personStatus(n)==='active').map(([n,r])=>`<div class="meterline"><span style="width:97px;font-size:12px">${esc(n)}<span class="small muted" style="display:block">${esc(r.p)}</span></span><div class="bar"><i style="width:${r.score}%"></i></div><b>${r.score}</b></div>`).join('')||'<p class="small muted">현재 관계를 확인할 인물이 없습니다.</p>'}</div><details class="card"><summary>역사 인물 기록 · 사망 및 정계 은퇴</summary>${Object.keys(g.archivedRelations||{}).map(n=>`<p class="small muted"><b>${esc(n)}</b> · ${esc(personStatus(n)==='deceased'?'사망 · 역사 기록으로 이동':'정계 은퇴')}</p>`).join('')||'<p class="small muted">기록된 인물이 없습니다.</p>'}</details><div class="card"><div class="label">정권의 취약성</div>${[['internalSupport','당내 지지'],['leaderTrust','상부 신임'],['rivalInfluence','정적 영향력'],['threat','축출 위험'],['exposure','자금 조사 위험'],['shadowNetwork','비공식 독자 조직']].map(([k,n])=>`<div class="meterline"><span style="width:113px;font-size:11px">${n}</span><div class="bar"><i style="width:${Math.min(100,g[k]||0)}%;background:${['threat','exposure','rivalInfluence','shadowNetwork'].includes(k)?'var(--danger)':'var(--accent)'}"></i></div><b>${g[k]||0}</b></div>`).join('')}</div>`}
-function powerPage(){return `${boss75Shortcut()}<div class="tag">PERSONAL POWER BASE</div><h2 class="title">권력 기반 운영</h2><div class="card"><div class="label">소속 세력과 당신의 위치</div><h3 class="title" style="margin:6px 0">${esc(FACTION_NAME(g.era,g.faction))}</h3><div class="row between"><strong>${factionRank(g.positionScore)}</strong><span>${g.positionScore}/100</span></div><div class="bar" style="margin-top:8px"><i style="width:${g.positionScore}%"></i></div><p class="small muted">비공식 자금과 관련된 결정은 법적 위험과 공적 신뢰에 영향을 줍니다. 현재 위험 지수 ${g.fundingRisk}/100.</p></div><div class="columns">${[['wealth','개인 자산','억 원'],['partyFunds','정치자금','천만 원'],['org','정치 조직',''],['network','인맥',''],['policy','정책 역량',''],['support','대중 지지','']].map(([k,n,u])=>`<div class="kpi"><strong>${g[k]}${u?'': ''}</strong><span>${n}${u?' · '+u:''}</span></div>`).join('')}</div><div class="card" style="margin-top:13px"><div class="row between"><h3 class="title">이번 해의 자유 정치 활동</h3><span class="badge">남은 기회 ${g.actionLeft}</span></div><p class="small muted">정해진 사건과 별개로 자신의 자금·조직·제도 기반을 직접 선택합니다. 한 해 한 차례 사용할 수 있습니다.</p>${freeActions.map((a,i)=>`<button class="btn opt" ${g.actionLeft<=0?'disabled':''} onclick="freeAction(${i})"><span class="n">${i+1}</span><span class="text"><strong>${esc(a.name)}</strong><span class="desc">${esc(a.desc)}</span></span></button>`).join('')}</div><div class="card" style="margin-top:12px"><div class="label">자본과 정치의 연결</div><h3 class="title">정치 자금 거점</h3><p class="small muted">지역을 직접 선택하십시오. 현재의 자금 거래가 몇 년 뒤 장부·후원자·당내 경쟁과 연결됩니다.</p><select id="financeRegion" class="input" style="margin:9px 0">${moneyRegionOptions().map(r=>`<option>${esc(r)}</option>`).join('')}</select><button class="btn full" ${g.actionLeft<=0||g.pending?.major?'disabled':''} onclick="openFinanceScene()">지역을 정하고 자금 스토리 시작 →</button>${g.finances.map(f=>`<div class="small muted" style="margin-top:8px">${esc(f.region)} · ${esc(f.kind)} (${f.year}년) · ${f.resolved?'조사 대응 완료':'미해결 관계'} · 위험 ${f.risk}</div>`).join('')}</div><div class="card"><div class="tag">BLACK FILE / 매우 높은 난이도</div><h3 class="title">상부 모르게 독자 세력 구축</h3><p class="small muted">실행하면 지도부의 감시가 급격히 강화됩니다. 작은 징후로도 즉시 축출 위기에 놓일 수 있습니다. 실전 전략이나 방법은 게임에 포함하지 않습니다.</p><button class="btn opt danger-action" ${g.actionLeft<=0?'disabled':''} onclick="secretNetworkAction()">독자 조직 확대를 시도한다 →</button></div><div class="card"><div class="label">진영은 언제든 바뀔 수 있습니다</div><p class="small muted">독자 조직을 만들거나 상대 진영으로 전향하면 기존 인맥이 경쟁자가 될 수 있습니다.</p><button class="btn full ghost" ${g.actionLeft<=0||g.pending?.major?'disabled':''} onclick="openFactionScene()">소속 변경 · 독자 노선 선택 →</button></div><div class="notice">개인 자산과 정치자금은 분리됩니다. 후원과 지출은 게임 내에서 합법적·공개적 절차로만 처리됩니다.</div>`}
+function powerPage(){return `${boss75Shortcut()}<div class="tag">PERSONAL POWER BASE</div><h2 class="title">권력 기반 운영</h2><div class="card"><div class="label">소속 세력과 당신의 위치</div><h3 class="title" style="margin:6px 0">${esc(FACTION_NAME(g.era,g.faction))}</h3><div class="row between"><strong>${factionRank(g.positionScore)}</strong><span>${g.positionScore}/100</span></div><div class="bar" style="margin-top:8px"><i style="width:${g.positionScore}%"></i></div><p class="small muted">비공식 자금과 관련된 결정은 법적 위험과 공적 신뢰에 영향을 줍니다. 현재 위험 지수 ${g.fundingRisk}/100.</p></div><div class="columns">${[['wealth','개인 자산','억 원'],['partyFunds','정치자금','천만 원'],['org','정치 조직',''],['network','인맥',''],['policy','정책 역량',''],['support','대중 지지','']].map(([k,n,u])=>`<div class="kpi"><strong>${g[k]}${u?'': ''}</strong><span>${n}${u?' · '+u:''}</span></div>`).join('')}</div><div class="card" style="margin-top:13px"><div class="row between"><h3 class="title">이번 해의 자유 정치 활동</h3><span class="badge">남은 기회 ${g.actionLeft}</span></div><p class="small muted">연간 성장 한도와 고능력 구간 성장 둔화가 적용됩니다. 정해진 사건과 별개로 자신의 자금·조직·제도 기반을 직접 선택합니다. 한 해 한 차례 사용할 수 있습니다.</p>${freeActions.map((a,i)=>`<button class="btn opt" ${g.actionLeft<=0?'disabled':''} onclick="freeAction(${i})"><span class="n">${i+1}</span><span class="text"><strong>${esc(a.name)}</strong><span class="desc">${esc(a.desc)}</span></span></button>`).join('')}</div><div class="card" style="margin-top:12px"><div class="label">자본과 정치의 연결</div><h3 class="title">정치 자금 거점</h3><p class="small muted">지역을 직접 선택하십시오. 현재의 자금 거래가 몇 년 뒤 장부·후원자·당내 경쟁과 연결됩니다.</p><select id="financeRegion" class="input" style="margin:9px 0">${moneyRegionOptions().map(r=>`<option>${esc(r)}</option>`).join('')}</select><button class="btn full" ${g.actionLeft<=0||g.pending?.major?'disabled':''} onclick="openFinanceScene()">지역을 정하고 자금 스토리 시작 →</button>${g.finances.map(f=>`<div class="small muted" style="margin-top:8px">${esc(f.region)} · ${esc(f.kind)} (${f.year}년) · ${f.resolved?'조사 대응 완료':'미해결 관계'} · 위험 ${f.risk}</div>`).join('')}</div><div class="card"><div class="tag">BLACK FILE / 매우 높은 난이도</div><h3 class="title">상부 모르게 독자 세력 구축</h3><p class="small muted">실행하면 지도부의 감시가 급격히 강화됩니다. 작은 징후로도 즉시 축출 위기에 놓일 수 있습니다. 실전 전략이나 방법은 게임에 포함하지 않습니다.</p><button class="btn opt danger-action" ${g.actionLeft<=0?'disabled':''} onclick="secretNetworkAction()">독자 조직 확대를 시도한다 →</button></div><div class="card"><div class="label">진영은 언제든 바뀔 수 있습니다</div><p class="small muted">독자 조직을 만들거나 상대 진영으로 전향하면 기존 인맥이 경쟁자가 될 수 있습니다.</p><button class="btn full ghost" ${g.actionLeft<=0||g.pending?.major?'disabled':''} onclick="openFactionScene()">소속 변경 · 독자 노선 선택 →</button></div><div class="notice">개인 자산과 정치자금은 분리됩니다. 후원과 지출은 게임 내에서 합법적·공개적 절차로만 처리됩니다.</div>`}
 const freeActions=[{name:'당비·소액 후원 기반 확대',desc:'정치 활동자금과 조직 +, 연대 구축',change:{partyFunds:4,org:6,trust:3},text:'정치자금 모금 체계가 정비됐다.'},{name:'기존 직업·사업 기반 운용',desc:'개인 자산 증가, 정치 활동 시간 감소',change:{wealth:6,org:-3,media:-3},text:'본업에서 수익을 확보했다.'},{name:'정책 연구와 공개 보고서',desc:'정책 역량과 공적 신뢰 증가',change:{policy:9,trust:6,partyFunds:-1},text:'정책 보고서가 정치권에서 회자됐다.'},{name:'지역당 조직 확장',desc:'정치자금 소요, 지지 기반 확대',change:{partyFunds:-2,org:10,support:6},text:'지역 조직의 활동이 확대됐다.'},{name:'정당 간 공개 협상',desc:'의회 협력과 인맥 상승, 당내 조직 약화',change:{parliament:9,network:9,org:-4},text:'정당 간 공동 논의의 장이 마련됐다.'},{name:'새로운 정당 창설 선언',desc:'기존 세력과 결별하고 독자 조직 구성',change:{partyFunds:-2,network:-10,org:13,support:4},text:'독자 정당이 등장했다.',branch:'신당 창설'},{name:'국정 통제 강화 제안',desc:'국가 통제력 상승, 정당성과 시민의 자유 하락',change:{control:12,liberty:-10,legitimacy:-11,opposition:12},text:'권한 확대를 둘러싸고 충돌이 생겼다.',branch:'권한 집중'},{name:'시민권·국회 감독 확대',desc:'시민의 자유와 제도 정당성 상승, 통제력 하락',change:{liberty:12,legitimacy:10,parliament:5,control:-6},text:'국가 권한을 제한하는 개혁이 추진됐다.',branch:'시민권 확대'}];
-function freeAction(i){if(!g||g.ended||g.actionLeft<=0||g.election||g.lastChance)return;let a=freeActions[i];if(!a)return;let changes=mod(a.change);g.positionScore=lim(g.positionScore+Math.round(((a.change.org||0)+(a.change.network||0))/5));g.factionPower[g.faction]=lim((g.factionPower[g.faction]||30)+Math.round((a.change.org||0)/4));g.actionLeft=0;g.yearPromptYear=-1;g.internalSupport=lim(g.internalSupport+Math.round((a.change.org||0)*.22+(a.change.network||0)*.12));if(a.branch==='신당 창설'){g.faction=factionForIndependent();g.leaderTrust=22;g.internalSupport=lim(31+Math.round(g.org/5));g.positionScore=lim(g.positionScore-15);g.rivalInfluence=lim(g.rivalInfluence+20);g.threat=lim(g.threat+28);if(g.org<56||g.partyFunds<3||Math.random()<.35){makeEnding('신당 창당을 선언했으나 조직이 붕괴되다','공식 창당 발표 직후 지지 기반이 무너지고 지도부가 정계 퇴출을 요구했다.','정치적 축출')}}if(a.branch){g.branch=a.branch;if(a.name.includes('창설'))g.regime=a.branch}if(a.name.includes('창설'))g.party='무소속 신당';g.history.unshift({y:g.year,title:a.name,desc:a.text});g.flash={heading:a.text,branch:a.branch||'',changes,auxiliary:true};tab='event';save();render()}
+function freeAction(i){if(!g||g.ended||g.actionLeft<=0||g.election||g.lastChance)return;let a=freeActions[i];if(!a)return;let changes=mod(a.change);g.positionScore=lim(g.positionScore+intrigueGain('positionScore',((changes.find(x=>x.key==='org')?.delta||0)+(changes.find(x=>x.key==='network')?.delta||0))/8));g.factionPower[g.faction]=lim((g.factionPower[g.faction]||30)+Math.round((changes.find(x=>x.key==='org')?.delta||0)/6));g.actionLeft=0;g.yearPromptYear=-1;g.internalSupport=lim(g.internalSupport+intrigueGain('internalSupport',(changes.find(x=>x.key==='org')?.delta||0)*.19+(changes.find(x=>x.key==='network')?.delta||0)*.10));if(a.branch==='신당 창설'){g.faction=factionForIndependent();g.leaderTrust=22;g.internalSupport=lim(31+Math.round(g.org/5));g.positionScore=lim(g.positionScore-15);g.rivalInfluence=lim(g.rivalInfluence+20);g.threat=lim(g.threat+28);if(g.org<56||g.partyFunds<3||Math.random()<.35){makeEnding('신당 창당을 선언했으나 조직이 붕괴되다','공식 창당 발표 직후 지지 기반이 무너지고 지도부가 정계 퇴출을 요구했다.','정치적 축출')}}if(a.branch){g.branch=a.branch;if(a.name.includes('창설'))g.regime=a.branch}if(a.name.includes('창설'))g.party='무소속 신당';g.history.unshift({y:g.year,title:a.name,desc:a.text});g.flash={heading:a.text,branch:a.branch||'',changes,auxiliary:true};tab='event';save();render()}
 function requirements(){return [{type:'assembly',name:'국회의원',rules:{org:35,policy:32,support:30},fund:2},{type:'leader',name:'당 대표',rules:{org:50,network:42,support:38},fund:3},{type:'president',name:'대통령',rules:{org:61,policy:52,support:55,network:49},fund:5}]}
 function reqPage(){ensureNarrative();let yr=g.era===1975?1978:g.era===2008?2012:2028;return `<div class="tag">POLITICAL CAREER</div><h2 class="title">다음 권력 경쟁</h2><div class="card"><div class="label">현재 지위</div><h3 class="title" style="font-size:21px">${esc(g.office)}</h3><p>현재 소속: ${esc(FACTION_NAME(g.era,g.faction))}</p><div class="columns"><div class="kpi"><strong>${g.positionScore}</strong><span>조직 내 위치</span></div><div class="kpi"><strong>${g.internalSupport}</strong><span>당내 지지</span></div></div><p class="small muted">공천과 선거는 능력치만으로 임의 신청할 수 없습니다. 현재의 이야기, 역사적 시점, 조직의 지지에 따라 자동으로 진행됩니다.</p></div><div class="card"><div class="tag">다음 주요 정치 일정</div><h3 class="title">${g.era===1975&&['yushin','newguard'].includes(g.faction)?'지도부 후계 경쟁 · 조직 내 권력투쟁':yr+'년 총선 후보 선출과 선거'}</h3><p class="small muted">${g.year>=yr?'진행 중인 정치 질서와 지난 결정이 다음 도전을 결정합니다.':`현재 ${g.year}년. 필요한 시점이 오면 별도 사건과 개표 방송이 열립니다.`}</p></div><div class="card"><div class="label">선출·권력 경쟁의 주요 변수</div>${[['org','정치 조직'],['support','대중 지지'],['policy','정책 역량'],['network','인맥'],['internalSupport','당내 지지']].map(([k,n])=>`<div class="meterline"><span style="width:100px;font-size:12px">${n}</span><div class="bar"><i style="width:${g[k]}%"></i></div><b>${g[k]}</b></div>`).join('')}</div>`}
 const rounds=[{title:'후보 선출을 위한 공개 논의',intro:'정당 내부의 경쟁자들과 입장을 설명할 기회다.',opts:[['공개 정책 토론에 집중', 'policy',6],['지역 조직을 결집','org',7],['다른 세력과 협의', 'network',6]]},{title:'공천 심사 최종 단계',intro:'지도부와 유권자의 판단이 엇갈리고 있다.',opts:[['정책 성과 공개','policy',7],['당내 합의와 절차 강조','trust',8],['지역 일정에 집중','support',7]]},{title:'본선 공개 토론',intro:'최종 후보와 정책을 비교하는 방송이 진행된다.',opts:[['국가정책 비전 제시','policy',8],['지역 유권자 문제 집중','support',8],['정치적 협력 능력 강조','network',8]]},{title:'투표일 전 마지막 일정',intro:'당선 여부는 아직 알 수 없다.',opts:[['공개 지지 행사','media',7],['정당 조직 정비','org',7],['공식 정책자료 발표','trust',8]]}];
@@ -562,11 +767,11 @@ function beginCount(){if(revealTimer)clearInterval(revealTimer);if(!g?.election|
 function skipCount(){if(!g?.election)return;if(revealTimer)clearInterval(revealTimer);revealTimer=null;let e=g.election;e.progress=100;e.ours=e.final;e.theirs=Math.round((100-e.final)*10)/10;save();render()}
 function finishElection(){let e=g.election;if(!e||e.progress<100)return;let won=e.final>50,office={assembly:'국회의원',leader:'정당 대표',president:'대통령'}[e.type];let old=g.office;if(won){g.office=office;g.won++;g.control=lim(g.control+(e.type==='president'?27:e.type==='leader'?15:6));g.parliament=lim(g.parliament+(e.type==='assembly'?19:e.type==='president'?12:7));g.support=lim(g.support+8);g.phase=office==='대통령'?'국정 운영':office==='국회의원'?'입법 활동':'당권 운영';g.term=0}else{g.support=lim(g.support-12);g.org=lim(g.org-7);g.internalSupport=lim(g.internalSupport-17);g.rivalInfluence=lim(g.rivalInfluence+13);if(g.internalSupport<24||g.rivalInfluence>79)makeEnding('경선·선거 참패 뒤 축출',`후보 ${esc(e.opponent||'경쟁자')}에게 패배한 뒤 당내 지지층이 이탈했다.`,'공천 및 선거 패배');}g.history.unshift({y:g.year,title:won?office+' 당선':office+' 도전 실패',desc:`가상 개표 ${e.final.toFixed(1)}% : ${(100-e.final).toFixed(1)}%. ${won?`정치적 지위가 ${old}에서 ${office}(으)로 변경됐다.`:'경쟁에서 패배했지만 조직은 남았다.'}`});g.election=null;g.flash={heading:won?office+'에 당선되었습니다.':'선거에서 패배했습니다.',branch:won?'권력 구조 변화':'',changes:[{key:'support',delta:won?8:-7}],auxiliary:true};tab='event';save();render()}
 function historyPage(){return `<div class="tag">CHANGED HISTORY</div><h2 class="title">당신이 바꾼 대한민국</h2><div class="card"><div class="label">지금의 국가적 흐름</div><h3 style="margin:8px 0;font-size:20px">${esc(g.branch)}</h3><p class="small muted">선택한 과거는 되돌아가지 않습니다. 역사적 사건의 전개는 현재의 국가 질서에 영향을 받습니다.</p></div><div class="history">${g.history.map(x=>`<article><span class="tag">${x.y}년</span><strong>${esc(x.title)}</strong><p>${esc(x.desc)}</p></article>`).join('')}</div>`}
-function morePage(){return `<div class="tag">SAVE & CONTROL</div><h2 class="title">게임 정보</h2><div class="card"><div class="label">현재 게임</div><p>${esc(g.name)} · ${g.age}세 · ${esc(g.career)} · ${esc(g.office)}</p><p class="small muted">${g.era}년 시작 → ${g.year}년 현재 · ${esc(g.branch)}</p><button class="btn full" onclick="save();alert('이 브라우저에 저장되었습니다.')">현재 진행 저장</button><button class="btn ghost full" style="margin-top:8px" onclick="resetGame()">새로운 역사 시작</button></div><details><summary>기획과 사실·허구 구분</summary><p>1975년 긴급조치 9호, 1979년 10·26과 12·12, 2008년 금융위기 등 역사적 배경은 실제 사건에 기초합니다. 플레이어의 개입, 이후 선거와 인물 관계는 모두 가상입니다.</p><p>역사적 권력행사와 강제 진압의 정치적 선택은 등장하나 실행을 위한 세부 지침은 포함하지 않습니다.</p></details><div class="card"><div class="label">오리지널 배경음악</div><p class="small muted">1970년대 아날로그 긴장감 / 2000년대 냉정한 정치 스릴러 / 현대 전자음악. 시대와 권력 위기에 맞춰 자동으로 달라지는 자체 제작 선율입니다. 소리는 버튼을 누른 이후에만 재생됩니다.</p><button class="btn full" onclick="toggleBgm()">${musicEngine.playing?'♫ 배경음악 끄기':'♫ 배경음악 켜기'}</button></div><div class="small muted">대한민국: 권력의 역사 · V15 진영별 스토리·오리지널 음악<br>게임용 모델이며 정치인·정당의 실제 평가나 선거 전망을 의미하지 않습니다.</div>`}
+function morePage(){return `<div class="tag">SAVE & CONTROL</div><h2 class="title">게임 정보</h2><div class="card"><div class="label">현재 게임</div><p>${esc(g.name)} · ${g.age}세 · ${esc(g.career)} · ${esc(g.office)}</p><p class="small muted">${g.era}년 시작 → ${g.year}년 현재 · ${esc(g.branch)}</p><button class="btn full" onclick="save();alert('이 브라우저에 저장되었습니다.')">현재 진행 저장</button><button class="btn ghost full" style="margin-top:8px" onclick="resetGame()">새로운 역사 시작</button></div><details><summary>기획과 사실·허구 구분</summary><p>1975년 긴급조치 9호, 1979년 10·26과 12·12, 2008년 금융위기 등 역사적 배경은 실제 사건에 기초합니다. 플레이어의 개입, 이후 선거와 인물 관계는 모두 가상입니다.</p><p>역사적 권력행사와 강제 진압의 정치적 선택은 등장하나 실행을 위한 세부 지침은 포함하지 않습니다.</p></details><div class="card"><div class="label">오리지널 배경음악</div><p class="small muted">1970년대 아날로그 긴장감 / 2000년대 냉정한 정치 스릴러 / 현대 전자음악. 시대와 권력 위기에 맞춰 자동으로 달라지는 자체 제작 선율입니다. 소리는 버튼을 누른 이후에만 재생됩니다.</p><button class="btn full" onclick="toggleBgm()">${musicEngine.playing?'♫ 배경음악 끄기':'♫ 배경음악 켜기'}</button></div><div class="small muted">대한민국: 권력의 역사 · V17 저성장 밸런스·스토리 확장<br>게임용 모델이며 정치인·정당의 실제 평가나 선거 전망을 의미하지 않습니다.</div>`}
 function resetGame(){if(!confirm('새 게임을 시작하시겠습니까? 현재 저장은 초기화됩니다.'))return;if(revealTimer)clearInterval(revealTimer);g=null;setup.era=1975;setup.faction='newguard';setup.party=activeFaction().parties[0];setup.region=one(regions(setup.party,setup.era));drawCareers();localStorage.removeItem(SAVE);render()}
 function nav(){return `<nav class="nav">${[['event','▣','사건'],['world','◈','대한민국'],['power','◉','권력'],...(g?.era===1975?[['boss','♜','최종장']]:[]),['election','▥','선거'],['history','▤','역사'],['more','⚙','설정']].map(([x,icon,n])=>`<button class="${tab===x?'on':''}" onclick="switchTab('${x}')"><span class="ico">${icon}</span>${n}</button>`).join('')}</nav>`}
 function switchTab(x){if(g?.boss75?.status==='fighting'&&x!=='boss'&&x!=='event'){x='boss'}if(g?.election&&x==='election'){}tab=x;save();render();window.scrollTo(0,0)}
-function render(){document.body.dataset.era=String(g?.era||setup.era);const app=$('app');if(!g){app.innerHTML=setupPage();return}let view={event:eventPage,world:worldPage,power:powerPage,boss:boss75Page,election:()=>g.election?campaignPage():reqPage(),history:historyPage,more:morePage};app.innerHTML=header()+`<main class="page">${(view[tab]||eventPage)()}</main>`+nav()+urgentOverlay()+annualOverlay()+briefingOverlay();if(g.election&&g.election.step>=4&&g.election.progress<100&&tab==='election'&&!revealTimer)beginCount()}
+function render(){document.body.dataset.era=String(g?.era||setup.era);const app=$('app');if(!g){app.innerHTML=setupPage();return}let view={event:eventPage,world:worldPage,power:powerPage,boss:boss75Page,election:()=>g.election?campaignPage():reqPage(),history:historyPage,more:morePage};app.innerHTML=header()+`<main class="page">${(view[tab]||eventPage)()}</main>`+nav()+urgentOverlay()+annualOverlay()+briefingOverlay()+cinematicOverlay();if(g.election&&g.election.step>=4&&g.election.progress<100&&tab==='election'&&!revealTimer)beginCount()}
 /* V14 — connected political thriller. All covert, violent, and illicit events are abstract fictional choices; no operational detail. */
 let focusedFactionId = null, briefingOpen = false;
 const rivalFamily=['김','이','박','최','정','윤','강','조','장','임','한','오','서','신','유','황'];
@@ -587,13 +792,37 @@ function annualFinance(){if(!g)return;if(g.pending?.major){g.yearPromptYear=-1;a
 function openBriefing(){briefingOpen=true;g.yearPromptYear=-1;save();render()}
 function closeBriefing(){briefingOpen=false;render()}
 function briefingOverlay(){if(!g||!briefingOpen)return '';let start=Math.max(g.era,g.year-15);let years=Array.from({length:g.year-start+1},(_,i)=>start+i).reverse();return `<div class="brief-mask" role="dialog" aria-modal="true" aria-label="연대기 정세 브리핑"><div class="brief-sheet"><div class="tag">기록실 / 정치사 종합 보고</div><h2>권력은 어떻게 바뀌었는가</h2><p class="small muted">기록은 역사적 배경과 플레이어의 가상 선택을 구분합니다. 생존 분기를 선택했다면 뒤의 사건은 대체역사입니다.</p>${years.map(y=>`<div class="brief-row"><strong>${y}년</strong><span>${esc(annualBriefing(y))}</span>${g.history.filter(h=>h.y===y).slice(0,2).map(h=>`<span style="color:#dbba8b">◆ ${esc(h.title)}</span>`).join('')}</div>`).join('')}<button class="btn primary full" style="margin-top:14px" onclick="closeBriefing()">정세 확인 완료 →</button></div></div>`}
-function nextRivalStory(){if(g.year<g.rivalNextYear||g.half===0||g.storySeen.includes('rival_wave_'+g.year))return null;return M('rival_wave_'+g.year,g.year,`신흥 후보 ${g.rivalName}, 당권에 도전하다`,`${g.rivalName}의 지지 세력이 공천위원회와 지역 조직에 자리를 얻기 시작했다.`,`최근 정치권에서 주목받는 가상 신인 ${g.rivalName}. 당 지도부는 그를 차세대 주자로 보고 있다. 그는 당신의 지난 선택과 독자적 지역 기반을 살피며 연합과 경쟁을 동시에 제안한다.`,[
- SC(`${g.rivalName}과 공동 전선을 맺는다`,'단기 충돌은 줄지만 그는 독자적으로 성장한다.',{network:7,policy:4},'협력에 합의했지만 신흥 후보의 영향력이 더 커졌다.','불안정한 공존',{partySupport:4,rival:13,loyalty:4}),
- SC(`${g.rivalName}에게 공개 경선을 제안한다`,'지지를 얻어도 지도부가 반대할 수 있다.',{media:7,org:-4},'공개 경쟁이 선언되자 양측 조직이 집결했다.','공개 경선',{rivalRemoval:'fair',rival:9}),
- SC(`${g.rivalName}의 당내 축출을 직접 추진한다`,'권한을 이용한 인사 배제. 실패하면 자신이 먼저 쫓겨난다.',{org:5,trust:-10},'신흥 후보의 당적·직위 문제를 둘러싼 권력투쟁이 개시됐다.','강제 축출 시도',{rivalRemoval:'force',loyalty:-14,threat:17}),
- SC('지도부와 거리 두며 독자 후원 세력을 만든다','작은 움직임에도 지도부가 위협으로 인식한다.',{org:7,network:-5},'상부의 감시가 시작되고 경쟁자가 자료를 모으기 시작했다.','독자 세력 확장',{shadowGrowth:7,rival:10,loyalty:-19,threat:22})]);}
+/* Rival arc: 4 genuinely different multi-year confrontation types, not one repeated prompt. */
+function nextRivalStory(){
+ if(g.year<g.rivalNextYear||g.half===0||g.storySeen.includes('rival_wave_'+g.year))return null;
+ const n=g.rivalName,turn=Math.floor((g.year-g.era+1)%4),tense=g.rivalInfluence>60;
+ const waves=[
+  {title:`${n}의 후원자들이 움직이다`,short:`${n}을(를) 지지하는 모임이 지역 정치인들의 합류를 요청했다.`,detail:`${g.region}의 정치조직에서 경쟁자 ${n}의 후원이 늘고 있다. 그의 지지자를 포용할지, 맞대응할지 판단해야 한다.`,choices:[
+   SC('후원 연합의 정책 제안만 수용한다','공동 정책을 통해 갈등을 제한한다.',{policy:7,network:5},'공동 정책 논의를 시작했다.','부분 연대',{rival:8,partySupport:2}),
+   SC('당원 명부의 공개 검증을 제안한다','공정성을 확보하지만 양쪽 모두 검증받는다.',{trust:7,org:-3},'후원단체에 대한 공개 검토가 이루어졌다.','후원 투명화',{rivalRemoval:'fair',threat:5}),
+   SC(`${n}의 후원 세력을 당직에서 배제할 것을 요구한다`,'당권으로 밀어붙이면 불신임 역풍이 발생할 수 있다.',{org:4,trust:-6},'인사 배제를 둘러싸고 집단 반발이 일어났다.','인사 배제 도전',{rivalRemoval:'force',threat:14,loyalty:-12}),
+   SC('자신만의 별도 후원자 모임을 연다','상부의 파벌 감시가 매우 엄격하다.',{org:6,partyFunds:-2},'지도부가 별도 후원조직을 문제 삼았다.','독자 후원',{shadowGrowth:6,threat:17,loyalty:-14})]},
+  {title:`경선 토론회, ${n}의 역습`,short:`정책 토론회에서 ${n}이(가) 당신의 과거 발언을 문제 삼았다.`,detail:`중앙당이 공개 질의응답을 요구했다. 당시 발언을 기억하는 인물들까지 등장하며 지지율이 출렁이고 있다.`,choices:[
+   SC('원문 기록과 정책 근거로 해명한다','당장 실점을 감수해도 공적 신뢰를 지킨다.',{policy:6,trust:9},'공개 검증을 이어 갔다.','기록 검증',{partySupport:5,rival:2}),
+   SC(`${n}에게 동등한 조건의 재토론을 요청한다`,'상대의 명성도 더 높아질 수 있다.',{media:7,network:3},'두 사람의 공개 토론이 성사됐다.','재토론',{rivalRemoval:'fair',rival:5}),
+   SC('경선 무효와 후보 자격 심사를 추진한다','절차상 근거가 부족하면 자신의 지위가 흔들린다.',{org:6,trust:-7},'경선 운영을 둘러싼 당내 갈등이 심해졌다.','경선 무효 논란',{rivalRemoval:'force',threat:13,loyalty:-13}),
+   SC('토론회 밖에서 독자적인 지지 조직을 만든다','언론보다 조직력을 선택하지만 지도부 의심이 커진다.',{org:7,media:-4},'후보자들의 조직 경쟁이 격화됐다.','조직 내전',{shadowGrowth:7,loyalty:-19,threat:16})]},
+  {title:`${n}, 중앙당 인사권을 요구하다`,short:`경쟁자 ${n}이(가) 당직자 인선에 자신의 지분을 요구했다.`,detail:`합의가 없으면 중앙당 운영에 공백이 생길 수 있다. 인사권 분쟁을 어떻게 처리할지 결정해야 한다.`,choices:[
+   SC('분야별 공개 인사평가로 결정한다','당내 행정절차가 길어지지만 정당성을 확보한다.',{policy:7,trust:6},'인사 기준의 개혁이 추진됐다.','인사 제도 개혁',{partySupport:5,rival:5}),
+   SC('한정된 공동 인사권을 인정한다','당장 충돌은 피하지만 경쟁자의 영향력이 커진다.',{network:8,org:-4},'공동 인사 협약을 맺었다.','당권 분점',{rival:15,loyalty:4}),
+   SC(`${n}의 인사권 요구를 불신임 안건으로 올린다`,'정면 정치대결의 성공 여부에 따라 운명이 갈린다.',{media:6,trust:-6},'전면적인 지도부 표결이 시작됐다.','인사권 불신임',{rivalRemoval:'force',threat:17,loyalty:-16}),
+   SC('지역 지지 인사를 독자적으로 선임한다','상층부가 이를 이중 조직으로 판단할 수 있다.',{org:8,partyFunds:-2},'지역 조직의 이중 권한 논란이 커졌다.','이중 조직',{shadowGrowth:7,rival:10,threat:13})]},
+  {title:`당권 표결 전야, ${n}의 최후 제안`,short:`당내 표결을 앞두고 ${n}이(가) 공동 지도부 구성을 제안했다.`,detail:`${tense?'그는 이미 지도부의 상당한 지지를 확보했다.':'아직 어느 편이 다수인지 불확실하다.'} 선택에 따라 다음 해의 권력구도가 완전히 달라질 수 있다.`,choices:[
+   SC('공동 지도부의 책임과 권한을 문서화한다','정치적 신뢰를 쌓지만 단독 권한은 제한된다.',{policy:6,network:6},'당권 분담 원칙이 공개됐다.','공동 지도부',{partySupport:5,rival:8}),
+   SC('당원 직접투표를 통해 대표를 결정한다','패배하더라도 결과를 수용해야 한다.',{media:8,trust:6},'직접투표 일정이 발표됐다.','당원 총투표',{rivalRemoval:'fair',rival:9}),
+   SC(`${n}의 불신임을 직접 표결에 부친다`,'성공하면 경쟁자를 밀어내지만 실패하면 몰락한다.',{org:5,trust:-7},'중앙당은 불신임 회의를 소집했다.','지도부 정면 승부',{rivalRemoval:'force',threat:20,loyalty:-15}),
+   SC('비주류 정치인들을 모아 별도 최고위를 추진한다','지도부의 의심이 결정적으로 높아진다.',{org:8,partyFunds:-3},'기존 지도부는 이중 최고위를 인정하지 않았다.','정치적 분당',{shadowGrowth:9,threat:22,loyalty:-20})]}
+ ];
+ const e=waves[turn];return {...M('rival_wave_'+g.year,g.year,e.title,e.short,e.detail,e.choices),factionTailored:true};
+}
+
 function resolveRivalRemoval(method){if(method==='fair'){let score=g.internalSupport*.42+g.org*.17+g.trust*.15+g.network*.07+rnd(-16,12)-g.rivalInfluence*.28;if(score<32){g.internalSupport=lim(g.internalSupport-16);g.rivalInfluence=lim(g.rivalInfluence+15);historyNote('공개 경선 실패',`${g.rivalName}이(가) 당내 세력을 더 확보했다.`)}else {g.rivalInfluence=lim(g.rivalInfluence-22);g.positionScore=lim(g.positionScore+6);historyNote('공개 경선 승리',`${g.rivalName}의 지도권 도전을 물리쳤다.`)}return}
- if(method==='force'){let roll=g.internalSupport*.36+g.positionScore*.22+g.leaderTrust*.2+g.org*.12-g.rivalInfluence*.33+rnd(-22,12);if(roll<32){g.internalSupport=lim(g.internalSupport-23);g.leaderTrust=lim(g.leaderTrust-19);g.threat=lim(g.threat+22);makeEnding('신흥 후보 축출 작전의 역풍',`${g.rivalName}이(가) 지도부의 지지를 얻어 오히려 당신의 지위를 무너뜨렸다.`,'정치적 축출');}else {historyNote('당내 경쟁자 실각',`${g.rivalName}의 지도권 도전을 제압했으나 그를 지지하던 세력이 반격을 준비한다.`);g.storyFlags.rivalRevenge=g.year+1;g.rivalInfluence=lim(g.rivalInfluence-17);g.leaderTrust=lim(g.leaderTrust-9);g.threat=lim(g.threat+10);g.rivalName=randomRivalName(g.name)}}}
+ if(method==='force'){let roll=g.internalSupport*.36+g.positionScore*.22+g.leaderTrust*.2+g.org*.12-g.rivalInfluence*.33+rnd(-22,12);if(roll<32){g.internalSupport=lim(g.internalSupport-23);g.leaderTrust=lim(g.leaderTrust-19);g.threat=lim(g.threat+22);makeEnding('신흥 후보 축출 작전의 역풍',`${g.rivalName}이(가) 지도부의 지지를 얻어 오히려 당신의 지위를 무너뜨렸다.`,'정치적 축출');}else {historyNote('당내 경쟁자 실각',`${g.rivalName}의 지도권 도전을 제압했으나 그를 지지하던 세력이 반격을 준비한다.`);openPoliticalCinematic('당내 경쟁자 축출 성공',`${g.rivalName}의 지도권 도전을 제압했습니다.`,false);g.storyFlags.rivalRevenge=g.year+1;g.rivalInfluence=lim(g.rivalInfluence-17);g.leaderTrust=lim(g.leaderTrust-9);g.threat=lim(g.threat+10);g.rivalName=randomRivalName(g.name)}}}
 const chronologyScenes=[
 [1975,'청와대 참모의 충성 심사','유신체제 내부에서 새 인맥을 확인한다.'],[1976,'야권 성명과 여권 내 강경파','정치적 발언의 수위를 두고 계파 갈등이 불거졌다.'],[1977,'정보 보고서 속 낯선 이름','지도부가 자신의 후계 후보군을 재평가한다.'],[1978,'제10대 총선 이후 공천 갈등','선거 결과가 조직 내 줄서기를 바꿔 놓았다.'],[1979,'부마민주항쟁과 여권의 위기','시위와 강경 대응 논쟁으로 정권의 균열이 드러난다.'],[1980,'서울의 봄과 후계 경쟁','정권의 공백을 메우려는 집단들이 서로 충돌한다.'],[1981,'제5공화국 출범과 자리 배분','신체제의 관료 임명이 기존 진영을 흔든다.'],[1982,'정치자금 스캔들과 검증','정계와 경제계의 연결망이 조사 대상이 된다.'],[1983,'국정 위기와 인선 공백','잇단 안보 위기가 지도부의 신뢰와 인사를 흔든다.'],[1984,'통제와 야권 재결집','정당 밖 반대 세력이 새롭게 연결된다.'],[1985,'신민주 정당의 약진','국회 의석을 둘러싸고 당권이 급격히 재배치된다.'],[1986,'개헌 요구와 타협의 분수령','정당 간 대통령 선출 방식을 놓고 견해가 갈린다.'],[1987,'6월 항쟁과 지도부의 최후 제안','민주적 대표성과 권력 이양 시점을 정해야 한다.'],[1988,'여소야대 정국과 과거사 청문회','과거 집권세력의 기록이 공개 논쟁의 중심이 된다.'],[1989,'차기 정치연합 비밀 제안','정당 간 결합과 독자 생존 사이에서 선택해야 한다.'],[1990,'3당 합당 이후 지분 충돌','거대 여당으로 합쳐진 계파들이 공천권을 요구한다.'],[1991,'지역 조직의 반란','지방 정치조직이 중앙 지도부의 결정을 거부한다.']];
 const recurringIntrigues=[
@@ -909,7 +1138,16 @@ function boss75Page(){if(!g||g.era!==1975)return '<div class="card">1975 시나�
 function boss75Prepare(i){if(!g||g.era!==1975||g.boss75.status!=='preparing'||g.actionLeft<=0||g.ended||g.lastChance)return;let b=g.boss75,p=boss75Preparations[i];if(!p)return;g.actionLeft--;g.yearPromptYear=-1;b.preparations++;for(let [k,v] of Object.entries(p.gain))b[k]=lim(b[k]+v);let changes=mod(p.delta);g.threat=lim(g.threat+Math.max(1,Math.round((p.gain.heat||0)/3)));historyNote('최종장 준비 · '+p.title,p.text);if(b.heat>=66&&Math.random()<.18+(b.heat-66)*.011){makeEnding('최종장 도전 기밀 노출',`최고권력이 ${g.name}의 정치적 도전을 확인하고 직위 박탈 절차에 돌입했다.`,'상부의 축출');}if(!g.ended&&!g.lastChance)g.flash={heading:p.text,branch:'최종장 준비 '+b.preparations+'회',changes,auxiliary:true};tab=g.lastChance?'event':'boss';save();render();window.scrollTo(0,0)}
 function boss75Begin(){if(!g||g.era!==1975||g.year<1978||g.ended||g.lastChance||g.boss75.status!=='preparing')return;let b=g.boss75;if(!confirm('최종장에 진입합니다. 3막 연속 결정을 내리며 패배하면 축출 위기가 발생합니다. 진행하시겠습니까?'))return;b.target=boss75Target();b.status='fighting';b.step=0;b.score=0;b.losses=0;b.wins=0;g.yearPromptYear=-1;g.flash=null;g.pending=null;g.election=null;g.emergency=null;g.emergencyResult=null;historyNote('1975 최종장 개시',`${g.name}이(가) 최고 권력자 ${b.target}에 대한 가상의 권력 도전을 시작했다.`);tab='boss';save();render();window.scrollTo(0,0)}
 function boss75Choose(i){if(!g||g.ended||g.boss75?.status!=='fighting'||g.lastChance)return;let b=g.boss75,r=boss75Rounds[b.step],o=r?.choices[i];if(!o)return;let [a,c]=o.keys;let prep=(b[a]*.47+b[c]*.38)+g.positionScore*.12+g.internalSupport*.08+g.org*.08;let contest=24+b.step*6+b.heat*.13+g.rivalInfluence*.06;let roll=prep-contest+rnd(-15,14);let passed=roll>0;let change=Math.round((passed?13:-8)+(o.gain||0)+rnd(-3,4));b.score=Math.max(0,b.score+change);b.heat=lim(b.heat+o.risk+(passed?-2:8));b.forceUsed=!!(b.forceUsed||o.force);b.choices.push(o.name);if(passed)b.wins++;else b.losses++;if(o.force){mod({legitimacy:-7,trust:-4,opposition:9});g.threat=lim(g.threat+8)}if(i===2)mod({legitimacy:5,stability:4});historyNote(`최종장 제${b.step+1}막 · ${passed?'기회 포착':'상대의 반격'}`,`${o.name} 선택. ${passed?'정치적 우위가 확대됐다.':'권력자의 추종 세력이 반격했다.'}`);b.step++;if(b.step>=3){boss75Finish();return;}save();render();window.scrollTo(0,0)}
-function boss75Finish(){let b=g.boss75;let threshold=35+Math.round(b.heat*.12)+Math.round(g.rivalInfluence*.07);let victory=b.wins>=2&&b.score>=threshold;if(victory){b.status='victory';b.completedYear=g.year;g.office='진영 최고 지도자';g.positionScore=93;g.internalSupport=lim(Math.max(61,g.internalSupport));g.leaderTrust=68;g.control=lim(g.control+18);g.rivalInfluence=lim(g.rivalInfluence+12);g.threat=lim(Math.max(34,g.threat));g.regime='가상의 권력 교체 · 신정국';g.branch='1975 최종장 승리';g.decisions.boss75={choice:'최종 권력 경쟁 승리',branch:g.branch,year:g.year,target:b.target,force:b.forceUsed};g.decisions.y79={choice:'최종장 승리로 다른 권력 이양 국면 진입',branch:'대체역사 권력 승계',year:g.year};g.purgeShieldUntil=g.year+1;syncHistoricalPeople();historyNote('1975 시나리오 최종장 클리어',`${g.name}이(가) ${b.target}을(를) 권력의 정점에서 밀어냈다. 무력 대치 ${b.forceUsed?'포함':'회피'}, 향후 민주적 정당성과 국가 안정 책임이 남았다.`);g.flash=null;tab='boss';}else {b.status='failed';historyNote('최종장 패배 · 축출 위기',`${b.target} 측이 정치적 승리 선언을 내렸다. 남은 것은 마지막 구명 절차뿐이다.`);makeEnding('최고 권력자에 대한 도전 실패',`${b.target}의 세력이 권력 경쟁에서 우위를 확보해 ${g.name}을(를) 축출하려 한다.`,'상부의 축출');tab='event'}save();render();window.scrollTo(0,0)}
+function boss75Finish(){let b=g.boss75;let threshold=35+Math.round(b.heat*.12)+Math.round(g.rivalInfluence*.07);let victory=b.wins>=2&&b.score>=threshold;if(victory){b.status='victory';b.completedYear=g.year;openPoliticalCinematic('최고 권력자 축출 성공',`${g.name}${pickJosa(g.name,'이','가')} ${b.target}${pickJosa(b.target,'을','를')} 권력의 정점에서 밀어냈습니다.`,b.forceUsed);g.office='진영 최고 지도자';g.positionScore=93;g.internalSupport=lim(Math.max(61,g.internalSupport));g.leaderTrust=68;g.control=lim(g.control+18);g.rivalInfluence=lim(g.rivalInfluence+12);g.threat=lim(Math.max(34,g.threat));g.regime='가상의 권력 교체 · 신정국';g.branch='1975 최종장 승리';g.decisions.boss75={choice:'최종 권력 경쟁 승리',branch:g.branch,year:g.year,target:b.target,force:b.forceUsed};g.decisions.y79={choice:'최종장 승리로 다른 권력 이양 국면 진입',branch:'대체역사 권력 승계',year:g.year};g.purgeShieldUntil=g.year+1;syncHistoricalPeople();historyNote('1975 시나리오 최종장 클리어',`${g.name}이(가) ${b.target}을(를) 권력의 정점에서 밀어냈다. 무력 대치 ${b.forceUsed?'포함':'회피'}, 향후 민주적 정당성과 국가 안정 책임이 남았다.`);g.flash=null;tab='boss';}else {b.status='failed';historyNote('최종장 패배 · 축출 위기',`${b.target} 측이 정치적 승리 선언을 내렸다. 남은 것은 마지막 구명 절차뿐이다.`);makeEnding('최고 권력자에 대한 도전 실패',`${b.target}의 세력이 권력 경쟁에서 우위를 확보해 ${g.name}을(를) 축출하려 한다.`,'상부의 축출');tab='event'}save();render();window.scrollTo(0,0)}
+
+
+/* V17 — non-graphic fictional political transition cinematic. */
+function pickJosa(name,consonant,vowel){let code=String(name).charCodeAt(String(name).length-1);return code>=0xAC00&&code<=0xD7A3&&(code-0xAC00)%28!==0?consonant:vowel;}
+function cinematicImpactSound(){try{const Audio=window.AudioContext||window.webkitAudioContext;if(!Audio)return;const context=musicEngine.ctx||new Audio();const length=Math.floor(context.sampleRate*.18),buffer=context.createBuffer(1,length,context.sampleRate),data=buffer.getChannelData(0);for(let i=0;i<length;i++){const fade=Math.pow(1-i/length,3);data[i]=(Math.random()*2-1)*fade*.20;}const noise=context.createBufferSource(),vol=context.createGain(),filter=context.createBiquadFilter();filter.type='lowpass';filter.frequency.value=1800;noise.buffer=buffer;vol.gain.value=.24;noise.connect(filter);filter.connect(vol);vol.connect(context.destination);noise.start();noise.stop(context.currentTime+.18);if(!musicEngine.ctx)setTimeout(()=>context.close().catch(()=>{}),500);}catch(e){}}
+function openPoliticalCinematic(title,detail,armed){g.cinematic={title,detail,armed:!!armed,stage:0};if(armed)cinematicImpactSound();}
+function politicalSting(){try{const A=window.AudioContext||window.webkitAudioContext;if(!A)return;const ctx=musicEngine.ctx||new A();if(ctx.state==='suspended')ctx.resume().catch(()=>{});let now=ctx.currentTime;[130.81,164.81,196,261.63].forEach((hz,i)=>{const osc=ctx.createOscillator(),gain=ctx.createGain();osc.type=i===0?'sawtooth':'triangle';osc.frequency.value=hz;gain.gain.setValueAtTime(.0001,now+i*.13);gain.gain.linearRampToValueAtTime(.055,now+i*.13+.06);gain.gain.exponentialRampToValueAtTime(.0001,now+i*.13+.52);osc.connect(gain);gain.connect(ctx.destination);osc.start(now+i*.13);osc.stop(now+i*.13+.55);});if(!musicEngine.ctx)ctx.close().catch(()=>{});}catch(err){}}
+function cinematicNext(){if(!g?.cinematic)return;politicalSting();if(g.cinematic.stage>=2){g.cinematic=null;save();render();return;}g.cinematic.stage++;save();render()}
+function cinematicOverlay(){let z=g?.cinematic;if(!z)return '';let titles=['긴급 상황 발생','권력의 균열','새로운 권력 질서'],descriptions=[z.armed?'가상 무력 대치가 끝나고 짧은 발사음이 멀리서 울린다. 인명 피해의 묘사는 생략된다.':'경고 사이렌과 함께 지도부 교체 소식이 전해진다.','누가 누구를 지지했는지 기록이 공개된다. 동료와 경쟁자의 입장이 바뀐다.',z.detail+' 정권 교체의 책임과 후폭풍은 다음 장면부터 이어집니다.'];return `<div class="cinema-backdrop" role="dialog" aria-modal="true" aria-label="권력교체 연출"><div class="cinema-view"><div class="cinema-label">BREAKING NEWS / ${esc(g.year)}년 · ${z.stage+1} / 3</div><div class="cinema-flash ${z.armed?'armed':''}"><span class="cinema-cross">✦</span><span class="cinema-ring"></span><span class="cinema-stamp">${z.armed&&z.stage===0?'탕!':'속보'}</span></div><h2>${esc(titles[z.stage])}</h2><p>${esc(descriptions[z.stage])}</p><div class="cinema-bars">${[0,1,2].map(i=>`<span class="${i<=z.stage?'active':''}"></span>`).join('')}</div><button class="btn primary full" onclick="cinematicNext()">${z.stage===2?'권력 교체 이후 계속 →':'다음 장면 →'}</button><p class="cinema-note">가상의 정치 스릴러 연출 · 실제 무력행동 절차나 폭력 피해 묘사는 포함하지 않습니다.</p></div></div>`}
 
 if(!load()){setup.party=activeFaction().parties[0];setup.region=one(regions(setup.party,1975));drawCareers()}else{ensureNarrative()}render();
 </script></body></html>
